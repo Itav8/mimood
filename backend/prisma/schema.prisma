@@ -9,3 +9,34 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model user {
+  id        String     @id @default(uuid())
+  email     String     @unique
+  firstName String     @db.VarChar(255)
+  lastName  String     @db.VarChar(255)
+  color     String
+  moods      mood[]
+  activities  activity[]
+}
+
+model mood {
+  id              String   @id @default(uuid())
+  type            String
+  description     String
+  createdDatetime DateTime @default(now())
+  updatedDatetime DateTime @updatedAt
+  belongsToId     String
+  belongsTo       user     @relation(fields: [belongsToId], references: [id])
+}
+
+model activity {
+  id              String   @id @default(uuid())
+  name            String
+  description     String
+  createdDatetime DateTime @default(now())
+  updatedDatetime DateTime @updatedAt
+
+  belongsToId String
+  belongsTo   user   @relation(fields: [belongsToId], references: [id])
+}
