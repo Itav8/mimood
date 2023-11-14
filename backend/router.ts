@@ -6,6 +6,7 @@ import {
   getActivities,
   updateActivity,
 } from "./handlers/activity";
+import { getEverything } from "./handlers/user";
 
 const router = Router();
 
@@ -27,5 +28,8 @@ router.get("/activities", getActivities);
 
 // Update an activity
 router.put("/activities/:id", handleInputErrors, updateActivity);
+
+// GET ALL
+router.get("/moods/activities", getEverything);
 
 export default router;

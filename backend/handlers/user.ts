@@ -33,3 +33,23 @@ export const signin = async (req, res) => {
   const token = createJWT(user);
   res.json({ token: token });
 };
+
+// Get all
+export const getEverything = async (req, res, next) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: req.user.id,
+      },
+      include: {
+        moods: true,
+        activities: true,
+      },
+    });
+
+    res.json({ data: [user.moods, user.activities] });
+  } catch (e) {
+    console.log(e);
+    next(e);
+  }
+};
