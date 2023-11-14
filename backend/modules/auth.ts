@@ -22,15 +22,13 @@ export const protect = (req, res, next) => {
 
   if (!bearer) {
     res.status(401);
-    res.send("Not authorized");
-    return;
+    res.json({ message: "Not authorized" });
   }
 
   const [, token] = bearer.split(" ");
   if (!token) {
     res.status(401);
-    res.send("Not authorized");
-    return;
+    res.json({ message: "Not authorized" });
   }
 
   try {
@@ -38,11 +36,9 @@ export const protect = (req, res, next) => {
     req.user = payload;
     console.log(payload);
     next();
-    return;
   } catch (e) {
     console.error(e);
     res.status(401);
-    res.send("Not authorized");
-    return;
+    res.json({ message: "Not authorized" });
   }
 };

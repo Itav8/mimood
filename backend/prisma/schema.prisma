@@ -1,8 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
 }
 
 datasource db {
@@ -15,10 +13,10 @@ model user {
   email      String     @unique
   firstName  String     @db.VarChar(255)
   lastName   String     @db.VarChar(255)
-  password   String
   color      String
-  moods      mood[]
+  password   String
   activities activity[]
+  moods      mood[]
 }
 
 model mood {
@@ -37,7 +35,6 @@ model activity {
   description     String
   createdDatetime DateTime @default(now())
   updatedDatetime DateTime @updatedAt
-
-  belongsToId String
-  belongsTo   user   @relation(fields: [belongsToId], references: [id])
+  belongsToId     String
+  belongsTo       user     @relation(fields: [belongsToId], references: [id])
 }
