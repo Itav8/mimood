@@ -1,6 +1,11 @@
 import { Router } from "express";
 import { handleInputErrors } from "./modules/middleware";
-import { createMood, getMoods, updateMood } from "./handlers/moods";
+import { createMood, getMoods, updateMood } from "./handlers/mood";
+import {
+  createActivity,
+  getActivities,
+  updateActivity,
+} from "./handlers/activity";
 
 const router = Router();
 
@@ -15,9 +20,12 @@ router.put("/moods/:id", handleInputErrors, updateMood);
 
 // ACTIVITY
 // Create an activity
-router.post("/activity", handleInputErrors)
+router.post("/activity", handleInputErrors, createActivity);
 // Get all activites
+router.get("/activities", getActivities);
 // Get an activity by date
+
 // Update an activity
+router.put("/activities/:id", handleInputErrors, updateActivity);
 
 export default router;

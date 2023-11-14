@@ -17,7 +17,6 @@ export const createMood = async (req, res, next) => {
     next(e);
   }
 };
-
 // Get all moods
 export const getMoods = async (req, res, next) => {
   try {
