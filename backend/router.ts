@@ -6,30 +6,25 @@ import {
   getActivities,
   updateActivity,
 } from "./handlers/activity";
-import { getEverything } from "./handlers/user";
+import { getMoodsAndActivities } from "./handlers/user";
 
 const router = Router();
 
 // MOOD
 router.post("/mood", handleInputErrors, createMood);
-// Get all moods
 router.get("/moods", getMoods);
-// Get a mood by date
+// Get mood by date
 
-// Update a mood
 router.put("/moods/:id", handleInputErrors, updateMood);
 
 // ACTIVITY
-// Create an activity
 router.post("/activity", handleInputErrors, createActivity);
-// Get all activites
 router.get("/activities", getActivities);
-// Get an activity by date
+// Get activity by date
 
-// Update an activity
 router.put("/activities/:id", handleInputErrors, updateActivity);
 
-// GET ALL
-router.get("/moods/activities", getEverything);
+// MOOD AND ACTIVITY
+router.get("/moods/activities", getMoodsAndActivities);
 
 export default router;

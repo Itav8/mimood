@@ -1,6 +1,5 @@
 import prisma from "../db";
 
-// Create a mood
 export const createMood = async (req, res, next) => {
   try {
     const mood = await prisma.mood.create({
@@ -17,7 +16,7 @@ export const createMood = async (req, res, next) => {
     next(e);
   }
 };
-// Get all moods
+
 export const getMoods = async (req, res, next) => {
   try {
     const user = await prisma.user.findUnique({
@@ -36,9 +35,8 @@ export const getMoods = async (req, res, next) => {
   }
 };
 
-// Get a mood by date
+// Get mood by date
 
-// Update a mood
 export const updateMood = async (req, res, next) => {
   try {
     const updatedMood = await prisma.mood.update({

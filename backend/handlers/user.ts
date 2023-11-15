@@ -31,11 +31,10 @@ export const signin = async (req, res) => {
   }
 
   const token = createJWT(user);
-  res.json({ token: token });
+  res.json({ token });
 };
 
-// Get all
-export const getEverything = async (req, res, next) => {
+export const getMoodsAndActivities = async (req, res, next) => {
   try {
     const user = await prisma.user.findUnique({
       where: {

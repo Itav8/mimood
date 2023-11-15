@@ -1,6 +1,5 @@
 import prisma from "../db";
 
-// Create an activity
 export const createActivity = async (req, res, next) => {
   try {
     const activity = await prisma.activity.create({
@@ -17,7 +16,7 @@ export const createActivity = async (req, res, next) => {
     next(e);
   }
 };
-// Get all activites
+
 export const getActivities = async (req, res, next) => {
   try {
     const user = await prisma.user.findUnique({
@@ -35,9 +34,8 @@ export const getActivities = async (req, res, next) => {
     next(e);
   }
 };
-// Get an activity by date
+// Get activity by date
 
-// Update an activity
 export const updateActivity = async (req, res, next) => {
   try {
     const updatedActivity = await prisma.activity.update({
