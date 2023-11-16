@@ -5,8 +5,9 @@ export const createActivity = async (req, res, next) => {
     const activity = await prisma.activity.create({
       data: {
         name: req.body.name,
-        description: req.body.name,
-        belongsToId: req.user.id,
+        feeling: req.body.feeling,
+        description: req.body.description,
+        userId: req.user.id,
       },
     });
 
@@ -34,17 +35,17 @@ export const getActivities = async (req, res, next) => {
     next(e);
   }
 };
-// Get activity by date
 
 export const updateActivity = async (req, res, next) => {
   try {
     const updatedActivity = await prisma.activity.update({
       where: {
         id: req.params.id,
-        belongsToId: req.user.id,
+        userId: req.user.id,
       },
       data: {
         name: req.body.name,
+        feeling: req.body.feeling,
         description: req.body.description,
       },
     });
