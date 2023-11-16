@@ -7,6 +7,7 @@ export const createMood = async (req, res, next) => {
         feeling: req.body.feeling,
         description: req.body.description,
         userId: req.user.id,
+        energyLevel: req.body.energyLevel,
       },
     });
 
@@ -34,7 +35,6 @@ export const getMoods = async (req, res, next) => {
     next(e);
   }
 };
-
 
 export const updateMood = async (req, res, next) => {
   try {

@@ -8,6 +8,7 @@ export const createActivity = async (req, res, next) => {
         feeling: req.body.feeling,
         description: req.body.description,
         userId: req.user.id,
+        energyLevel: req.body.energyLevel
       },
     });
 
