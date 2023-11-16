@@ -8,33 +8,217 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user {
-  id         String     @id @default(uuid())
-  email      String     @unique
-  firstName  String     @db.VarChar(255)
-  lastName   String     @db.VarChar(255)
-  color      String
-  password   String
-  activities activity[]
-  moods      mood[]
+model User {
+  id               String            @id @default(uuid())
+  email            String            @unique
+  firstName        String            @db.VarChar(255)
+  lastName         String            @db.VarChar(255)
+  color            String?
+  password         String
+
+  activities       Activity[]
+  moods            Mood[]
+  userEnergyLevels UserEnergyLevel[]
 }
 
-model mood {
-  id              String   @id @default(uuid())
-  type            String
-  description     String
-  createdDatetime DateTime @default(now())
-  updatedDatetime DateTime @updatedAt
-  belongsToId     String
-  belongsTo       user     @relation(fields: [belongsToId], references: [id])
+enum LEVELS {
+  HIGH_ENERGY_UNPLEASANT
+  HIGH_ENERGY_PLEASANT
+  LOW_ENERGY_UNPLEASANT
+  LOW_ENERGY_PLEASANT
 }
 
-model activity {
-  id              String   @id @default(uuid())
+model EnergyLevel {
+  level LEVELS @id @unique
+  color String @unique
+
+  highEnergyUnpleasant HighEnergyUnpleasant[]
+  highEnergyPleasant   HighEnergyPleasant[]
+  lowEnergyUnpleasant  LowEnergyUnpleasant[]
+  lowEnergyPleasant    LowEnergyPleasant[]
+
+  userEnergyLevel UserEnergyLevel[]
+  mood            Mood[]
+  activity        Activity[]
+}
+
+model UserEnergyLevel {
+  id    String @id @default(uuid())
+  color String @unique
+
+  userId   String
+  belongsToUser User        @relation(fields: [userId], references: [id])
+  energyLevel   LEVELS
+  belongsToEnergyLevel     EnergyLevel @relation(fields: [energyLevel], references: [level])
+}
+
+model Mood {
+  id              String      @id @default(uuid())
+  feeling            String
+  description     String?
+  createdDatetime DateTime    @default(now())
+  updatedDatetime DateTime    @updatedAt
+
+  userId     String
+  belongsToUser   User        @relation(fields: [userId], references: [id])
+  energyLevel  LEVELS
+  belongsToEnergyLevel       EnergyLevel @relation(fields: [energyLevel], references: [level])
+}
+
+model Activity {
+  id              String      @id @default(uuid())
+  feeling            String
   name            String
-  description     String
-  createdDatetime DateTime @default(now())
-  updatedDatetime DateTime @updatedAt
-  belongsToId     String
-  belongsTo       user     @relation(fields: [belongsToId], references: [id])
+  description     String?
+  createdDatetime DateTime    @default(now())
+  updatedDatetime DateTime    @updatedAt
+
+  userId     String
+  belongsToUser   User        @relation(fields: [userId], references: [id])
+  energyLevel  LEVELS
+  belongsToEnergyLevel       EnergyLevel @relation(fields: [energyLevel], references: [level])
+}
+
+enum High_Energy_Unpleasant_Feelings {
+  ENRAGED
+  PANICKED
+  STRESSED
+  JITTERY
+  SHOCKED
+  LIVID
+  FURIOUS
+  FRUSTRATED
+  TENSE
+  STUNNED
+  FUMING
+  FRIGHTENED
+  ANGRY
+  NERVOUS
+  RESTLESS
+  ANXIOUS
+  APPREHENSIVE
+  WORRIED
+  IRRITATED
+  ANNOYED
+  REPULSED
+  TROUBLED
+  CONCERNED
+  UNEASY
+  PEEVED
+}
+
+model HighEnergyUnpleasant {
+  id       String                          @id @default(uuid())
+  feelings High_Energy_Unpleasant_Feelings
+
+  levelType LEVELS
+  belongsToLevel      EnergyLevel @relation(fields: [levelType], references: [level])
+}
+
+enum High_Energy_Pleasant_Feelings {
+  SURPRISED
+  UPBEAT
+  FESTIVE
+  EXHILARATED
+  ECSTATIC
+  HYPER
+  CHEERFUL
+  MOTIVATED
+  INSPIRED
+  ELATED
+  ENERGIZED
+  LIVELY
+  EXCITED
+  OPTIMISTIC
+  ENTHUSIASTIC
+  PLEASED
+  FOCUSED
+  HAPPY
+  PROUD
+  THRILLED
+  PLEASANT
+  JOYFUL
+  HOPEFUL
+  PLAYFUL
+  BLISSFUL
+}
+
+model HighEnergyPleasant {
+  id       String                        @id @default(uuid())
+  feelings High_Energy_Pleasant_Feelings
+
+  levelType LEVELS
+  belongsToLevel      EnergyLevel @relation(fields: [levelType], references: [level])
+}
+
+enum Low_Energy_Unpleasant_Feelings {
+  DISGUESTED
+  GLUM
+  DISAPPOINTED
+  DOWN
+  APATHETIC
+  PESSIMISTIC
+  MOROSE
+  DISCOURAGED
+  SAD
+  BORED
+  ALIENATED
+  MISERABLE
+  LONELY
+  DISHEARTENED
+  TIRED
+  DESPONDENT
+  DEPRESSED
+  SULLEN
+  EXHAUSTED
+  FATIGUED
+  DESPAIRING
+  HOPELESS
+  DESOLATE
+  SPENT
+  DRAINED
+}
+
+model LowEnergyUnpleasant {
+  id       String                         @id @default(uuid())
+  feelings Low_Energy_Unpleasant_Feelings
+
+  levelType LEVELS
+  belongsToLevel      EnergyLevel @relation(fields: [levelType], references: [level])
+}
+
+enum Low_Energy_Pleasant_Feelings {
+  AT_EASE
+  EASYGOING
+  CONTENT
+  LOVING
+  FULFILLED
+  CALM
+  SECURE
+  SATISFIED
+  GRATEFUL
+  TOUCHED
+  RELAXED
+  CHILL
+  RESTFUL
+  BLESSED
+  BALANCED
+  MELLOW
+  THOUGHTFUL
+  PEACEFUL
+  COMFORTABLE
+  CAREFREE
+  SLEEPY
+  CMPLACENT
+  TRANQUIL
+  COZY
+  SERENE
+}
+
+model LowEnergyPleasant {
+  id       String                       @id @default(uuid())
+  feelings Low_Energy_Pleasant_Feelings
+
+  levelType LEVELS
+  belongsToLevel      EnergyLevel @relation(fields: [levelType], references: [level])
 }
