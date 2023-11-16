@@ -4,9 +4,9 @@ export const createMood = async (req, res, next) => {
   try {
     const mood = await prisma.mood.create({
       data: {
-        type: req.body.type,
+        feeling: req.body.feeling,
         description: req.body.description,
-        belongsToId: req.user.id,
+        userId: req.user.id,
       },
     });
 
