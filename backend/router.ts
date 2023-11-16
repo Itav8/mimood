@@ -13,15 +13,11 @@ const router = Router();
 // MOOD
 router.post("/mood", handleInputErrors, createMood);
 router.get("/moods", getMoods);
-// Get mood by date
-
 router.put("/moods/:id", handleInputErrors, updateMood);
 
 // ACTIVITY
 router.post("/activity", handleInputErrors, createActivity);
 router.get("/activities", getActivities);
-// Get activity by date
-
 router.put("/activities/:id", handleInputErrors, updateActivity);
 
 // MOOD AND ACTIVITY
