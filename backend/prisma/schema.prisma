@@ -9,12 +9,12 @@ datasource db {
 }
 
 model User {
-  id               String            @id @default(uuid())
-  email            String            @unique
-  firstName        String            @db.VarChar(255)
-  lastName         String            @db.VarChar(255)
-  color            String?
-  password         String
+  id        String  @id @default(uuid())
+  email     String  @unique
+  firstName String  @db.VarChar(255)
+  lastName  String  @db.VarChar(255)
+  color     String?
+  password  String
 
   activities       Activity[]
   moods            Mood[]
@@ -46,37 +46,37 @@ model UserEnergyLevel {
   id    String @id @default(uuid())
   color String @unique
 
-  userId   String
-  belongsToUser User        @relation(fields: [userId], references: [id])
-  energyLevel   LEVELS
-  belongsToEnergyLevel     EnergyLevel @relation(fields: [energyLevel], references: [level])
+  userId               String
+  belongsToUser        User        @relation(fields: [userId], references: [id])
+  energyLevel          LEVELS
+  belongsToEnergyLevel EnergyLevel @relation(fields: [energyLevel], references: [level])
 }
 
 model Mood {
-  id              String      @id @default(uuid())
-  feeling            String
+  id              String   @id @default(uuid())
+  feeling         String
   description     String?
-  createdDatetime DateTime    @default(now())
-  updatedDatetime DateTime    @updatedAt
+  createdDatetime DateTime @default(now())
+  updatedDatetime DateTime @updatedAt
 
-  userId     String
-  belongsToUser   User        @relation(fields: [userId], references: [id])
-  energyLevel  LEVELS
-  belongsToEnergyLevel       EnergyLevel @relation(fields: [energyLevel], references: [level])
+  userId               String
+  belongsToUser        User        @relation(fields: [userId], references: [id])
+  energyLevel          LEVELS
+  belongsToEnergyLevel EnergyLevel @relation(fields: [energyLevel], references: [level])
 }
 
 model Activity {
-  id              String      @id @default(uuid())
-  feeling            String
+  id              String   @id @default(uuid())
+  feeling         String
   name            String
   description     String?
-  createdDatetime DateTime    @default(now())
-  updatedDatetime DateTime    @updatedAt
+  createdDatetime DateTime @default(now())
+  updatedDatetime DateTime @updatedAt
 
-  userId     String
-  belongsToUser   User        @relation(fields: [userId], references: [id])
-  energyLevel  LEVELS
-  belongsToEnergyLevel       EnergyLevel @relation(fields: [energyLevel], references: [level])
+  userId               String
+  belongsToUser        User        @relation(fields: [userId], references: [id])
+  energyLevel          LEVELS
+  belongsToEnergyLevel EnergyLevel @relation(fields: [energyLevel], references: [level])
 }
 
 enum High_Energy_Unpleasant_Feelings {
@@ -111,8 +111,8 @@ model HighEnergyUnpleasant {
   id       String                          @id @default(uuid())
   feelings High_Energy_Unpleasant_Feelings
 
-  levelType LEVELS
-  belongsToLevel      EnergyLevel @relation(fields: [levelType], references: [level])
+  levelType      LEVELS
+  belongsToLevel EnergyLevel @relation(fields: [levelType], references: [level])
 }
 
 enum High_Energy_Pleasant_Feelings {
@@ -147,8 +147,8 @@ model HighEnergyPleasant {
   id       String                        @id @default(uuid())
   feelings High_Energy_Pleasant_Feelings
 
-  levelType LEVELS
-  belongsToLevel      EnergyLevel @relation(fields: [levelType], references: [level])
+  levelType      LEVELS
+  belongsToLevel EnergyLevel @relation(fields: [levelType], references: [level])
 }
 
 enum Low_Energy_Unpleasant_Feelings {
@@ -183,8 +183,8 @@ model LowEnergyUnpleasant {
   id       String                         @id @default(uuid())
   feelings Low_Energy_Unpleasant_Feelings
 
-  levelType LEVELS
-  belongsToLevel      EnergyLevel @relation(fields: [levelType], references: [level])
+  levelType      LEVELS
+  belongsToLevel EnergyLevel @relation(fields: [levelType], references: [level])
 }
 
 enum Low_Energy_Pleasant_Feelings {
@@ -219,6 +219,6 @@ model LowEnergyPleasant {
   id       String                       @id @default(uuid())
   feelings Low_Energy_Pleasant_Feelings
 
-  levelType LEVELS
-  belongsToLevel      EnergyLevel @relation(fields: [levelType], references: [level])
+  levelType      LEVELS
+  belongsToLevel EnergyLevel @relation(fields: [levelType], references: [level])
 }
