@@ -2,13 +2,10 @@ import { useState } from "react";
 import { Modal } from "../../components/Modal";
 import { Signup } from "../AuthForm/Signup/Signup";
 import { Login } from "../AuthForm/Login/Login";
-// import { useCookies } from "react-cookie";
+
 import "./Landing.css";
 
 export const Landing = () => {
-  // const [cookies] = useCookies(["jwtToken"]);
-  // console.log("HEHE", cookies);
-  // console.log("WTF", cookies.jwtToken);
   const [isSignUpOpen, setIsSignUpOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 

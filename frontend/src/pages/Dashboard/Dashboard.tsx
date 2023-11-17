@@ -18,7 +18,6 @@ export const Dashboard = () => {
   const [cookies] = useCookies(["jwtToken"]);
   const [moods, setMoods] = useState<Mood[]>([]);
   const [activities, setActivities] = useState<Activity[]>([]);
-  console.log("WTF", cookies.jwtToken);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,17 +46,16 @@ export const Dashboard = () => {
     fetchData();
   }, [cookies.jwtToken]);
 
-  console.log(activities);
   return (
     <div>
       <h1>Dashboard</h1>
       <h2>My Moods</h2>
-      {moods.map((mood, i) => (
-        <h3 key={i}>{mood.energyLevel}</h3>
+      {moods.map((mood, id) => (
+        <h3 key={id}>{mood.energyLevel}</h3>
       ))}
       <h2>My Activities</h2>
-      {activities.map((activity, i) => (
-        <h3 key={i}>{activity.name}: {activity.energyLevel}</h3>
+      {activities.map((activity, id) => (
+        <h3 key={id}>{activity.name}: {activity.energyLevel}</h3>
       ))}
     </div>
   );
