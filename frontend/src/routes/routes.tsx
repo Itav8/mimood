@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import Landing from "../pages/Landing/Landing";
+import { Landing } from "../pages/Landing/Landing";
 
 export const mainRoutes = [
   {
