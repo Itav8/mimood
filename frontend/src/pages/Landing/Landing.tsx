@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Modal } from "../../components/Modal";
-import { Form } from "../../components/Form";
+import { Signup } from "../Auth/Signup/Signup";
+import { Login } from "../Auth/Login/Login";
 
 import "./Landing.css";
 
@@ -26,7 +27,7 @@ export const Landing = () => {
               setIsSignUpOpen(false);
             }}
           >
-            <Form title="signup" />
+            <Signup />
           </Modal>
         ) : null}
         <button
@@ -43,7 +44,7 @@ export const Landing = () => {
               setIsLoginOpen(false);
             }}
           >
-            <Form title="login" />
+            <Login />
           </Modal>
         ) : null}
       </div>
