@@ -1,15 +1,21 @@
 import { useState } from "react";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
+
+interface LoginProp {
+  onSubmit: () => void;
+}
 
 interface LoginForm {
   email: string;
   password: string;
 }
 
-export const Login = () => {
+export const Login = (props: LoginProp) => {
   const [cookies] = useCookies(["jwtToken"]);
   console.log("HEHE", cookies);
   console.log("WTF", cookies.jwtToken);
+  const navigate = useNavigate()
 
   const [login, setLogin] = useState<LoginForm>({
     email: "",
@@ -53,6 +59,9 @@ export const Login = () => {
           email: "",
           password: "",
         });
+
+        props.onSubmit
+        navigate('/dashboard')
       }
     } catch (e) {
       console.log("SIGN UP ERROR", e);
