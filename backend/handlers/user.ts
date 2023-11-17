@@ -31,6 +31,7 @@ export const signin = async (req, res) => {
   }
 
   const token = createJWT(user);
+  res.cookie("jwtToken", token, { httpOnly: false });
   res.json({ token });
 };
 

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useCookies } from "react-cookie";
 
 interface LoginForm {
   email: string;
@@ -6,6 +7,10 @@ interface LoginForm {
 }
 
 export const Login = () => {
+  const [cookies] = useCookies(["jwtToken"]);
+  console.log("HEHE", cookies);
+  console.log("WTF", cookies.jwtToken);
+
   const [login, setLogin] = useState<LoginForm>({
     email: "",
     password: "",
@@ -31,9 +36,10 @@ export const Login = () => {
       password: login.password,
     };
 
-    const fetchConfig = {
+    const fetchConfig: RequestInit = {
       method: "post",
       body: JSON.stringify(data),
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
