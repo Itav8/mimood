@@ -9,7 +9,6 @@ interface SignupForm {
 }
 
 export const Signup = () => {
-  let token = "";
   const [signupForm, setSignupForm] = useState<SignupForm>({
     firstName: "",
     lastName: "",
@@ -113,7 +112,8 @@ export const Signup = () => {
         <div>
           <label htmlFor="password">Password:</label>
           <input
-            type="text"
+            type="password"
+            autoComplete="on"
             id="password"
             name="password"
             value={signupForm.password}
