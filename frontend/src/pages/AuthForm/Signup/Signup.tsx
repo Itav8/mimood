@@ -46,9 +46,10 @@ export const Signup = (props: SignupProps) => {
       password: signupForm.password,
     };
 
-    const fetchConfig = {
+    const fetchConfig: RequestInit = {
       method: "post",
       body: JSON.stringify(data),
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },

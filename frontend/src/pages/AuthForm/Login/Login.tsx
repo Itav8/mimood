@@ -1,5 +1,4 @@
 import { useState } from "react";
-// import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 
 interface LoginProp {
@@ -12,11 +11,7 @@ interface LoginForm {
 }
 
 export const Login = (props: LoginProp) => {
-  // const [cookies] = useCookies(["jwtToken"]);
-  // console.log("HEHE", cookies);
-  // console.log("WTF", cookies.jwtToken);
   const navigate = useNavigate();
-
   const [login, setLogin] = useState<LoginForm>({
     email: "",
     password: "",

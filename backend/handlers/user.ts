@@ -47,7 +47,7 @@ export const getMoodsAndActivities = async (req, res, next) => {
       },
     });
 
-    res.json({ data: [user.moods, user.activities] });
+    res.json({ moods: user.moods, activities: user.activities });
   } catch (e) {
     console.log(e);
     next(e);
