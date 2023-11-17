@@ -1,4 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+interface SignupProps {
+  onSubmit: () => void;
+}
 
 interface SignupForm {
   firstName: string;
@@ -8,7 +13,8 @@ interface SignupForm {
   password: string;
 }
 
-export const Signup = () => {
+export const Signup = (props: SignupProps) => {
+  const navigate = useNavigate();
   const [signupForm, setSignupForm] = useState<SignupForm>({
     firstName: "",
     lastName: "",
@@ -37,7 +43,7 @@ export const Signup = () => {
       lastName: signupForm.lastName,
       color: signupForm.color,
       email: signupForm.email,
-      password: signupForm.password
+      password: signupForm.password,
     };
 
     const fetchConfig = {
@@ -59,6 +65,9 @@ export const Signup = () => {
           email: "",
           password: "",
         });
+
+        props.onSubmit;
+        navigate("/dashboard");
       }
     } catch (e) {
       console.log("SIGN UP ERROR", e);

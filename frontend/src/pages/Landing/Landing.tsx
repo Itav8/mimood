@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Modal } from "../../components/Modal";
-import { Signup } from "../Auth/Signup/Signup";
-import { Login } from "../Auth/Login/Login";
-import { useCookies } from "react-cookie";
+import { Signup } from "../AuthForm/Signup/Signup";
+import { Login } from "../AuthForm/Login/Login";
+// import { useCookies } from "react-cookie";
 import "./Landing.css";
 
 export const Landing = () => {
@@ -30,7 +30,11 @@ export const Landing = () => {
               setIsSignUpOpen(false);
             }}
           >
-            <Signup />
+            <Signup
+              onSubmit={() => {
+                setIsSignUpOpen(false);
+              }}
+            />
           </Modal>
         ) : null}
         <button
@@ -48,9 +52,9 @@ export const Landing = () => {
             }}
           >
             <Login
-            onSubmit={() => {
-              setIsLoginOpen(false)
-            }}
+              onSubmit={() => {
+                setIsLoginOpen(false);
+              }}
             />
           </Modal>
         ) : null}
