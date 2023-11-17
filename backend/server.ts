@@ -7,7 +7,11 @@ import { createNewUser, signin } from "./handlers/user";
 
 const app = express();
 
-app.use(cors());
+const corOptions = {
+  origin: "http://localhost:5174",
+};
+
+app.use(cors(corOptions));
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

@@ -32,6 +32,8 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
+    environment:
+      - VITE_API_URL=${VITE_API_URL}
 
 volumes:
   postgres_data:
