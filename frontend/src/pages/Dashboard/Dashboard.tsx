@@ -7,21 +7,21 @@ interface Mood {
   energyLevel: string;
 }
 
-interface Activity {
-  id: string;
-  name: string;
-  feeling: string;
-  energyLevel: string;
-}
+// interface Activity {
+//   id: string;
+//   name: string;
+//   feeling: string;
+//   energyLevel: string;
+// }
 
 export const Dashboard = () => {
   const [cookies] = useCookies(["jwtToken"]);
   const [moods, setMoods] = useState<Mood[]>([]);
-  const [activities, setActivities] = useState<Activity[]>([]);
+  // const [activities, setActivities] = useState<Activity[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const url = `${import.meta.env.VITE_API_URL}/api/moods/activities`;
+    const fetchMood = async () => {
+      const url = `${import.meta.env.VITE_API_URL}/api/moods`;
 
       const fetchConfig: RequestInit = {
         headers: {
@@ -35,28 +35,28 @@ export const Dashboard = () => {
 
         if (response.ok) {
           const data = await response.json();
-          setMoods(data.moods);
-          setActivities(data.activities)
+          console.log(data)
+          // setMoods(data);
         }
       } catch (e) {
         console.log("ERROR Fetch List", e);
       }
     };
 
-    fetchData();
+    fetchMood();
   }, [cookies.jwtToken]);
 
   return (
     <div>
       <h1>Dashboard</h1>
       <h2>My Moods</h2>
-      {moods.map((mood, id) => (
+      {/* {moods.map((mood, id) => (
         <h3 key={id}>{mood.energyLevel}</h3>
-      ))}
+      ))} */}
       <h2>My Activities</h2>
-      {activities.map((activity, id) => (
+      {/* {activities.map((activity, id) => (
         <h3 key={id}>{activity.name}: {activity.energyLevel}</h3>
-      ))}
+      ))} */}
     </div>
   );
 };

@@ -34,22 +34,3 @@ export const signin = async (req, res) => {
   res.cookie("jwtToken", token, { httpOnly: false });
   res.json({ token });
 };
-
-export const getMoodsAndActivities = async (req, res, next) => {
-  try {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: req.user.id,
-      },
-      include: {
-        moods: true,
-        activities: true,
-      },
-    });
-
-    res.json({ moods: user.moods, activities: user.activities });
-  } catch (e) {
-    console.log(e);
-    next(e);
-  }
-};

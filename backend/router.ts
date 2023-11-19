@@ -6,7 +6,6 @@ import {
   getActivities,
   updateActivity,
 } from "./handlers/activity";
-import { getMoodsAndActivities } from "./handlers/user";
 
 const router = Router();
 
@@ -19,8 +18,5 @@ router.put("/moods/:id", handleInputErrors, updateMood);
 router.post("/activity", handleInputErrors, createActivity);
 router.get("/activities", getActivities);
 router.put("/activities/:id", handleInputErrors, updateActivity);
-
-// MOOD AND ACTIVITY
-router.get("/moods/activities", getMoodsAndActivities);
 
 export default router;
