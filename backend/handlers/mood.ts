@@ -29,7 +29,7 @@ export const getMoods = async (req, res, next) => {
       },
     });
 
-    res.json({ data: user.moods });
+    res.json({ mood: user.moods });
   } catch (e) {
     console.log(e);
     next(e);

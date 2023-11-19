@@ -30,7 +30,7 @@ export const getActivities = async (req, res, next) => {
       },
     });
 
-    res.json({ data: user.activities });
+    res.json({ activity: user.activities });
   } catch (e) {
     console.log(e);
     next(e);
