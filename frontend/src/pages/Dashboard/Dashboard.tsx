@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import { NavBar } from "../../components/Nav/Navbar";
 
 interface Mood {
   id: string;
@@ -57,7 +58,6 @@ export const Dashboard = () => {
 
         if (response.ok) {
           const data = await response.json();
-          console.log(data)
           setActivities(data.activity);
         }
       } catch (e) {
@@ -70,23 +70,31 @@ export const Dashboard = () => {
   }, [cookies.jwtToken]);
 
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <h2>My Moods</h2>
-      {moods.length > 0 ? (
-        moods.map((mood, id) => <h3 key={id}>{mood.energyLevel}</h3>)
-      ) : (
-        <h3>No Data</h3>
-      )}
+    <>
+      <NavBar />
+      <div>
+        <h1>Dashboard</h1>
+        <h2>My Moods</h2>
+        {moods.length > 0 ? (
+          moods.map((mood, id) => <h3 key={id}>{mood.energyLevel}</h3>)
+        ) : (
+          <h3>No Data</h3>
+        )}
 
-      <h2>My Activities</h2>
-      {activities.length > 0 ? (
-        activities.map((activity, id) => (
-          <h3 key={id}>{activity.energyLevel}</h3>
-        ))
-      ) : (
-        <h3>No Data</h3>
-      )}
-    </div>
+        <h2>My Activities</h2>
+        {activities.length > 0 ? (
+          activities.map((activity) => {
+            return (
+              <div key={activity.id}>
+                <h3>{activity.name}</h3>
+                <h3>{activity.energyLevel}</h3>
+              </div>
+            )
+          })
+        ) : (
+          <h3>No Data</h3>
+        )}
+      </div>
+    </>
   );
 };

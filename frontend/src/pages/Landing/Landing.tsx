@@ -17,42 +17,42 @@ export const Landing = () => {
           onClick={() => {
             setIsSignUpOpen(true);
           }}
-        >
+          >
           Sign Up
         </button>
         {isSignUpOpen ? (
           <Modal
-            open={isSignUpOpen}
-            onClose={() => {
-              setIsSignUpOpen(false);
-            }}
+          open={isSignUpOpen}
+          onClose={() => {
+            setIsSignUpOpen(false);
+          }}
           >
             <Signup
               onSubmit={() => {
                 setIsSignUpOpen(false);
               }}
-            />
+              />
           </Modal>
         ) : null}
         <button
           onClick={() => {
             setIsLoginOpen(true);
           }}
-        >
+          >
           Login
         </button>
         {isLoginOpen ? (
           <Modal
-            open={isLoginOpen}
-            onClose={() => {
-              setIsLoginOpen(false);
-            }}
+          open={isLoginOpen}
+          onClose={() => {
+            setIsLoginOpen(false);
+          }}
           >
             <Login
               onSubmit={() => {
                 setIsLoginOpen(false);
               }}
-            />
+              />
           </Modal>
         ) : null}
       </div>
