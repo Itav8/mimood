@@ -71,7 +71,6 @@ export const Dashboard = () => {
 
   return (
     <>
-      <NavBar />
       <div>
         <h1>Dashboard</h1>
         <h2>My Moods</h2>

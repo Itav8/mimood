@@ -3,6 +3,7 @@ import { Landing } from "../pages/Landing/Landing";
 import { Dashboard } from "../pages/Dashboard/Dashboard";
 import { MoodForm } from "../pages/Mood/MoodForm";
 import { ActivityForm } from "../pages/Activity/ActivityForm";
+import { Layout } from "../layouts/Layout";
 
 export const authRoutes = [
   {
@@ -32,11 +33,11 @@ export const mainRoutes = [
 
 const routes = [
   {
-    element: <Landing />,
+    element: <Layout />,
     children: mainRoutes,
   },
   {
-    element: <Dashboard />,
+    element: <Layout />,
     children: authRoutes,
   },
 ];
