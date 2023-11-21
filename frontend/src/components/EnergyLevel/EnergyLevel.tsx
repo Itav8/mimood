@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 
+import "./EnergyLevel.css";
+
 interface EnergyLevel {
   level: string[];
   color: string[];
@@ -22,30 +24,30 @@ export const EnergyLevel = () => {
       };
 
       try {
-        const response = await fetch(url, fetchConfig)
+        const response = await fetch(url, fetchConfig);
 
         if (response.ok) {
-          const data = await response.json()
-          setEnergylevels(data.energyLevel)
+          const data = await response.json();
+          setEnergylevels(data.energyLevel);
         }
       } catch (e) {
         console.log("Error fetching energy levels", e);
       }
     };
-    fetchEnergyLevel()
+    fetchEnergyLevel();
   }, [cookies]);
 
   return (
     <div>
       <h1>How do you feel?</h1>
       <h4>(Tap the color best describes you)</h4>
-      {energyLevels.map((energyLevel) => {
+      {energyLevels.map((energyLevel, i) => {
         return (
-          <div>
+          <div key={i} className="energyLevel-container">
             {/* Add color for style */}
-            <h3>{energyLevel.level}</h3>
+            {energyLevel.level}
           </div>
-        )
+        );
       })}
     </div>
   );
