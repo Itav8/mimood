@@ -51,7 +51,7 @@ export const updateActivity = async (req, res, next) => {
       },
     });
 
-    res.json({ data: updatedActivity });
+    res.json({ updatedActivity });
   } catch (e) {
     console.log(e);
     next(e);

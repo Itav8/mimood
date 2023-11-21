@@ -49,7 +49,7 @@ export const updateMood = async (req, res, next) => {
       },
     });
 
-    res.json({ data: updatedMood });
+    res.json({ updatedMood });
   } catch (e) {
     console.log(e);
     next(e);
