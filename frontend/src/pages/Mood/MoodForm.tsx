@@ -3,10 +3,6 @@ import { EnergyLevel } from "../../components/EnergyLevel/EnergyLevel";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-// interface EnergyLevelProps {
-//   initialValue: string;
-// }
-
 interface MoodForm {
   feeling: string;
   description: string;
@@ -48,7 +44,6 @@ export const MoodForm = () => {
       energyLevel: selectedEnergyLevel,
     };
 
-    console.log("HAndle SUBMIt", data);
     const fetchConfig: RequestInit = {
       method: "post",
       body: JSON.stringify(data),
