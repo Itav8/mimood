@@ -1,6 +1,8 @@
+// import { useCookies } from "react-cookie"
 import { EnergyLevel } from "../../components/EnergyLevel/EnergyLevel"
 
 export const MoodForm = () => {
+
   return (
     <div>
       <h1>New Mood</h1>

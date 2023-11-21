@@ -8,7 +8,7 @@ export const getEnergyLevel = async (req, res, next) => {
         color: true,
       },
     });
-    // console.log(energyLevel)
+    
     res.json({ energyLevel });
   } catch (e) {
     console.log(e);

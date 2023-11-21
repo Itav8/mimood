@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { NavBar } from "../../components/Nav/Navbar";
 
 interface Mood {
   id: string;
@@ -67,7 +66,7 @@ export const Dashboard = () => {
 
     fetchMood();
     fetchActivity();
-  }, [cookies.jwtToken]);
+  }, [cookies]);
 
   return (
     <>
@@ -88,7 +87,7 @@ export const Dashboard = () => {
                 <h3>{activity.name}</h3>
                 <h3>{activity.energyLevel}</h3>
               </div>
-            )
+            );
           })
         ) : (
           <h3>No Data</h3>
