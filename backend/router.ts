@@ -12,6 +12,7 @@ const router = Router();
 
 // ENERGY LEVEL
 router.get("/energyLevel", getEnergyLevel);
+// router.get("/energyLevel/:id")
 
 // MOOD
 router.post("/mood", handleInputErrors, createMood);

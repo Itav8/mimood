@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@faker-js/faker": "^8.3.1",
+    "@ngneat/falso": "^7.1.1",
     "@prisma/client": "^5.5.2",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
