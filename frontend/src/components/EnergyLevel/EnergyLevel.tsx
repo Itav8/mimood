@@ -4,11 +4,15 @@ import { useCookies } from "react-cookie";
 import "./EnergyLevel.css";
 
 interface EnergyLevel {
-  level: string[];
-  color: string[];
+  level: string;
+  color: string;
 }
 
-export const EnergyLevel = () => {
+interface EnergyLevelProps {
+  onClick: (energyLevel: string) => void;
+}
+
+export const EnergyLevel = ({ onClick }: EnergyLevelProps) => {
   const [cookies] = useCookies(["jwtToken"]);
   const [energyLevels, setEnergylevels] = useState<EnergyLevel[]>([]);
 
@@ -43,7 +47,13 @@ export const EnergyLevel = () => {
       <h4>(Tap the color best describes you)</h4>
       {energyLevels.map((energyLevel, i) => {
         return (
-          <div key={i} className="energyLevel-container">
+          <div
+            key={i}
+            className="energyLevel-container"
+            onClick={() => {
+              onClick(energyLevel.level);
+            }}
+          >
             {/* Add color for style */}
             {energyLevel.level}
           </div>

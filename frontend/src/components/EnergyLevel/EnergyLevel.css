@@ -2,3 +2,8 @@
   border: 1px solid black;
   border-radius: 10px;
 }
+
+.energyLevel-container:hover {
+  color: blueviolet;
+  cursor: pointer;
+}
