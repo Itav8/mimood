@@ -108,8 +108,7 @@ enum High_Energy_Unpleasant_Feelings {
 }
 
 model HighEnergyUnpleasant {
-  id       String                          @id @default(uuid())
-  feelings High_Energy_Unpleasant_Feelings
+  feelings High_Energy_Unpleasant_Feelings @id @unique
 
   levelType      LEVELS
   belongsToLevel EnergyLevel @relation(fields: [levelType], references: [level])
@@ -144,8 +143,7 @@ enum High_Energy_Pleasant_Feelings {
 }
 
 model HighEnergyPleasant {
-  id       String                        @id @default(uuid())
-  feelings High_Energy_Pleasant_Feelings
+  feelings High_Energy_Pleasant_Feelings @id @unique
 
   levelType      LEVELS
   belongsToLevel EnergyLevel @relation(fields: [levelType], references: [level])
@@ -180,8 +178,7 @@ enum Low_Energy_Unpleasant_Feelings {
 }
 
 model LowEnergyUnpleasant {
-  id       String                         @id @default(uuid())
-  feelings Low_Energy_Unpleasant_Feelings
+  feelings Low_Energy_Unpleasant_Feelings @id @unique
 
   levelType      LEVELS
   belongsToLevel EnergyLevel @relation(fields: [levelType], references: [level])
@@ -216,8 +213,7 @@ enum Low_Energy_Pleasant_Feelings {
 }
 
 model LowEnergyPleasant {
-  id       String                       @id @default(uuid())
-  feelings Low_Energy_Pleasant_Feelings
+  feelings Low_Energy_Pleasant_Feelings @id @unique
 
   levelType      LEVELS
   belongsToLevel EnergyLevel @relation(fields: [levelType], references: [level])
