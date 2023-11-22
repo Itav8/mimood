@@ -1,6 +1,6 @@
 import { useCookies } from "react-cookie";
 import { EnergyLevel } from "../../components/EnergyLevel/EnergyLevel";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { EnergyLevels, EnergyLevelsMap } from "../../constants/constants";
 
@@ -26,32 +26,34 @@ export const MoodForm = () => {
     setSelectedEnergyLevel(energyLevel);
   };
 
-  const fetchEnergyLevelFeelings = async (energyLevel: EnergyLevels) => {
-    const url = `${
-      import.meta.env.VITE_API_URL
-    }/api/energyLevel/${energyLevel}`;
+  useEffect(() => {
+    const fetchEnergyLevelFeelings = async (energyLevel: EnergyLevels) => {
+      const url = `${
+        import.meta.env.VITE_API_URL
+      }/api/energyLevel/${energyLevel}`;
 
-    const fetchConfig: RequestInit = {
-      headers: {
-        Authorization: `Bearer ${cookies.jwtToken}`,
-        "Content-Type": "application/json",
-      },
+      const fetchConfig: RequestInit = {
+        headers: {
+          Authorization: `Bearer ${cookies.jwtToken}`,
+          "Content-Type": "application/json",
+        },
+      };
+
+      try {
+        const response = await fetch(url, fetchConfig);
+
+        if (response.ok) {
+          const data = await response.json();
+          setSelectedFeelings(data.feelings[EnergyLevelsMap[energyLevel]]);
+        }
+      } catch (e) {
+        console.log("Error fetching feelings", e);
+      }
     };
 
-    try {
-      const response = await fetch(url, fetchConfig);
-
-      if (response.ok) {
-        const data = await response.json();
-
-        console.log(data.feeling[EnergyLevelsMap[energyLevel]]);
-      }
-    } catch (e) {
-      console.log("Error fetching feelings", e);
-    }
-  };
-
-  selectedEnergyLevel && fetchEnergyLevelFeelings(selectedEnergyLevel);
+    selectedEnergyLevel && fetchEnergyLevelFeelings(selectedEnergyLevel);
+  }, [selectedEnergyLevel, cookies]);
+  
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
