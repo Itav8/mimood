@@ -142,7 +142,21 @@ const main = async () => {
         "SERENE",
       ],
     };
+
+    // for (let i = 0; i < energyLevel.highEnergyLevelUnpleasant.length; i++) {
+    //   const feeling = energyLevel.highEnergyLevelUnpleasant[i];
+    //   await prisma.highEnergyUnpleasant.create({
+    //     data: {
+    //       feelings: feeling,
+    //       levelType: "HIGH_ENERGY_PLEASANT",
+    //     },
+    //   });
+    // }
   } catch (e) {
     console.log("Error in seeding", e);
   }
 };
+
+main().catch((err) => {
+  console.warn("Error While generating Seed: \n", err);
+});
