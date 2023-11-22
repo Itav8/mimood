@@ -23,6 +23,32 @@ export const MoodForm = () => {
     setSelectedEnergyLevel(energyLevel);
   };
 
+  const fetchEnergyLevelFeelings = async (energyLevel: string) => {
+    const url = `${
+      import.meta.env.VITE_API_URL
+    }/api/energyLevel/${energyLevel}`;
+
+    const fetchConfig: RequestInit = {
+      headers: {
+        Authorization: `Bearer ${cookies.jwtToken}`,
+        "Content-Type": "application/json",
+      },
+    };
+
+    try {
+      const response = await fetch(url, fetchConfig);
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.feelings);
+      }
+    } catch (e) {
+      console.log("Error fetching feelings", e);
+    }
+  };
+
+  fetchEnergyLevelFeelings(selectedEnergyLevel);
+
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const inputName = e.target.name;

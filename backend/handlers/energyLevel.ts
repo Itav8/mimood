@@ -24,10 +24,10 @@ export const getEnergyLevelFeelings = async (req, res, next) => {
         level,
       },
       include: {
-        highEnergyUnpleasant: true,
-        highEnergyPleasant: true,
-        lowEnergyUnpleasant: true,
-        lowEnergyPleasant: true,
+        highEnergyUnpleasant: level === "HIGH_ENERGY_UNPLEASANT",
+        highEnergyPleasant: level === "HIGH_ENERGY_PLEASANT",
+        lowEnergyUnpleasant: level === "LOW_ENERGY_UNPLEASANT",
+        lowEnergyPleasant: level === "LOW_ENERGY_PLEASANT",
       },
     });
 
