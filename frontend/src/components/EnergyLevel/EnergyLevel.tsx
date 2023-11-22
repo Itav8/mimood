@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import { EnergyLevels } from "../../constants/constants";
 
 import "./EnergyLevel.css";
 
 interface EnergyLevel {
-  level: string;
+  level: EnergyLevels;
   color: string;
 }
 
 interface EnergyLevelProps {
-  onClick: (energyLevel: string) => void;
+  onClick: (energyLevel: EnergyLevels) => void;
 }
 
 export const EnergyLevel = ({ onClick }: EnergyLevelProps) => {

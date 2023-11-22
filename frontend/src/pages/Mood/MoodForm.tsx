@@ -2,28 +2,31 @@ import { useCookies } from "react-cookie";
 import { EnergyLevel } from "../../components/EnergyLevel/EnergyLevel";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { EnergyLevels, EnergyLevelsMap } from "../../constants/constants";
 
 interface MoodForm {
   feeling: string;
   description: string;
-  energyLevel?: string;
+  energyLevel?: EnergyLevels;
 }
 
 export const MoodForm = () => {
   const navigate = useNavigate();
   const [cookies] = useCookies(["jwtToken"]);
-  const [selectedEnergyLevel, setSelectedEnergyLevel] = useState("");
+  const [selectedFeelings, setSelectedFeelings] = useState<Array<unknown>>([]);
+  const [selectedEnergyLevel, setSelectedEnergyLevel] =
+    useState<EnergyLevels>();
   const [form, setForm] = useState<MoodForm>({
     feeling: "",
     description: "",
     energyLevel: selectedEnergyLevel,
   });
 
-  const onEnergyLevelClick = (energyLevel: string) => {
+  const onEnergyLevelClick = (energyLevel: EnergyLevels) => {
     setSelectedEnergyLevel(energyLevel);
   };
 
-  const fetchEnergyLevelFeelings = async (energyLevel: string) => {
+  const fetchEnergyLevelFeelings = async (energyLevel: EnergyLevels) => {
     const url = `${
       import.meta.env.VITE_API_URL
     }/api/energyLevel/${energyLevel}`;
@@ -40,14 +43,15 @@ export const MoodForm = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data.feelings);
+
+        console.log(data.feeling[EnergyLevelsMap[energyLevel]]);
       }
     } catch (e) {
       console.log("Error fetching feelings", e);
     }
   };
 
-  fetchEnergyLevelFeelings(selectedEnergyLevel);
+  selectedEnergyLevel && fetchEnergyLevelFeelings(selectedEnergyLevel);
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;

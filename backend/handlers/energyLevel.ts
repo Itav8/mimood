@@ -19,7 +19,7 @@ export const getEnergyLevel = async (req, res, next) => {
 export const getEnergyLevelFeelings = async (req, res, next) => {
   const level = req.params.id;
   try {
-    const feelings = await prisma.energyLevel.findUnique({
+    const feeling = await prisma.energyLevel.findUnique({
       where: {
         level,
       },
@@ -31,7 +31,7 @@ export const getEnergyLevelFeelings = async (req, res, next) => {
       },
     });
 
-    res.json({ feelings });
+    res.json({ feeling });
   } catch (e) {
     console.log(e);
     next(e);
