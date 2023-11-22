@@ -150,7 +150,7 @@ model HighEnergyPleasant {
 }
 
 enum Low_Energy_Unpleasant_Feelings {
-  DISGUESTED
+  DISGUSTED
   GLUM
   DISAPPOINTED
   DOWN
@@ -206,7 +206,7 @@ enum Low_Energy_Pleasant_Feelings {
   COMFORTABLE
   CAREFREE
   SLEEPY
-  CMPLACENT
+  COMPLACENT
   TRANQUIL
   COZY
   SERENE

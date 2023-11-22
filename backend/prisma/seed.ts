@@ -1,7 +1,14 @@
 // import bcrypt from "bcrypt";
 // import { randBetweenDate, randNumber, randProduct } from "@ngneat/falso";
 // import { faker } from "@faker-js/faker";
-import { PrismaClient } from "@prisma/client";
+import {
+  LEVELS,
+  High_Energy_Unpleasant_Feelings,
+  High_Energy_Pleasant_Feelings,
+  Low_Energy_Unpleasant_Feelings,
+  Low_Energy_Pleasant_Feelings,
+  PrismaClient,
+} from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -143,15 +150,58 @@ const main = async () => {
       ],
     };
 
-    // for (let i = 0; i < energyLevel.highEnergyLevelUnpleasant.length; i++) {
-    //   const feeling = energyLevel.highEnergyLevelUnpleasant[i];
-    //   await prisma.highEnergyUnpleasant.create({
-    //     data: {
-    //       feelings: feeling,
-    //       levelType: "HIGH_ENERGY_PLEASANT",
-    //     },
-    //   });
-    // }
+    // HIGH ENERGY UNPLEASANT
+    for (let i = 0; i < energyLevel.highEnergyLevelUnpleasant.length; i++) {
+      const level: LEVELS = "HIGH_ENERGY_UNPLEASANT";
+      const feeling: High_Energy_Unpleasant_Feelings = energyLevel
+        .highEnergyLevelUnpleasant[i] as High_Energy_Unpleasant_Feelings;
+
+      await prisma.highEnergyUnpleasant.createMany({
+        data: {
+          levelType: level,
+          feelings: feeling,
+        },
+      });
+    }
+    // HIGH ENERGY PLEASANT
+    for (let i = 0; i < energyLevel.highEnergyPleasant.length; i++) {
+      const level: LEVELS = "HIGH_ENERGY_PLEASANT";
+      const feeling: High_Energy_Pleasant_Feelings = energyLevel
+        .highEnergyPleasant[i] as High_Energy_Pleasant_Feelings;
+
+      await prisma.highEnergyPleasant.createMany({
+        data: {
+          levelType: level,
+          feelings: feeling,
+        },
+      });
+    }
+    // LOW ENERGY UNPLEASANT
+    for (let i = 0; i < energyLevel.lowEnergyUnpleasant.length; i++) {
+      const level: LEVELS = "LOW_ENERGY_UNPLEASANT";
+      const feeling: Low_Energy_Unpleasant_Feelings = energyLevel
+        .lowEnergyUnpleasant[i] as Low_Energy_Unpleasant_Feelings;
+
+      await prisma.lowEnergyUnpleasant.createMany({
+        data: {
+          levelType: level,
+          feelings: feeling,
+        },
+      });
+    }
+    // LOW ENERGY PLEASANT
+    for (let i = 0; i < energyLevel.lowEnergyPleasant.length; i++) {
+      const level: LEVELS = "LOW_ENERGY_PLEASANT";
+      const feeling: Low_Energy_Pleasant_Feelings = energyLevel
+        .lowEnergyPleasant[i] as Low_Energy_Pleasant_Feelings;
+
+      await prisma.lowEnergyPleasant.createMany({
+        data: {
+          levelType: level,
+          feelings: feeling,
+        },
+      });
+    }
   } catch (e) {
     console.log("Error in seeding", e);
   }
