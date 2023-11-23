@@ -67,7 +67,7 @@ export const Dashboard = () => {
     fetchMood();
     fetchActivity();
   }, [cookies]);
-
+  console.log(moods, activities);
   return (
     <>
       <div>

@@ -10,6 +10,7 @@ interface ActivityForm {
   energyLevel?: EnergyLevels;
   description: string;
 }
+
 export const ActivityForm = () => {
   const navigate = useNavigate();
   const [cookies] = useCookies(["jwtToken"]);
