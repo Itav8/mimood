@@ -1,6 +1,6 @@
 import { useCookies } from "react-cookie";
 import { EnergyLevel } from "../../components/EnergyLevel/EnergyLevel";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { EnergyLevels, EnergyLevelsMap } from "../../constants/constants";
 
@@ -53,7 +53,6 @@ export const MoodForm = () => {
     };
 
     fetchEnergyLevelFeelings(energyLevel);
-
   };
 
   const handleFormChange = (
