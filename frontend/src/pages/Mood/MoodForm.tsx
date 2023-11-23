@@ -13,7 +13,9 @@ interface MoodForm {
 export const MoodForm = () => {
   const navigate = useNavigate();
   const [cookies] = useCookies(["jwtToken"]);
-  const [selectedFeelings, setSelectedFeelings] = useState<Array<unknown>>([]);
+  const [selectedFeelings, setSelectedFeelings] = useState<
+    Array<Record<string, string>>
+  >([]);
   const [selectedEnergyLevel, setSelectedEnergyLevel] =
     useState<EnergyLevels>();
   const [form, setForm] = useState<MoodForm>({
@@ -24,9 +26,7 @@ export const MoodForm = () => {
 
   const onEnergyLevelClick = (energyLevel: EnergyLevels) => {
     setSelectedEnergyLevel(energyLevel);
-  };
 
-  useEffect(() => {
     const fetchEnergyLevelFeelings = async (energyLevel: EnergyLevels) => {
       const url = `${
         import.meta.env.VITE_API_URL
@@ -44,6 +44,7 @@ export const MoodForm = () => {
 
         if (response.ok) {
           const data = await response.json();
+
           setSelectedFeelings(data.feelings[EnergyLevelsMap[energyLevel]]);
         }
       } catch (e) {
@@ -51,11 +52,13 @@ export const MoodForm = () => {
       }
     };
 
-    selectedEnergyLevel && fetchEnergyLevelFeelings(selectedEnergyLevel);
-  }, [selectedEnergyLevel, cookies]);
-  
+    fetchEnergyLevelFeelings(energyLevel);
 
-  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  };
+
+  const handleFormChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const value = e.target.value;
     const inputName = e.target.name;
 
@@ -111,16 +114,13 @@ export const MoodForm = () => {
         ) : (
           <div>No Energy Level Selected</div>
         )}
-
         <div>
-          <label htmlFor="feeling">Feeling:</label>
-          <input
-            type="text"
-            id="feeling"
-            name="feeling"
-            value={form.feeling}
-            onChange={handleFormChange}
-          />
+          <select id="feeling" name="feeling" onChange={handleFormChange}>
+            <option value="">Choose a feeling...</option>
+            {selectedFeelings.map((selectedFeeling, i) => {
+              return <option key={i}>{selectedFeeling.feelings}</option>;
+            })}
+          </select>
         </div>
         <div>
           <label htmlFor="description">Description:</label>
