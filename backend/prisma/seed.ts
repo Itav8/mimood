@@ -14,29 +14,25 @@ const prisma = new PrismaClient();
 
 const main = async () => {
   try {
-    await prisma.energyLevel.create({
-      data: {
-        level: "HIGH_ENERGY_UNPLEASANT",
-        color: "red",
-      },
-    });
-    await prisma.energyLevel.create({
-      data: {
-        level: "HIGH_ENERGY_PLEASANT",
-        color: "yellow",
-      },
-    });
-    await prisma.energyLevel.create({
-      data: {
-        level: "LOW_ENERGY_PLEASANT",
-        color: "green",
-      },
-    });
-    await prisma.energyLevel.create({
-      data: {
-        level: "LOW_ENERGY_UNPLEASANT",
-        color: "blue",
-      },
+    await prisma.energyLevel.createMany({
+      data: [
+        {
+          level: LEVELS.HIGH_ENERGY_UNPLEASANT,
+          color: "red",
+        },
+        {
+          level: LEVELS.HIGH_ENERGY_PLEASANT,
+          color: "yellow",
+        },
+        {
+          level: LEVELS.LOW_ENERGY_UNPLEASANT,
+          color: "blue",
+        },
+        {
+          level: LEVELS.LOW_ENERGY_PLEASANT,
+          color: "green",
+        },
+      ],
     });
 
     const energyLevel = {
@@ -149,14 +145,12 @@ const main = async () => {
         "SERENE",
       ],
     };
-
     // HIGH ENERGY UNPLEASANT
     const highEnergyLevelUnpleasantItems =
       energyLevel.highEnergyLevelUnpleasant.map(
         (feeling: High_Energy_Unpleasant_Feelings) => {
-          const level: LEVELS = "HIGH_ENERGY_UNPLEASANT";
           return {
-            levelType: level,
+            levelType: LEVELS.HIGH_ENERGY_UNPLEASANT,
             feelings: feeling,
           };
         }
@@ -165,46 +159,45 @@ const main = async () => {
     await prisma.highEnergyUnpleasant.createMany({
       data: highEnergyLevelUnpleasantItems,
     });
-
     // HIGH ENERGY PLEASANT
-    for (let i = 0; i < energyLevel.highEnergyPleasant.length; i++) {
-      const level: LEVELS = "HIGH_ENERGY_PLEASANT";
-      const feeling: High_Energy_Pleasant_Feelings = energyLevel
-        .highEnergyPleasant[i] as High_Energy_Pleasant_Feelings;
-
-      await prisma.highEnergyPleasant.create({
-        data: {
-          levelType: level,
+    const highEnergyLevePleasantItems = energyLevel.highEnergyPleasant.map(
+      (feeling: High_Energy_Pleasant_Feelings) => {
+        return {
+          levelType: LEVELS.HIGH_ENERGY_PLEASANT,
           feelings: feeling,
-        },
-      });
-    }
+        };
+      }
+    );
+
+    await prisma.highEnergyPleasant.createMany({
+      data: highEnergyLevePleasantItems,
+    });
     // LOW ENERGY UNPLEASANT
-    for (let i = 0; i < energyLevel.lowEnergyUnpleasant.length; i++) {
-      const level: LEVELS = "LOW_ENERGY_UNPLEASANT";
-      const feeling: Low_Energy_Unpleasant_Feelings = energyLevel
-        .lowEnergyUnpleasant[i] as Low_Energy_Unpleasant_Feelings;
-
-      await prisma.lowEnergyUnpleasant.create({
-        data: {
-          levelType: level,
+    const lowEnergyUnpleasantItems = energyLevel.lowEnergyUnpleasant.map(
+      (feeling: Low_Energy_Unpleasant_Feelings) => {
+        return {
+          levelType: LEVELS.LOW_ENERGY_UNPLEASANT,
           feelings: feeling,
-        },
-      });
-    }
+        };
+      }
+    );
+
+    await prisma.lowEnergyUnpleasant.createMany({
+      data: lowEnergyUnpleasantItems,
+    });
     // LOW ENERGY PLEASANT
-    for (let i = 0; i < energyLevel.lowEnergyPleasant.length; i++) {
-      const level: LEVELS = "LOW_ENERGY_PLEASANT";
-      const feeling: Low_Energy_Pleasant_Feelings = energyLevel
-        .lowEnergyPleasant[i] as Low_Energy_Pleasant_Feelings;
-
-      await prisma.lowEnergyPleasant.create({
-        data: {
-          levelType: level,
+    const lowEnergyPleasantItems = energyLevel.lowEnergyPleasant.map(
+      (feeling: Low_Energy_Pleasant_Feelings) => {
+        return {
+          levelType: LEVELS.LOW_ENERGY_PLEASANT,
           feelings: feeling,
-        },
-      });
-    }
+        };
+      }
+    );
+
+    await prisma.lowEnergyPleasant.createMany({
+      data: lowEnergyPleasantItems,
+    });
   } catch (e) {
     console.log("Error in seeding", e);
   }

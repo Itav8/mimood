@@ -2,13 +2,6 @@ import { LEVELS } from "@prisma/client";
 import prisma from "../db";
 import { comparePasswords, createJWT, hashPassword } from "../modules/auth";
 
-// const LEVELS = {
-//   HIGH_ENERGY_UNPLEASANT: "HIGH_ENERGY_UNPLEASANT",
-//   HIGH_ENERGY_PLEASANT: "HIGH_ENERGY_PLEASANT",
-//   LOW_ENERGY_UNPLEASANT: "LOW_ENERGY_UNPLEASANT",
-//   LOW_ENERGY_PLEASANT: "LOW_ENERGY_PLEASANT",
-// };
-
 export const createNewUser = async (req, res) => {
   try {
     const hash = await hashPassword(req.body.password);
