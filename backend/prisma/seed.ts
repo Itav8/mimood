@@ -151,25 +151,28 @@ const main = async () => {
     };
 
     // HIGH ENERGY UNPLEASANT
-    for (let i = 0; i < energyLevel.highEnergyLevelUnpleasant.length; i++) {
-      const level: LEVELS = "HIGH_ENERGY_UNPLEASANT";
-      const feeling: High_Energy_Unpleasant_Feelings = energyLevel
-        .highEnergyLevelUnpleasant[i] as High_Energy_Unpleasant_Feelings;
+    const highEnergyLevelUnpleasantItems =
+      energyLevel.highEnergyLevelUnpleasant.map(
+        (feeling: High_Energy_Unpleasant_Feelings) => {
+          const level: LEVELS = "HIGH_ENERGY_UNPLEASANT";
+          return {
+            levelType: level,
+            feelings: feeling,
+          };
+        }
+      );
 
-      await prisma.highEnergyUnpleasant.createMany({
-        data: {
-          levelType: level,
-          feelings: feeling,
-        },
-      });
-    }
+    await prisma.highEnergyUnpleasant.createMany({
+      data: highEnergyLevelUnpleasantItems,
+    });
+
     // HIGH ENERGY PLEASANT
     for (let i = 0; i < energyLevel.highEnergyPleasant.length; i++) {
       const level: LEVELS = "HIGH_ENERGY_PLEASANT";
       const feeling: High_Energy_Pleasant_Feelings = energyLevel
         .highEnergyPleasant[i] as High_Energy_Pleasant_Feelings;
 
-      await prisma.highEnergyPleasant.createMany({
+      await prisma.highEnergyPleasant.create({
         data: {
           levelType: level,
           feelings: feeling,
@@ -182,7 +185,7 @@ const main = async () => {
       const feeling: Low_Energy_Unpleasant_Feelings = energyLevel
         .lowEnergyUnpleasant[i] as Low_Energy_Unpleasant_Feelings;
 
-      await prisma.lowEnergyUnpleasant.createMany({
+      await prisma.lowEnergyUnpleasant.create({
         data: {
           levelType: level,
           feelings: feeling,
@@ -195,7 +198,7 @@ const main = async () => {
       const feeling: Low_Energy_Pleasant_Feelings = energyLevel
         .lowEnergyPleasant[i] as Low_Energy_Pleasant_Feelings;
 
-      await prisma.lowEnergyPleasant.createMany({
+      await prisma.lowEnergyPleasant.create({
         data: {
           levelType: level,
           feelings: feeling,
