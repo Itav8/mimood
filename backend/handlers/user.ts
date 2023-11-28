@@ -16,34 +16,34 @@ export const createNewUser = async (req, res) => {
       },
     });
 
-    const token = createJWT(user);
-
     const userEnergyLevel = await prisma.userEnergyLevel.createMany({
       data: [
         {
-          color: req.body.color,
-          userId: req.user.id,
+          color: user.color,
+          userId: user.id,
           energyLevel: LEVELS.HIGH_ENERGY_UNPLEASANT,
         },
         {
-          color: req.body.color,
-          userId: req.user.id,
+          color: user.color,
+          userId: user.id,
           energyLevel: LEVELS.HIGH_ENERGY_PLEASANT,
         },
         {
-          color: req.body.color,
-          userId: req.user.id,
+          color: user.color,
+          userId: user.id,
           energyLevel: LEVELS.LOW_ENERGY_UNPLEASANT,
         },
         {
-          color: req.body.color,
-          userId: req.user.id,
+          color: user.color,
+          userId: user.id,
           energyLevel: LEVELS.LOW_ENERGY_PLEASANT,
         },
       ],
+      skipDuplicates: false,
     });
 
     console.log("USER ENERGY LEVEL", userEnergyLevel);
+    const token = createJWT(user);
     res.json({ token });
   } catch (e) {
     console.log(e);

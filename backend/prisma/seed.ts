@@ -18,19 +18,19 @@ const main = async () => {
       data: [
         {
           level: LEVELS.HIGH_ENERGY_UNPLEASANT,
-          color: "red",
+          color: "#FF0000",
         },
         {
           level: LEVELS.HIGH_ENERGY_PLEASANT,
-          color: "yellow",
+          color: "#FFFF00",
         },
         {
           level: LEVELS.LOW_ENERGY_UNPLEASANT,
-          color: "blue",
+          color: "#0000FF",
         },
         {
           level: LEVELS.LOW_ENERGY_PLEASANT,
-          color: "green",
+          color: "#00FF00",
         },
       ],
     });

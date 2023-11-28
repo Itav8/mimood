@@ -44,7 +44,7 @@ model EnergyLevel {
 
 model UserEnergyLevel {
   id    String @id @default(uuid())
-  color String @unique
+  color String 
 
   userId               String
   belongsToUser        User        @relation(fields: [userId], references: [id])
