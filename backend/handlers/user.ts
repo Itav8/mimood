@@ -16,6 +16,7 @@ export const createNewUser = async (req, res) => {
       },
     });
 
+
     const userEnergyLevel = await prisma.userEnergyLevel.createMany({
       data: [
         {
@@ -42,7 +43,6 @@ export const createNewUser = async (req, res) => {
       skipDuplicates: false,
     });
 
-    console.log("USER ENERGY LEVEL", userEnergyLevel);
     const token = createJWT(user);
     res.json({ token });
   } catch (e) {
