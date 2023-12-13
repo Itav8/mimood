@@ -7,14 +7,14 @@ export const convertHexToRGB = (color: string) => {
   return [r, g, b];
 };
 
-export const colorBlend = (userColor: Array<number>, energyLevels: LEVELS) => {
+export const colorBlend = (userColor: Array<number>) => {
   const r = userColor[0];
   const g = userColor[1];
   const b = userColor[2];
 
   let opacity = 1;
 
-  const colors = Object.keys(energyLevels).reduce((accum, key) => {
+  const colors = Object.keys(LEVELS).reduce((accum, key) => {
     const color = `rgb(${r}, ${g}, ${b}, ${opacity})`;
     opacity -= 0.25;
     accum[key] = color;

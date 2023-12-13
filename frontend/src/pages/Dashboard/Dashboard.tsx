@@ -18,7 +18,7 @@ export const Dashboard = () => {
   const [cookies] = useCookies(["jwtToken"]);
   const [moods, setMoods] = useState<Mood[]>([]);
   const [activities, setActivities] = useState<Activity[]>([]);
-
+  
   useEffect(() => {
     const fetchMood = async () => {
       const url = `${import.meta.env.VITE_API_URL}/api/moods`;

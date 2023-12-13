@@ -105,7 +105,7 @@ export const Signup = (props: SignupProps) => {
             type="color"
             id="color"
             name="color"
-            value={signupForm.color}
+            // value={signupForm.color}
             onChange={handleFormChange}
           />
         </div>

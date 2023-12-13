@@ -18,7 +18,8 @@ export const createNewUser = async (req, res) => {
     });
 
     const rgbColor = convertHexToRGB(user.color);
-    const blendedColor = colorBlend(rgbColor, LEVELS);
+    const blendedColor = colorBlend(rgbColor);
+
     const userEnergyLevelData = Object.entries(blendedColor).map(
       ([level, color]: [LEVELS, string]) => {
         return {
@@ -34,6 +35,7 @@ export const createNewUser = async (req, res) => {
 
     console.log("USER ENERGY LEVEL", userEnergyLevel);
     const token = createJWT(user);
+    res.cookie("jwtToken", token, { httpOnly: false });
     res.json({ token });
   } catch (e) {
     console.log(e);
