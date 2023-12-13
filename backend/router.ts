@@ -6,13 +6,18 @@ import {
   getActivities,
   updateActivity,
 } from "./handlers/activity";
-import { getEnergyLevel, getEnergyLevelFeelings } from "./handlers/energyLevel";
+import {
+  getEnergyLevel,
+  getEnergyLevelFeelings,
+  getUserEnergyLevel,
+} from "./handlers/energyLevel";
 
 const router = Router();
 
 // ENERGY LEVEL
 router.get("/energyLevel", getEnergyLevel);
 router.get("/energyLevel/:id", getEnergyLevelFeelings);
+router.get("/userEnergyLevel", getUserEnergyLevel);
 
 // MOOD
 router.post("/mood", handleInputErrors, createMood);

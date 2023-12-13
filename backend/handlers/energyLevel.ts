@@ -1,3 +1,4 @@
+import exp from "constants";
 import prisma from "../db";
 
 export const getEnergyLevel = async (req, res, next) => {
@@ -32,6 +33,24 @@ export const getEnergyLevelFeelings = async (req, res, next) => {
     });
 
     res.json({ feelings });
+  } catch (e) {
+    console.log(e);
+    next(e);
+  }
+};
+
+export const getUserEnergyLevel = async (req, res, next) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: req.user.id,
+      },
+      include: {
+        userEnergyLevels: true,
+      },
+    });
+
+    res.json({ userColor: user.userEnergyLevels });
   } catch (e) {
     console.log(e);
     next(e);
