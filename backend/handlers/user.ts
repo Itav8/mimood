@@ -1,6 +1,7 @@
 import { LEVELS } from "@prisma/client";
 import prisma from "../db";
 import { comparePasswords, createJWT, hashPassword } from "../modules/auth";
+import { colorBlend, convertHexToRGB } from "../utils/colorBlend";
 
 export const createNewUser = async (req, res) => {
   try {
@@ -16,33 +17,22 @@ export const createNewUser = async (req, res) => {
       },
     });
 
-
+    const rgbColor = convertHexToRGB(user.color);
+    const blendedColor = colorBlend(rgbColor, LEVELS);
+    const userEnergyLevelData = Object.entries(blendedColor).map(
+      ([level, color]: [LEVELS, string]) => {
+        return {
+          color,
+          userId: user.id,
+          energyLevel: level,
+        };
+      }
+    );
     const userEnergyLevel = await prisma.userEnergyLevel.createMany({
-      data: [
-        {
-          color: user.color,
-          userId: user.id,
-          energyLevel: LEVELS.HIGH_ENERGY_UNPLEASANT,
-        },
-        {
-          color: user.color,
-          userId: user.id,
-          energyLevel: LEVELS.HIGH_ENERGY_PLEASANT,
-        },
-        {
-          color: user.color,
-          userId: user.id,
-          energyLevel: LEVELS.LOW_ENERGY_UNPLEASANT,
-        },
-        {
-          color: user.color,
-          userId: user.id,
-          energyLevel: LEVELS.LOW_ENERGY_PLEASANT,
-        },
-      ],
-      skipDuplicates: false,
+      data: userEnergyLevelData,
     });
 
+    console.log("USER ENERGY LEVEL", userEnergyLevel);
     const token = createJWT(user);
     res.json({ token });
   } catch (e) {

@@ -18,7 +18,7 @@ export const Signup = (props: SignupProps) => {
   const [signupForm, setSignupForm] = useState<SignupForm>({
     firstName: "",
     lastName: "",
-    color: "",
+    color: "rgb(0,0,0)",
     email: "",
     password: "",
   });
@@ -62,7 +62,7 @@ export const Signup = (props: SignupProps) => {
         setSignupForm({
           firstName: "",
           lastName: "",
-          color: "",
+          color: "rgb(0,0,0)",
           email: "",
           password: "",
         });
@@ -102,7 +102,7 @@ export const Signup = (props: SignupProps) => {
         <div>
           <label htmlFor="color">Favorite Color:</label>
           <input
-            type="text"
+            type="color"
             id="color"
             name="color"
             value={signupForm.color}
