@@ -152,7 +152,9 @@ export const MoodForm = () => {
         {selectedEnergyLevel ? (
           <div>
             <div
-              style={{ backgroundColor: energyLevelColors[selectedEnergyLevel] }}
+              style={{
+                backgroundColor: energyLevelColors[selectedEnergyLevel],
+              }}
             >
               {selectedEnergyLevel}
             </div>
