@@ -2,7 +2,7 @@ import app from "../../server";
 import request from "supertest";
 // import { createJWT } from "../../modules/auth";
 import { PrismaClient } from "@prisma/client";
-import { createNewUser } from "../user";
+// import { createNewUser } from "../user";
 
 const prismaMock = new PrismaClient();
 
@@ -10,12 +10,11 @@ jest.mock("../../db");
 jest.mock("../../server");
 jest.mock("../user");
 
-beforeEach(async () => {
-  await prismaMock.$transaction([
-    prismaMock.user.deleteMany(),
-    prismaMock.userEnergyLevel.deleteMany()
-  ])
-})
+// beforeEach(async () => {
+//   await prismaMock.$transaction([
+//     prismaMock.user.deleteMany(),
+//   ])
+// })
 
 describe("POST /user", () => {
   it("should create a new user", async () => {
