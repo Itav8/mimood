@@ -5,6 +5,11 @@ import { colorBlend, convertHexToRGB } from "../utils/colorBlend";
 
 export const createNewUser = async (req, res) => {
   try {
+    if (!req.body.firstName || !req.body.email) {
+      res.status(400).json({ status: 400, message: "Missing required field(s)" });
+      throw new Error("Missing required field(s)")
+    }
+
     const hash = await hashPassword(req.body.password);
 
     const user = await prisma.user.create({
@@ -36,7 +41,14 @@ export const createNewUser = async (req, res) => {
     console.log("USER ENERGY LEVEL", userEnergyLevel);
     const token = createJWT(user);
     res.cookie("jwtToken", token, { httpOnly: false });
-    res.json({ token });
+    res.status(200).json({
+      token,
+      userId: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      color: user.color,
+      email: user.email,
+    });
   } catch (e) {
     console.log(e);
   }
