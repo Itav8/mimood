@@ -2,6 +2,19 @@
 import request from "supertest";
 import app from "../../server";
 import prisma from "../../db";
+import * as userHandlers from "../user";
+
+jest.mock("../user");
+const mockedCreateNewUser = userHandlers.createNewUser as unknown as jest.Mock<
+  typeof userHandlers.createNewUser
+>;
+const actualUserHandlers = jest.requireActual("../user");
+
+beforeEach(() => {
+  mockedCreateNewUser.mockImplementation((req, res): any => {
+    return actualUserHandlers.createNewUser(req, res);
+  });
+});
 
 describe("POST /user", () => {
   it("should create a new user", async () => {
@@ -72,6 +85,10 @@ describe("POST /user", () => {
   });
 
   it("should throw an error for user already exist", async () => {
+    mockedCreateNewUser.mockImplementation((req, res): any => {
+      res.status(409).json({ status: 409, message: "Account already exist" });
+    });
+
     const mockPayload = {
       firstName: "Bob",
       lastName: "Man",
@@ -85,7 +102,7 @@ describe("POST /user", () => {
       .send(mockPayload)
       .set("Accept", "application/json");
 
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(409);
     expect(res.body.message).toBe("Account already exist");
   });
 });

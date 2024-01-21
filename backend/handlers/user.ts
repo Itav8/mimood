@@ -17,18 +17,15 @@ export const createNewUser = async (req, res) => {
       throw new Error("Missing required field(s)");
     }
 
-    // if email exist in DB then throw an error
     const emailExist = await prisma.user.findUnique({
       where: {
-        email: req.body.email
-      }
-    })
+        email: req.body.email,
+      },
+    });
 
     if (emailExist) {
-      res
-        .status(409)
-        .json({status: 409, message: "Account already exist"})
-      throw new Error("Account already exist")
+      res.status(409).json({ status: 409, message: "Account already exist" });
+      throw new Error("Account already exist");
     }
 
     const hash = await hashPassword(req.body.password);
