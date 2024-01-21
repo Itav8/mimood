@@ -5,9 +5,30 @@ import { colorBlend, convertHexToRGB } from "../utils/colorBlend";
 
 export const createNewUser = async (req, res) => {
   try {
-    if (!req.body.firstName || !req.body.email) {
-      res.status(400).json({ status: 400, message: "Missing required field(s)" });
-      throw new Error("Missing required field(s)")
+    if (
+      !req.body.firstName ||
+      !req.body.email ||
+      !req.body.lastName ||
+      !req.body.password
+    ) {
+      res
+        .status(400)
+        .json({ status: 400, message: "Missing required field(s)" });
+      throw new Error("Missing required field(s)");
+    }
+
+    // if email exist in DB then throw an error
+    const emailExist = await prisma.user.findUnique({
+      where: {
+        email: req.body.email
+      }
+    })
+
+    if (emailExist) {
+      res
+        .status(409)
+        .json({status: 409, message: "Account already exist"})
+      throw new Error("Account already exist")
     }
 
     const hash = await hashPassword(req.body.password);

@@ -3,7 +3,6 @@ import request from "supertest";
 import app from "../../server";
 import prisma from "../../db";
 
-
 describe("POST /user", () => {
   it("should create a new user", async () => {
     const mockPayload = {
@@ -33,8 +32,8 @@ describe("POST /user", () => {
     });
 
     expect(res.status).toBe(200);
-    expect(res.body.firstName).toBe(mockPayload.firstName)
-    expect(res.body.lastName).toBe(mockPayload.lastName)
+    expect(res.body.firstName).toBe(mockPayload.firstName);
+    expect(res.body.lastName).toBe(mockPayload.lastName);
     expect(res.body.email).toBe(mockPayload.email);
   });
 
@@ -49,35 +48,50 @@ describe("POST /user", () => {
     const res = await request(app)
       .post("/user")
       .send(mockPayload)
-      .set("Accept", "application/json")
+      .set("Accept", "application/json");
 
     expect(res.status).toBe(400);
     expect(res.body.message).toBe("Missing required field(s)");
   });
 
   it("should throw an error for missing email", async () => {
-        const mockPayload = {
-          firstName: "Bob",
-          lastName: "Man",
-          color: "#732424",
-          password: "password",
-        };
+    const mockPayload = {
+      firstName: "Bob",
+      lastName: "Man",
+      color: "#732424",
+      password: "password",
+    };
 
-        const res = await request(app)
-          .post("/user")
-          .send(mockPayload)
-          .set("Accept", "application/json");
+    const res = await request(app)
+      .post("/user")
+      .send(mockPayload)
+      .set("Accept", "application/json");
 
-        expect(res.status).toBe(400);
-        expect(res.body.message).toBe("Missing required field(s)");
+    expect(res.status).toBe(400);
+    expect(res.body.message).toBe("Missing required field(s)");
   });
 
-  // it("should throw an error for user already exist", async () => {});
+  it("should throw an error for user already exist", async () => {
+    const mockPayload = {
+      firstName: "Bob",
+      lastName: "Man",
+      color: "#732424",
+      email: "bobman@test.com",
+      password: "password",
+    };
+
+    const res = await request(app)
+      .post("/user")
+      .send(mockPayload)
+      .set("Accept", "application/json");
+
+    expect(res.status).toBe(400);
+    expect(res.body.message).toBe("Account already exist");
+  });
 });
 
 // describe("POST /signin", () => {
 //   it("should signin user", async () => {});
-
 //   it("should throw an error for user not found", async () => {});
 //   it("should throw an error for incorrect password", async () => {});
 //   it("should throw an error for incorrect email", async () => {});
