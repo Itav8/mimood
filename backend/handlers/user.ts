@@ -76,7 +76,7 @@ export const signin = async (req, res) => {
   const user = await prisma.user.findUnique({
     where: { email: req.body.email },
   });
-
+  
   const isValid = await comparePasswords(req.body.password, user.password);
 
   if (!isValid) {

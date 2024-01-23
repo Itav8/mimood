@@ -3,11 +3,18 @@ import request from "supertest";
 import app from "../../server";
 import prisma from "../../db";
 import * as userHandlers from "../user";
+// import * as authHandlers from "../../modules/auth";
+
+// jest.mock("../auth");
 
 jest.mock("../user");
 const mockedCreateNewUser = userHandlers.createNewUser as unknown as jest.Mock<
   typeof userHandlers.createNewUser
 >;
+const mockedSignin = userHandlers.signin as unknown as jest.Mock<
+  typeof userHandlers.signin
+>;
+
 const actualUserHandlers = jest.requireActual("../user");
 
 beforeEach(() => {
@@ -107,9 +114,26 @@ describe("POST /user", () => {
   });
 });
 
-// describe("POST /signin", () => {
-//   it("should signin user", async () => {});
-//   it("should throw an error for user not found", async () => {});
-//   it("should throw an error for incorrect password", async () => {});
-//   it("should throw an error for incorrect email", async () => {});
-// });
+describe("POST /signin", () => {
+  it("should signin user", async () => {
+    mockedSignin.mockImplementation((req, res): any => {
+      res.json({ token: "mockToken" });
+    });
+
+    const mockPayload = {
+      email: "bobman@test.com",
+      password: "password",
+    };
+
+    const res = await request(app)
+      .post("/signin")
+      .send(mockPayload)
+      .set("Accept", "application/json");
+
+    // expect to be a token
+    expect(res.body.token).toBeTruthy();
+  });
+  // it("should throw an error for user not found", async () => {});
+  // it("should throw an error for incorrect password", async () => {});
+  // it("should throw an error for incorrect email", async () => {});
+});

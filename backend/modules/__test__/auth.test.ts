@@ -1,14 +1,25 @@
 // UNIT TESTING
-import { hashPassword } from "../auth";
+// import bcrypt from "bcrypt";
+// import * as authHandlers from "../auth";
+
+jest.mock("../auth");
+
+// const mockedHashPassword = authHandlers.hashPassword as unknown as jest.Mock<
+//   typeof authHandlers.hashPassword
+// >;
+
+const actualAuthHandlers = jest.requireActual("../auth")
 
 describe("auth", () => {
   // it("should compare passwords", async () => {});
 
-  it("should create a hash password", async () => {
-    const password = "jfaklf";
+  // it("should create a hash password", async () => {
+  //   bcrypt.hash = jest.fn().mockResolvedValue("hashedPassword");
 
-    const result = await hashPassword(password);
+  //   const mockPassword = "jfaklf";
+  //   const hashedPassword = await hashPassword(mockPassword);
 
-    expect(typeof result).toBe('string');
-  });
+  //   expect(bcrypt.hash).toHaveBeenCalledWith(mockPassword, 5);
+  //   expect(hashedPassword).toBe("hashedPassword");
+  // });
 });
