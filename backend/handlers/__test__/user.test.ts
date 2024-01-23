@@ -1,13 +1,10 @@
-// INTERGRATION TESTING
 import request from "supertest";
 import app from "../../server";
 import prisma from "../../db";
 import * as userHandlers from "../user";
-// import * as authHandlers from "../../modules/auth";
-
-// jest.mock("../auth");
 
 jest.mock("../user");
+
 const mockedCreateNewUser = userHandlers.createNewUser as unknown as jest.Mock<
   typeof userHandlers.createNewUser
 >;
@@ -15,6 +12,7 @@ const mockedSignin = userHandlers.signin as unknown as jest.Mock<
   typeof userHandlers.signin
 >;
 
+// Intergration Test
 const actualUserHandlers = jest.requireActual("../user");
 
 beforeEach(() => {
@@ -90,7 +88,7 @@ describe("POST /user", () => {
     expect(res.status).toBe(400);
     expect(res.body.message).toBe("Missing required field(s)");
   });
-
+  // Unit Test
   it("should throw an error for user already exist", async () => {
     mockedCreateNewUser.mockImplementation((req, res): any => {
       res.status(409).json({ status: 409, message: "Account already exist" });
@@ -130,10 +128,25 @@ describe("POST /signin", () => {
       .send(mockPayload)
       .set("Accept", "application/json");
 
-    // expect to be a token
     expect(res.body.token).toBeTruthy();
   });
-  // it("should throw an error for user not found", async () => {});
-  // it("should throw an error for incorrect password", async () => {});
-  // it("should throw an error for incorrect email", async () => {});
+
+  it("should throw an error for invalid email or password", async () => {
+    mockedSignin.mockImplementation((req, res): any => {
+      res.status(401).json({ message: "Invalid username or password" });
+    });
+
+    const mockPayload = {
+      email: "bobman@test.com",
+      password: "password",
+    };
+
+    const res = await request(app)
+      .post("/signin")
+      .send(mockPayload)
+      .set("Accept", "application/json");
+
+    expect(res.status).toBe(401)
+    expect(res.body.message).toBe("Invalid username or password");
+  });
 });

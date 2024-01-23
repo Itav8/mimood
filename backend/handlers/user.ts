@@ -11,9 +11,7 @@ export const createNewUser = async (req, res) => {
       !req.body.lastName ||
       !req.body.password
     ) {
-      res
-        .status(400)
-        .json({ status: 400, message: "Missing required field(s)" });
+      res.status(400).json({ status: 400, message: "Missing required field(s)" });
       throw new Error("Missing required field(s)");
     }
 
@@ -76,12 +74,17 @@ export const signin = async (req, res) => {
   const user = await prisma.user.findUnique({
     where: { email: req.body.email },
   });
-  
+
+  if (!user) {
+    res.status(404).json({ status: 404, message: "User does not exist" });
+    throw new Error("User does not exist");
+  }
+
   const isValid = await comparePasswords(req.body.password, user.password);
 
   if (!isValid) {
-    res.status(401);
-    res.json({ message: "Invalid username or password" });
+    res.status(401).json({ message: "Invalid email or password" });
+    throw new Error("Invalid email or password");
   }
 
   const token = createJWT(user);
