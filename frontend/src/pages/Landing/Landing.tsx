@@ -1,3 +1,5 @@
+import { Button, Stack } from "@chakra-ui/react";
+import { Heading } from "@chakra-ui/react";
 import { useState } from "react";
 import { Modal } from "../../components/Modal/Modal";
 import { Signup } from "../AuthForm/Signup/Signup";
@@ -11,51 +13,53 @@ export const Landing = () => {
 
   return (
     <div className="landing-container">
-      <h1 className="landing-container_title">Mi Mood</h1>
-      <div className="button-container">
-        <button
+      <Heading as="h1" size="4xl">
+        Mi Mood
+      </Heading>
+      <Stack direction="column">
+        <Button size="lg"
           onClick={() => {
             setIsSignUpOpen(true);
           }}
-          >
+        >
           Sign Up
-        </button>
+        </Button>
         {isSignUpOpen ? (
           <Modal
-          open={isSignUpOpen}
-          onClose={() => {
-            setIsSignUpOpen(false);
-          }}
+            open={isSignUpOpen}
+            onClose={() => {
+              setIsSignUpOpen(false);
+            }}
           >
             <Signup
               onSubmit={() => {
                 setIsSignUpOpen(false);
               }}
-              />
+            />
           </Modal>
         ) : null}
-        <button
+        <Button size="lg"
           onClick={() => {
             setIsLoginOpen(true);
           }}
-          >
+        >
           Login
-        </button>
+        </Button>
         {isLoginOpen ? (
           <Modal
-          open={isLoginOpen}
-          onClose={() => {
-            setIsLoginOpen(false);
-          }}
+            open={isLoginOpen}
+            onClose={() => {
+              setIsLoginOpen(false);
+            }}
           >
             <Login
               onSubmit={() => {
                 setIsLoginOpen(false);
               }}
-              />
+            />
           </Modal>
         ) : null}
-      </div>
+      </Stack>
     </div>
   );
 };
