@@ -146,7 +146,23 @@ describe("POST /signin", () => {
       .send(mockPayload)
       .set("Accept", "application/json");
 
-    expect(res.status).toBe(401)
+    expect(res.status).toBe(401);
     expect(res.body.message).toBe("Invalid username or password");
+  });
+
+  it("should throw an error for user does not exist", async () => {
+
+    const mockPayload = {
+      email: "bobman@test.com",
+      password: "password",
+    };
+
+    const res = await request(app)
+      .post("/signin")
+      .send(mockPayload)
+      .set("Accept", "application/json");
+
+    expect(res.status).toBe(401);
+    expect(res.body.message).toBe("User does not exist");
   });
 });

@@ -8,8 +8,6 @@ jest.mock("../auth");
 //   typeof authHandlers.hashPassword
 // >;
 
-const actualAuthHandlers = jest.requireActual("../auth")
-
 describe("auth", () => {
   // it("should compare passwords", async () => {});
 
