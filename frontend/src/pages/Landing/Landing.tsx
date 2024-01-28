@@ -17,7 +17,8 @@ export const Landing = () => {
         Mi Mood
       </Heading>
       <Stack direction="column">
-        <Button size="lg"
+        <Button
+          size="lg"
           onClick={() => {
             setIsSignUpOpen(true);
           }}
@@ -38,7 +39,8 @@ export const Landing = () => {
             />
           </Modal>
         ) : null}
-        <Button size="lg"
+        <Button
+          size="lg"
           onClick={() => {
             setIsLoginOpen(true);
           }}
