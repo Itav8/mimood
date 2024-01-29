@@ -1,6 +1,6 @@
 // import bcrypt from "bcrypt";
 // import { randBetweenDate, randNumber, randProduct } from "@ngneat/falso";
-// import { faker } from "@faker-js/faker";
+import { faker } from "@faker-js/faker";
 import {
   LEVELS,
   High_Energy_Unpleasant_Feelings,
@@ -9,6 +9,8 @@ import {
   Low_Energy_Pleasant_Feelings,
   PrismaClient,
 } from "@prisma/client";
+import { hashPassword } from "../modules/auth";
+import { colorBlend, convertHexToRGB } from "../utils/colorBlend";
 
 const prisma = new PrismaClient();
 
@@ -197,6 +199,159 @@ const main = async () => {
 
     await prisma.lowEnergyPleasant.createMany({
       data: lowEnergyPleasantItems,
+    });
+
+    const hash = await hashPassword("password");
+
+    const user = await prisma.user.create({
+      data: {
+        firstName: "Italiz",
+        lastName: "Vazquez",
+        color: "#61abff",
+        email: "italizv@gmail.com",
+        password: hash,
+      },
+    });
+
+    const rgbColor = convertHexToRGB(user.color);
+    const blendedColor = colorBlend(rgbColor);
+
+    const userEnergyLevelData = Object.entries(blendedColor).map(
+      ([level, color]: [LEVELS, string]) => {
+        return {
+          color,
+          userId: user.id,
+          energyLevel: level,
+        };
+      }
+    );
+
+    await prisma.userEnergyLevel.createMany({
+      data: userEnergyLevelData,
+    });
+
+    const lowEnergyPleasantMoodData = Array.from(Array(3).keys()).map(
+      (_, i) => {
+        return {
+          description: faker.lorem.text(),
+          energyLevel: LEVELS.LOW_ENERGY_PLEASANT,
+          feeling: energyLevel.highEnergyPleasant[i],
+          userId: user.id,
+        };
+      }
+    );
+
+    await prisma.mood.createMany({
+      data: lowEnergyPleasantMoodData,
+    });
+
+    const lowEnergyUnpleasantMoodData = Array.from(Array(3).keys()).map(
+      (_, i) => {
+        return {
+          description: faker.lorem.text(),
+          energyLevel: LEVELS.LOW_ENERGY_UNPLEASANT,
+          feeling: energyLevel.lowEnergyUnpleasant[i],
+          userId: user.id,
+        };
+      }
+    );
+
+    await prisma.mood.createMany({
+      data: lowEnergyUnpleasantMoodData,
+    });
+
+    const highEnergyPleasantMoodData = Array.from(Array(3).keys()).map(
+      (_, i) => {
+        return {
+          description: faker.lorem.text(),
+          energyLevel: LEVELS.HIGH_ENERGY_PLEASANT,
+          feeling: energyLevel.highEnergyPleasant[i],
+          userId: user.id,
+        };
+      }
+    );
+
+    await prisma.mood.createMany({
+      data: highEnergyPleasantMoodData,
+    });
+
+    const highEnergyUnpleasantMoodData = Array.from(Array(3).keys()).map(
+      (_, i) => {
+        return {
+          description: faker.lorem.text(),
+          energyLevel: LEVELS.HIGH_ENERGY_UNPLEASANT,
+          feeling: energyLevel.highEnergyLevelUnpleasant[i],
+          userId: user.id,
+        };
+      }
+    );
+
+    await prisma.mood.createMany({
+      data: highEnergyUnpleasantMoodData,
+    });
+
+    const lowEnergyPleasantActivityData = Array.from(Array(3).keys()).map(
+      (_, i) => {
+        return {
+          name: faker.word.words(3),
+          description: faker.lorem.text(),
+          energyLevel: LEVELS.LOW_ENERGY_PLEASANT,
+          feeling: energyLevel.highEnergyPleasant[i],
+          userId: user.id,
+        };
+      }
+    );
+
+    await prisma.activity.createMany({
+      data: lowEnergyPleasantActivityData,
+    });
+
+    const lowEnergyUnpleasantActivityData = Array.from(Array(3).keys()).map(
+      (_, i) => {
+        return {
+          name: faker.word.words(3),
+          description: faker.lorem.text(),
+          energyLevel: LEVELS.LOW_ENERGY_UNPLEASANT,
+          feeling: energyLevel.lowEnergyUnpleasant[i],
+          userId: user.id,
+        };
+      }
+    );
+
+    await prisma.activity.createMany({
+      data: lowEnergyUnpleasantActivityData,
+    });
+
+    const highEnergyPleasantActivityData = Array.from(Array(3).keys()).map(
+      (_, i) => {
+        return {
+          name: faker.word.words(3),
+          description: faker.lorem.text(),
+          energyLevel: LEVELS.HIGH_ENERGY_PLEASANT,
+          feeling: energyLevel.highEnergyPleasant[i],
+          userId: user.id,
+        };
+      }
+    );
+
+    await prisma.activity.createMany({
+      data: highEnergyPleasantActivityData,
+    });
+
+    const highEnergyUnpleasantActivityData = Array.from(Array(3).keys()).map(
+      (_, i) => {
+        return {
+          name: faker.word.words(3),
+          description: faker.lorem.text(),
+          energyLevel: LEVELS.HIGH_ENERGY_UNPLEASANT,
+          feeling: energyLevel.highEnergyLevelUnpleasant[i],
+          userId: user.id,
+        };
+      }
+    );
+
+    await prisma.activity.createMany({
+      data: highEnergyUnpleasantActivityData,
     });
   } catch (e) {
     console.log("Error in seeding", e);

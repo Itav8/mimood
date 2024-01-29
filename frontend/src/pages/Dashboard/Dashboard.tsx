@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { EnergyLevels } from "../../constants/constants";
+import { Box, Heading } from "@chakra-ui/react";
 
 interface Mood {
   id: string;
@@ -107,29 +108,35 @@ export const Dashboard = () => {
     fetchActivity();
     fetchUserEnergyLevel();
   }, [cookies]);
-
   return (
     <>
       <div>
-        <h1>Dashboard</h1>
-        <h2>My Moods</h2>
+        <Heading as="h1" size="2xl">
+          Dashboard
+        </Heading>
+        <Heading as="h2">My Moods</Heading>
         {moods.length > 0 ? (
-          moods.map((mood, id) => (
-            <h3
-              key={id}
-              style={{
-                backgroundColor: energyLevelColors[mood.energyLevel],
-                margin: 0,
-              }}
-            >
-              {mood.energyLevel}
-            </h3>
-          ))
+          moods.map((mood, id) => {
+            return (
+              <Box
+                as="div"
+                key={id}
+                w="100%"
+                h="30px"
+                my="1px"
+                cursor="pointer"
+                bgColor={energyLevelColors[mood.energyLevel]}
+                _hover={{
+                  boxShadow: "-2px 3px 21px 15px rgba(255,255,255,1)",
+                }}
+              />
+            );
+          })
         ) : (
           <h3>No Data</h3>
         )}
 
-        <h2>My Activities</h2>
+        <Heading as="h2">My Activities</Heading>
         {activities.length > 0 ? (
           activities.map((activity) => {
             return (

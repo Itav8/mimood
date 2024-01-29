@@ -145,7 +145,9 @@ export const Signup = (props: SignupProps) => {
 
   return (
     <div>
-      <Heading size="md">Sign Up</Heading>
+      <Heading size="md" textAlign="center">
+        Sign Up
+      </Heading>
       <Box as="form" my={3} onSubmit={handleSubmit}>
         <FormControl isInvalid isRequired={formError.firstName}>
           <FormLabel htmlFor="firstName">First Name:</FormLabel>

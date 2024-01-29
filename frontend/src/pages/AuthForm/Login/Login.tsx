@@ -115,7 +115,7 @@ export const Login = (props: LoginProp) => {
 
   return (
     <div>
-      <Heading size="md">Login</Heading>
+      <Heading size="md" textAlign='center'>Login</Heading>
       <Box as="form" my={3} onSubmit={handleSubmit}>
         <FormControl isInvalid={formError.email}>
           <FormLabel htmlFor="email">Email:</FormLabel>
