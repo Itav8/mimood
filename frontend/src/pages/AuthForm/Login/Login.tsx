@@ -1,3 +1,11 @@
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+} from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -16,6 +24,7 @@ export const Login = (props: LoginProp) => {
     email: "",
     password: "",
   });
+
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -59,27 +68,28 @@ export const Login = (props: LoginProp) => {
         navigate("/dashboard");
       }
     } catch (e) {
-      console.log("SIGN UP ERROR", e);
+      console.log("LOGIN ERROR", e);
     }
   };
 
   return (
     <div>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
+      <Heading size="md">Login</Heading>
+      <Box as="form" my={3} onSubmit={handleSubmit}>
+        <FormControl>
+          <FormLabel htmlFor="email">Email:</FormLabel>
+          <Input
             type="email"
             id="email"
             name="email"
             value={login.email}
             onChange={handleFormChange}
           />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
+        </FormControl>
+
+        <FormControl>
+          <FormLabel htmlFor="password">Password:</FormLabel>
+          <Input
             type="password"
             autoComplete="on"
             id="password"
@@ -87,11 +97,11 @@ export const Login = (props: LoginProp) => {
             value={login.password}
             onChange={handleFormChange}
           />
-        </div>
-        <div>
-          <button>Login</button>
-        </div>
-      </form>
+        </FormControl>
+        <Button type="submit" mt={3}>
+          Login
+        </Button>
+      </Box>
     </div>
   );
 };

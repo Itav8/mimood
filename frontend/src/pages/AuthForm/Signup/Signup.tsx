@@ -1,3 +1,4 @@
+import { EmailIcon } from "@chakra-ui/icons";
 import {
   Button,
   FormControl,
@@ -5,6 +6,9 @@ import {
   Input,
   Heading,
   Box,
+  InputRightElement,
+  InputGroup,
+  InputLeftElement,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -38,6 +42,12 @@ export const Signup = (props: SignupProps) => {
     email: false,
     password: false,
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClick = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -137,7 +147,7 @@ export const Signup = (props: SignupProps) => {
     <div>
       <Heading size="md">Sign Up</Heading>
       <Box as="form" my={3} onSubmit={handleSubmit}>
-        <FormControl isInvalid={formErrors.firstName}>
+        <FormControl isRequired isInvalid={formErrors.firstName}>
           <FormLabel htmlFor="firstName">First Name:</FormLabel>
           <Input
             type="text"
@@ -145,10 +155,11 @@ export const Signup = (props: SignupProps) => {
             name="firstName"
             value={signupForm.firstName}
             onChange={handleFormChange}
+            placeholder="Enter first name"
           />
         </FormControl>
 
-        <FormControl isInvalid={formErrors.lastName}>
+        <FormControl isRequired isInvalid={formErrors.lastName}>
           <FormLabel htmlFor="lastName">Last Name:</FormLabel>
           <Input
             type="text"
@@ -156,6 +167,7 @@ export const Signup = (props: SignupProps) => {
             name="lastName"
             value={signupForm.lastName}
             onChange={handleFormChange}
+            placeholder="Enter last name"
           />
         </FormControl>
 
@@ -169,27 +181,41 @@ export const Signup = (props: SignupProps) => {
           />
         </FormControl>
 
-        <FormControl isInvalid={formErrors.email}>
+        <FormControl isRequired isInvalid={formErrors.email}>
           <FormLabel htmlFor="email">Email:</FormLabel>
-          <Input
-            type="email"
-            id="email"
-            name="email"
-            value={signupForm.email}
-            onChange={handleFormChange}
-          />
+          <InputGroup>
+          <InputLeftElement>
+          <EmailIcon></EmailIcon>
+          </InputLeftElement>
+            <Input
+              type="email"
+              id="email"
+              name="email"
+              value={signupForm.email}
+              onChange={handleFormChange}
+              placeholder="Enter email"
+            />
+          </InputGroup>
         </FormControl>
 
-        <FormControl isInvalid={formErrors.password}>
+        <FormControl isRequired isInvalid={formErrors.password}>
           <FormLabel htmlFor="password">Password:</FormLabel>
-          <Input
-            type="password"
-            autoComplete="on"
-            id="password"
-            name="password"
-            value={signupForm.password}
-            onChange={handleFormChange}
-          />
+          <InputGroup>
+            <Input
+              type={showPassword ? "text" : "password"}
+              autoComplete="on"
+              id="password"
+              name="password"
+              value={signupForm.password}
+              onChange={handleFormChange}
+              placeholder="Enter password"
+            />
+            <InputRightElement width="4.5rem" mr={3}>
+              <Button h="1.75rem" size="sm" onClick={handleClick}>
+                {showPassword ? "Hide" : "Show"}
+              </Button>
+            </InputRightElement>
+          </InputGroup>
         </FormControl>
         <Button type="submit" mt={3}>
           Sign Up
