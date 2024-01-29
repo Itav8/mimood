@@ -184,9 +184,9 @@ export const Signup = (props: SignupProps) => {
         <FormControl isRequired isInvalid={formErrors.email}>
           <FormLabel htmlFor="email">Email:</FormLabel>
           <InputGroup>
-          <InputLeftElement>
-          <EmailIcon></EmailIcon>
-          </InputLeftElement>
+            <InputLeftElement>
+              <EmailIcon />
+            </InputLeftElement>
             <Input
               type="email"
               id="email"

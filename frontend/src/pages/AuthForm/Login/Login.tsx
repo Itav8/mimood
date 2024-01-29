@@ -1,3 +1,4 @@
+import { EmailIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -5,6 +6,9 @@ import {
   FormLabel,
   Heading,
   Input,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -24,7 +28,11 @@ export const Login = (props: LoginProp) => {
     email: "",
     password: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
 
+  const handleClick = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -78,25 +86,39 @@ export const Login = (props: LoginProp) => {
       <Box as="form" my={3} onSubmit={handleSubmit}>
         <FormControl>
           <FormLabel htmlFor="email">Email:</FormLabel>
-          <Input
-            type="email"
-            id="email"
-            name="email"
-            value={login.email}
-            onChange={handleFormChange}
-          />
+          <InputGroup>
+            <InputLeftElement>
+              <EmailIcon />
+            </InputLeftElement>
+            <Input
+              type="email"
+              id="email"
+              name="email"
+              value={login.email}
+              onChange={handleFormChange}
+              placeholder="Enter email"
+            />
+          </InputGroup>
         </FormControl>
 
         <FormControl>
           <FormLabel htmlFor="password">Password:</FormLabel>
-          <Input
-            type="password"
-            autoComplete="on"
-            id="password"
-            name="password"
-            value={login.password}
-            onChange={handleFormChange}
-          />
+          <InputGroup>
+            <Input
+              type={showPassword ? "text" : "password"}
+              autoComplete="on"
+              id="password"
+              name="password"
+              value={login.password}
+              onChange={handleFormChange}
+              placeholder="Enter password"
+            />
+            <InputRightElement width="4.5rem" mr={3}>
+              <Button h="1.75rem" size="sm" onClick={handleClick}>
+                {showPassword ? "Hide" : "Show"}
+              </Button>
+            </InputRightElement>
+          </InputGroup>
         </FormControl>
         <Button type="submit" mt={3}>
           Login
