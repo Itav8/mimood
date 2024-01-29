@@ -111,7 +111,7 @@ export const Dashboard = () => {
   return (
     <>
       <div>
-        <Heading as="h1" size="2xl">
+        <Heading as="h1" size="2xl" textAlign='center'>
           Dashboard
         </Heading>
         <Heading as="h2">My Moods</Heading>

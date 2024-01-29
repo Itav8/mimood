@@ -7,6 +7,7 @@ export const NavBar = () => {
 
   return (
     <Stack
+      mb="30px"
       direction={{ base: "column", md: "row" }}
       alignItems="center"
       justifyContent={{ base: "initial", md: "space-between" }}

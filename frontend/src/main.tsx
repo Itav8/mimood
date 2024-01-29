@@ -31,6 +31,11 @@ const components = {
     },
   },
   Button: ButtonTheme,
+  Heading: {
+    baseStyle: {
+      color: 'orange.700'
+    }
+  }
 };
 
 const theme = extendTheme({
