@@ -3,7 +3,18 @@ import { EnergyLevel } from "../../components/EnergyLevel/EnergyLevel";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { EnergyLevels, EnergyLevelsMap } from "../../constants/constants";
-import { Container, Heading } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Container,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  Select,
+  Text,
+  Textarea,
+} from "@chakra-ui/react";
 
 interface MoodForm {
   feeling: string;
@@ -95,7 +106,11 @@ export const MoodForm = () => {
   };
 
   const handleFormChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      | HTMLInputElement
+      | HTMLSelectElement
+      | ChangeEventHandler<HTMLTextAreaElement>
+    >
   ) => {
     const value = e.target.value;
     const inputName = e.target.name;
@@ -149,40 +164,45 @@ export const MoodForm = () => {
         <EnergyLevel onClick={onEnergyLevelClick} />
       ) : null}
 
-      <form onSubmit={handleSubmit}>
+      <Box as="form" onSubmit={handleSubmit}>
         {selectedEnergyLevel ? (
           <div>
-            <div
-              style={{
-                backgroundColor: energyLevelColors[selectedEnergyLevel],
-              }}
+            <Box
+              p="10px"
+              borderRadius="10px"
+              backgroundColor={energyLevelColors[selectedEnergyLevel]}
             >
-              {selectedEnergyLevel}
-            </div>
-            <div>
-              <select id="feeling" name="feeling" onChange={handleFormChange}>
-                <option value="">Choose a feeling...</option>
+              <Text fontSize="sm">{selectedEnergyLevel}</Text>
+            </Box>
+            <FormControl>
+              <Select
+                mt={3}
+                id="feeling"
+                placeholder="Select a feeling"
+                onChange={handleFormChange}
+              >
                 {selectedFeelings.map((selectedFeeling, i) => {
                   return <option key={i}>{selectedFeeling.feelings}</option>;
                 })}
-              </select>
-            </div>
-            <div>
-              <label htmlFor="description">Description:</label>
-              <input
-                type="text"
+              </Select>
+            </FormControl>
+
+            <FormControl>
+              <FormLabel htmlFor="description">Description:</FormLabel>
+              <Textarea
                 id="description"
                 name="description"
                 value={form.description}
                 onChange={handleFormChange}
               />
-            </div>
-            <div>
-              <button>Log Mood</button>
-            </div>
+            </FormControl>
+
+            <Button type="submit" mt={3}>
+              Log Mood
+            </Button>
           </div>
         ) : null}
-      </form>
+      </Box>
     </Container>
   );
 };

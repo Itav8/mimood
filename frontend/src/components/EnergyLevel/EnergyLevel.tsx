@@ -93,7 +93,6 @@ export const EnergyLevel = ({ onClick }: EnergyLevelProps) => {
       </Heading>
       <SimpleGrid columns={2} spacing={10} width="fit-content">
         {energyLevels.map((energyLevel, i) => {
-          console.log(energyLevelColors);
           return (
             <Box
               width="200px"
