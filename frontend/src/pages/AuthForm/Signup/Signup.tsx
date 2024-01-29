@@ -1,3 +1,11 @@
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Heading,
+  Box,
+} from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -23,6 +31,14 @@ export const Signup = (props: SignupProps) => {
     password: "",
   });
 
+  const [formErrors, setFormErrors] = useState({
+    firstName: false,
+    lastName: false,
+    color: false,
+    email: false,
+    password: false,
+  });
+
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const inputName = e.target.name;
@@ -31,6 +47,44 @@ export const Signup = (props: SignupProps) => {
       ...signupForm,
       [inputName]: value,
     });
+  };
+
+  const isFormValid = (form: SignupForm) => {
+    const { firstName, lastName, email, password } = form;
+
+    const errors = {
+      firstName: false,
+      lastName: false,
+      email: false,
+      password: false,
+    };
+
+    if (!firstName) {
+      errors.firstName = true;
+    }
+
+    if (!lastName) {
+      errors.lastName = true;
+    }
+
+    if (!email) {
+      errors.email = true;
+    }
+
+    if (!password) {
+      errors.password = true;
+    }
+
+    setFormErrors({
+      ...formErrors,
+      ...errors,
+    });
+
+    if (Object.values(errors).some((val) => val)) {
+      return false;
+    }
+
+    return true;
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -45,6 +99,10 @@ export const Signup = (props: SignupProps) => {
       email: signupForm.email,
       password: signupForm.password,
     };
+
+    if (!isFormValid(data)) {
+      return;
+    }
 
     const fetchConfig: RequestInit = {
       method: "post",
@@ -67,7 +125,7 @@ export const Signup = (props: SignupProps) => {
           password: "",
         });
 
-        props.onSubmit;
+        props.onSubmit();
         navigate("/dashboard");
       }
     } catch (e) {
@@ -77,51 +135,54 @@ export const Signup = (props: SignupProps) => {
 
   return (
     <div>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="firstName">First Name:</label>
-          <input
+      <Heading size="md">Sign Up</Heading>
+      <Box as="form" my={3} onSubmit={handleSubmit}>
+        <FormControl isInvalid={formErrors.firstName}>
+          <FormLabel htmlFor="firstName">First Name:</FormLabel>
+          <Input
             type="text"
             id="firstName"
             name="firstName"
             value={signupForm.firstName}
             onChange={handleFormChange}
           />
-        </div>
-        <div>
-          <label htmlFor="lastName">Last Name:</label>
-          <input
+        </FormControl>
+
+        <FormControl isInvalid={formErrors.lastName}>
+          <FormLabel htmlFor="lastName">Last Name:</FormLabel>
+          <Input
             type="text"
             id="lastName"
             name="lastName"
             value={signupForm.lastName}
             onChange={handleFormChange}
           />
-        </div>
-        <div>
-          <label htmlFor="color">Favorite Color:</label>
-          <input
+        </FormControl>
+
+        <FormControl>
+          <FormLabel htmlFor="color">Favorite Color:</FormLabel>
+          <Input
             type="color"
             id="color"
             name="color"
-            // value={signupForm.color}
             onChange={handleFormChange}
           />
-        </div>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
+        </FormControl>
+
+        <FormControl isInvalid={formErrors.email}>
+          <FormLabel htmlFor="email">Email:</FormLabel>
+          <Input
             type="email"
             id="email"
             name="email"
             value={signupForm.email}
             onChange={handleFormChange}
           />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
+        </FormControl>
+
+        <FormControl isInvalid={formErrors.password}>
+          <FormLabel htmlFor="password">Password:</FormLabel>
+          <Input
             type="password"
             autoComplete="on"
             id="password"
@@ -129,11 +190,11 @@ export const Signup = (props: SignupProps) => {
             value={signupForm.password}
             onChange={handleFormChange}
           />
-        </div>
-        <div>
-          <button>Sign Up</button>
-        </div>
-      </form>
+        </FormControl>
+        <Button type="submit" mt={3}>
+          Sign Up
+        </Button>
+      </Box>
     </div>
   );
 };
