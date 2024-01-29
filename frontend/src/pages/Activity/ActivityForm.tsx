@@ -3,6 +3,7 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { EnergyLevels, EnergyLevelsMap } from "../../constants/constants";
 import { EnergyLevel } from "../../components/EnergyLevel/EnergyLevel";
+import { Container, Heading } from "@chakra-ui/react";
 
 interface ActivityForm {
   name: string;
@@ -146,8 +147,8 @@ export const ActivityForm = () => {
   };
 
   return (
-    <div>
-      <h1>New Activity</h1>
+    <Container>
+      <Heading mb="30px">New Activity</Heading>
       {!selectedEnergyLevel ? (
         <EnergyLevel onClick={onEnergyLevelClick} />
       ) : null}
@@ -196,6 +197,6 @@ export const ActivityForm = () => {
           </div>
         ) : null}
       </form>
-    </div>
+    </Container>
   );
 };

@@ -3,6 +3,7 @@ import { EnergyLevel } from "../../components/EnergyLevel/EnergyLevel";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { EnergyLevels, EnergyLevelsMap } from "../../constants/constants";
+import { Container, Heading } from "@chakra-ui/react";
 
 interface MoodForm {
   feeling: string;
@@ -142,8 +143,8 @@ export const MoodForm = () => {
   };
 
   return (
-    <div>
-      <h1>New Mood</h1>
+    <Container>
+      <Heading mb="30px">New Mood</Heading>
       {!selectedEnergyLevel ? (
         <EnergyLevel onClick={onEnergyLevelClick} />
       ) : null}
@@ -182,6 +183,6 @@ export const MoodForm = () => {
           </div>
         ) : null}
       </form>
-    </div>
+    </Container>
   );
 };
