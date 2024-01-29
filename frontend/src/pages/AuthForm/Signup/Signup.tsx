@@ -35,7 +35,7 @@ export const Signup = (props: SignupProps) => {
     password: "",
   });
 
-  const [formErrors, setFormErrors] = useState({
+  const [formError, setFormError] = useState({
     firstName: false,
     lastName: false,
     color: false,
@@ -62,7 +62,7 @@ export const Signup = (props: SignupProps) => {
   const isFormValid = (form: SignupForm) => {
     const { firstName, lastName, email, password } = form;
 
-    const errors = {
+    const error = {
       firstName: false,
       lastName: false,
       email: false,
@@ -70,27 +70,27 @@ export const Signup = (props: SignupProps) => {
     };
 
     if (!firstName) {
-      errors.firstName = true;
+      error.firstName = true;
     }
 
     if (!lastName) {
-      errors.lastName = true;
+      error.lastName = true;
     }
 
     if (!email) {
-      errors.email = true;
+      error.email = true;
     }
 
     if (!password) {
-      errors.password = true;
+      error.password = true;
     }
 
-    setFormErrors({
-      ...formErrors,
-      ...errors,
+    setFormError({
+      ...formError,
+      ...error,
     });
 
-    if (Object.values(errors).some((val) => val)) {
+    if (Object.values(error).some((val) => val)) {
       return false;
     }
 
@@ -147,7 +147,7 @@ export const Signup = (props: SignupProps) => {
     <div>
       <Heading size="md">Sign Up</Heading>
       <Box as="form" my={3} onSubmit={handleSubmit}>
-        <FormControl isRequired isInvalid={formErrors.firstName}>
+        <FormControl isInvalid isRequired={formError.firstName}>
           <FormLabel htmlFor="firstName">First Name:</FormLabel>
           <Input
             type="text"
@@ -159,7 +159,7 @@ export const Signup = (props: SignupProps) => {
           />
         </FormControl>
 
-        <FormControl isRequired isInvalid={formErrors.lastName}>
+        <FormControl isInvalid isRequired={formError.lastName}>
           <FormLabel htmlFor="lastName">Last Name:</FormLabel>
           <Input
             type="text"
@@ -181,7 +181,7 @@ export const Signup = (props: SignupProps) => {
           />
         </FormControl>
 
-        <FormControl isRequired isInvalid={formErrors.email}>
+        <FormControl isInvalid isRequired={formError.email}>
           <FormLabel htmlFor="email">Email:</FormLabel>
           <InputGroup>
             <InputLeftElement>
@@ -198,7 +198,7 @@ export const Signup = (props: SignupProps) => {
           </InputGroup>
         </FormControl>
 
-        <FormControl isRequired isInvalid={formErrors.password}>
+        <FormControl isInvalid isRequired={formError.password}>
           <FormLabel htmlFor="password">Password:</FormLabel>
           <InputGroup>
             <Input

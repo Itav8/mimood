@@ -28,11 +28,16 @@ export const Login = (props: LoginProp) => {
     email: "",
     password: "",
   });
+  const [formError, setFormError] = useState({
+    email: false,
+    password: false,
+  });
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClick = () => {
     setShowPassword(!showPassword);
   };
+
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -44,6 +49,30 @@ export const Login = (props: LoginProp) => {
     });
   };
 
+  const isFormValid = (form: LoginForm) => {
+    const error = {
+      email: false,
+      password: false,
+    };
+
+    if (!form.email) {
+      error.email = true;
+    }
+    if (!form.password) {
+      error.password = true;
+    }
+
+    setFormError({
+      ...formError,
+      ...error,
+    });
+
+    if (Object.values(error).some((val) => val)) {
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -53,6 +82,10 @@ export const Login = (props: LoginProp) => {
       email: login.email,
       password: login.password,
     };
+
+    if (!isFormValid(data)) {
+      return;
+    }
 
     const fetchConfig: RequestInit = {
       method: "post",
@@ -72,7 +105,7 @@ export const Login = (props: LoginProp) => {
           password: "",
         });
 
-        props.onSubmit;
+        props.onSubmit();
         navigate("/dashboard");
       }
     } catch (e) {
@@ -84,7 +117,7 @@ export const Login = (props: LoginProp) => {
     <div>
       <Heading size="md">Login</Heading>
       <Box as="form" my={3} onSubmit={handleSubmit}>
-        <FormControl>
+        <FormControl isInvalid={formError.email}>
           <FormLabel htmlFor="email">Email:</FormLabel>
           <InputGroup>
             <InputLeftElement>
@@ -101,7 +134,7 @@ export const Login = (props: LoginProp) => {
           </InputGroup>
         </FormControl>
 
-        <FormControl>
+        <FormControl isInvalid={formError.password}>
           <FormLabel htmlFor="password">Password:</FormLabel>
           <InputGroup>
             <Input
