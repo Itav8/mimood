@@ -7,11 +7,6 @@ import { CookiesProvider } from "react-cookie";
 import { extendTheme } from "@chakra-ui/react";
 import { ButtonTheme } from "./theme/ButtonTheme";
 
-// import type { ComponentStyleConfig } from "@chakra-ui/theme";
-
-
-
-// example theme
 const config = {
   useSystemColorMode: true,
   initialColorMode: "dark",

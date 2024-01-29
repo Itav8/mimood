@@ -100,6 +100,9 @@ export const EnergyLevel = ({ onClick }: EnergyLevelProps) => {
               borderRadius="50%"
               bg={energyLevelColors[energyLevel.level]}
               key={i}
+              _hover={{
+                transform: "scale(1.05, 1.05)",
+              }}
               className="energyLevel-container"
               onClick={() => {
                 onClick(energyLevel.level);
@@ -108,7 +111,10 @@ export const EnergyLevel = ({ onClick }: EnergyLevelProps) => {
               alignItems="center"
               textAlign="center"
             >
-              <Text fontSize="sm" wordBreak="break-word">
+              <Text
+                fontSize="sm"
+                wordBreak="break-word"
+              >
                 {energyLevel.level}
               </Text>
             </Box>
