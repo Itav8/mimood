@@ -3,7 +3,17 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { EnergyLevels, EnergyLevelsMap } from "../../constants/constants";
 import { EnergyLevel } from "../../components/EnergyLevel/EnergyLevel";
-import { Container, Heading } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Container,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  Select,
+  Textarea,
+} from "@chakra-ui/react";
 
 interface ActivityForm {
   name: string;
@@ -98,7 +108,9 @@ export const ActivityForm = () => {
   };
 
   const handleFormChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ) => {
     const value = e.target.value;
     const inputName = e.target.name;
@@ -153,50 +165,55 @@ export const ActivityForm = () => {
         <EnergyLevel onClick={onEnergyLevelClick} />
       ) : null}
 
-      <form onSubmit={handleSubmit}>
+      <Box as="form" onSubmit={handleSubmit}>
         {selectedEnergyLevel ? (
           <div>
-            <div
-              style={{
-                backgroundColor: energyLevelColors[selectedEnergyLevel],
-              }}
+            <Box
+              p="10px"
+              borderRadius="10px"
+              backgroundColor={energyLevelColors[selectedEnergyLevel]}
             >
               {selectedEnergyLevel}
-            </div>
-            <div>
-              <label htmlFor="name">Name:</label>
-              <input
+            </Box>
+            <FormControl>
+              <FormLabel htmlFor="name">Name:</FormLabel>
+              <Input
                 type="text"
                 id="name"
                 name="name"
                 value={form.name}
                 onChange={handleFormChange}
+                placeholder="Enter an activity"
               />
-            </div>
-            <div>
-              <select id="feeling" name="feeling" onChange={handleFormChange}>
-                <option value="">Choose a feeling...</option>
+            </FormControl>
+
+            <FormControl>
+              <FormLabel htmlFor="feeling">Feeling:</FormLabel>
+              <Select
+                placeholder="Select a feeling"
+                onChange={handleFormChange}
+              >
                 {selectedFeelings.map((selectedFeeling, i) => {
                   return <option key={i}>{selectedFeeling.feelings}</option>;
                 })}
-              </select>
-              <div>
-                <label htmlFor="description">Description:</label>
-                <input
-                  type="text"
-                  id="description"
-                  name="description"
-                  value={form.description}
-                  onChange={handleFormChange}
-                />
-              </div>
-              <div>
-                <button>Log Activity</button>
-              </div>
-            </div>
+              </Select>
+            </FormControl>
+
+            <FormControl>
+              <FormLabel htmlFor="description">Description:</FormLabel>
+              <Textarea
+                id="description"
+                name="description"
+                value={form.description}
+                onChange={handleFormChange}
+              />
+            </FormControl>
+            <Button type="submit" mt={30}>
+              Log Activity
+            </Button>
           </div>
         ) : null}
-      </form>
+      </Box>
     </Container>
   );
 };

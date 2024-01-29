@@ -10,7 +10,6 @@ import {
   FormControl,
   FormLabel,
   Heading,
-  Input,
   Select,
   Text,
   Textarea,
@@ -109,7 +108,7 @@ export const MoodForm = () => {
     e: React.ChangeEvent<
       | HTMLInputElement
       | HTMLSelectElement
-      | ChangeEventHandler<HTMLTextAreaElement>
+      | HTMLTextAreaElement
     >
   ) => {
     const value = e.target.value;
@@ -175,6 +174,7 @@ export const MoodForm = () => {
               <Text fontSize="sm">{selectedEnergyLevel}</Text>
             </Box>
             <FormControl>
+              <FormLabel htmlFor="feeling">Feeling:</FormLabel>
               <Select
                 mt={3}
                 id="feeling"
