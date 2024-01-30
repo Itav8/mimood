@@ -95,7 +95,7 @@ export const EnergyLevel = ({ onClick }: EnergyLevelProps) => {
         {energyLevels.map((energyLevel, i) => {
           return (
             <Box
-              width={{ base: "100px", md: "200px", sm: "150px"}}
+              width={{ base: "100px", md: "200px", sm: "150px" }}
               height={{ base: "100px", md: "200px", sm: "150px" }}
               borderRadius="50%"
               bg={energyLevelColors[energyLevel.level]}
