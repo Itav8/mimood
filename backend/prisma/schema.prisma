@@ -55,7 +55,7 @@ model UserEnergyLevel {
 model Mood {
   id              String   @id @default(uuid())
   feeling         String
-  description     String?
+  description     String
   createdDatetime DateTime @default(now())
   updatedDatetime DateTime @updatedAt
 
@@ -69,7 +69,7 @@ model Activity {
   id              String   @id @default(uuid())
   feeling         String
   name            String
-  description     String?
+  description     String
   createdDatetime DateTime @default(now())
   updatedDatetime DateTime @updatedAt
 
