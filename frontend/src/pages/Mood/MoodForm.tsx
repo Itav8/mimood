@@ -173,7 +173,7 @@ export const MoodForm = () => {
             </Button>
             <Collapse
               in={isOpen}
-              transition={{ exit: {duration: 0.5}, enter: { duration: 0.5 } }}
+              transition={{ exit: { duration: 0.5 }, enter: { duration: 0.5 } }}
             >
               <Center onClick={onToggle}>
                 <Box mb={30}>
@@ -189,7 +189,9 @@ export const MoodForm = () => {
               <Text fontSize="sm">{selectedEnergyLevel}</Text>
             </Box>
             <FormControl>
-              <FormLabel htmlFor="feeling">Feeling:</FormLabel>
+              <FormLabel htmlFor="feeling" color="orange.800">
+                Feeling:
+              </FormLabel>
               <Select
                 mt={3}
                 id="feeling"
@@ -203,7 +205,9 @@ export const MoodForm = () => {
             </FormControl>
 
             <FormControl>
-              <FormLabel htmlFor="description">Description:</FormLabel>
+              <FormLabel htmlFor="description" color="orange.800">
+                Description:
+              </FormLabel>
               <Textarea
                 id="description"
                 name="description"

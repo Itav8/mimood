@@ -194,7 +194,9 @@ export const ActivityForm = () => {
               {selectedEnergyLevel}
             </Box>
             <FormControl my={5}>
-              <FormLabel htmlFor="name">Name:</FormLabel>
+              <FormLabel htmlFor="name" color="orange.800">
+                Name:
+              </FormLabel>
               <Input
                 type="text"
                 id="name"
@@ -206,7 +208,9 @@ export const ActivityForm = () => {
             </FormControl>
 
             <FormControl my={5}>
-              <FormLabel htmlFor="feeling">Feeling:</FormLabel>
+              <FormLabel htmlFor="feeling" color="orange.800">
+                Feeling:
+              </FormLabel>
               <Select
                 placeholder="Select a feeling"
                 onChange={handleFormChange}
@@ -218,7 +222,9 @@ export const ActivityForm = () => {
             </FormControl>
 
             <FormControl my={5}>
-              <FormLabel htmlFor="description">Description:</FormLabel>
+              <FormLabel htmlFor="description" color="orange.800">
+                Description:
+              </FormLabel>
               <Textarea
                 id="description"
                 name="description"

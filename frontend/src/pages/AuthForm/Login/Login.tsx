@@ -38,7 +38,6 @@ export const Login = (props: LoginProp) => {
     setShowPassword(!showPassword);
   };
 
-
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const inputName = e.target.name;
@@ -115,13 +114,17 @@ export const Login = (props: LoginProp) => {
 
   return (
     <div>
-      <Heading size="md" textAlign='center'>Login</Heading>
+      <Heading size="md" textAlign="center">
+        Login
+      </Heading>
       <Box as="form" my={3} onSubmit={handleSubmit}>
         <FormControl isInvalid={formError.email}>
-          <FormLabel htmlFor="email">Email:</FormLabel>
+          <FormLabel htmlFor="email" color="orange.800">
+            Email:
+          </FormLabel>
           <InputGroup>
             <InputLeftElement>
-              <EmailIcon />
+              <EmailIcon color="orange.700" />
             </InputLeftElement>
             <Input
               type="email"
@@ -135,7 +138,9 @@ export const Login = (props: LoginProp) => {
         </FormControl>
 
         <FormControl isInvalid={formError.password}>
-          <FormLabel htmlFor="password">Password:</FormLabel>
+          <FormLabel htmlFor="password" color="orange.800">
+            Password:
+          </FormLabel>
           <InputGroup>
             <Input
               type={showPassword ? "text" : "password"}

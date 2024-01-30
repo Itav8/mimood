@@ -150,7 +150,9 @@ export const Signup = (props: SignupProps) => {
       </Heading>
       <Box as="form" my={3} onSubmit={handleSubmit}>
         <FormControl isInvalid isRequired={formError.firstName}>
-          <FormLabel htmlFor="firstName">First Name:</FormLabel>
+          <FormLabel htmlFor="firstName" color="orange.800">
+            First Name:
+          </FormLabel>
           <Input
             type="text"
             id="firstName"
@@ -162,7 +164,9 @@ export const Signup = (props: SignupProps) => {
         </FormControl>
 
         <FormControl isInvalid isRequired={formError.lastName}>
-          <FormLabel htmlFor="lastName">Last Name:</FormLabel>
+          <FormLabel htmlFor="lastName" color="orange.800">
+            Last Name:
+          </FormLabel>
           <Input
             type="text"
             id="lastName"
@@ -174,7 +178,9 @@ export const Signup = (props: SignupProps) => {
         </FormControl>
 
         <FormControl>
-          <FormLabel htmlFor="color">Favorite Color:</FormLabel>
+          <FormLabel htmlFor="color" color="orange.800">
+            Favorite Color:
+          </FormLabel>
           <Input
             type="color"
             id="color"
@@ -184,10 +190,12 @@ export const Signup = (props: SignupProps) => {
         </FormControl>
 
         <FormControl isInvalid isRequired={formError.email}>
-          <FormLabel htmlFor="email">Email:</FormLabel>
+          <FormLabel htmlFor="email" color="orange.800">
+            Email:
+          </FormLabel>
           <InputGroup>
             <InputLeftElement>
-              <EmailIcon />
+              <EmailIcon color="orange.700" />
             </InputLeftElement>
             <Input
               type="email"
@@ -201,7 +209,9 @@ export const Signup = (props: SignupProps) => {
         </FormControl>
 
         <FormControl isInvalid isRequired={formError.password}>
-          <FormLabel htmlFor="password">Password:</FormLabel>
+          <FormLabel htmlFor="password" color="orange.800">
+            Password:
+          </FormLabel>
           <InputGroup>
             <Input
               type={showPassword ? "text" : "password"}
