@@ -6,6 +6,8 @@ import { EnergyLevels, EnergyLevelsMap } from "../../constants/constants";
 import {
   Box,
   Button,
+  Center,
+  Collapse,
   Container,
   FormControl,
   FormLabel,
@@ -13,6 +15,7 @@ import {
   Select,
   Text,
   Textarea,
+  useDisclosure,
 } from "@chakra-ui/react";
 
 interface MoodForm {
@@ -44,6 +47,7 @@ export const MoodForm = () => {
     description: "",
     energyLevel: selectedEnergyLevel,
   });
+  const { isOpen, onToggle } = useDisclosure();
 
   const onEnergyLevelClick = (energyLevel: EnergyLevels) => {
     setSelectedEnergyLevel(energyLevel);
@@ -106,9 +110,7 @@ export const MoodForm = () => {
 
   const handleFormChange = (
     e: React.ChangeEvent<
-      | HTMLInputElement
-      | HTMLSelectElement
-      | HTMLTextAreaElement
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
     >
   ) => {
     const value = e.target.value;
@@ -166,6 +168,19 @@ export const MoodForm = () => {
       <Box as="form" onSubmit={handleSubmit}>
         {selectedEnergyLevel ? (
           <div>
+            <Button mb={30} onClick={onToggle}>
+              Change Energy Level
+            </Button>
+            <Collapse
+              in={isOpen}
+              transition={{ exit: {duration: 0.5}, enter: { duration: 0.5 } }}
+            >
+              <Center onClick={onToggle}>
+                <Box mb={30}>
+                  <EnergyLevel onClick={onEnergyLevelClick} />
+                </Box>
+              </Center>
+            </Collapse>
             <Box
               p="10px"
               borderRadius="10px"

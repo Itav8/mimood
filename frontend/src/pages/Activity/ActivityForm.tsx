@@ -178,7 +178,7 @@ export const ActivityForm = () => {
             </Button>
             <Collapse
               in={isOpen}
-              transition={{ exit: { delay: 1 }, enter: { duration: 0.5 } }}
+              transition={{ exit: { duration: 0.5 }, enter: { duration: 0.5 } }}
             >
               <Center onClick={onToggle}>
                 <Box mb={30}>
