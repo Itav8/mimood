@@ -1,11 +1,21 @@
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { EnergyLevels } from "../../constants/constants";
-import { Box, Heading, Text } from "@chakra-ui/react";
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Heading,
+  Text,
+} from "@chakra-ui/react";
 
 interface Mood {
   id: string;
   feeling: string;
+  description: string;
   energyLevel: EnergyLevels;
 }
 
@@ -13,6 +23,7 @@ interface Activity {
   id: string;
   name: string;
   feeling: string;
+  description: string;
   energyLevel: EnergyLevels;
 }
 
@@ -108,6 +119,8 @@ export const Dashboard = () => {
     fetchActivity();
     fetchUserEnergyLevel();
   }, [cookies]);
+
+  console.log("HERE", activities);
   return (
     <>
       <div>
@@ -120,18 +133,22 @@ export const Dashboard = () => {
         {moods.length > 0 ? (
           moods.map((mood, id) => {
             return (
-              <Box
-                as="div"
-                key={id}
-                w="100%"
-                h="30px"
-                my="1px"
-                cursor="pointer"
-                bgColor={energyLevelColors[mood.energyLevel]}
-                _hover={{
-                  boxShadow: "-2px 3px 21px 15px rgba(255,255,255,1)",
-                }}
-              />
+              <Accordion allowToggle key={id}>
+                <AccordionItem>
+                  <AccordionButton
+                    bgColor={energyLevelColors[mood.energyLevel]}
+                  >
+                    <Box as="span" w="100%" h="30px" />
+                    <AccordionIcon color="orange.800" />
+                  </AccordionButton>
+                  <AccordionPanel>
+                    <Box>
+                      <Text>{mood.feeling}</Text>
+                      <Text mt="5px">{mood.description}</Text>
+                    </Box>
+                  </AccordionPanel>
+                </AccordionItem>
+              </Accordion>
             );
           })
         ) : (
@@ -144,22 +161,24 @@ export const Dashboard = () => {
         {activities.length > 0 ? (
           activities.map((activity) => {
             return (
-              <Box
-                as="div"
-                w="100%"
-                h="30px"
-                my="1px"
-                cursor="pointer"
-                bgColor={energyLevelColors[activity.energyLevel]}
-                _hover={{
-                  boxShadow: "-2px 3px 21px 15px rgba(255,255,255,1)",
-                }}
-                key={activity.id}
-              >
-                <Text ml="10px" fontSize="sm" as="i">
-                  {activity.name}
-                </Text>
-              </Box>
+              <Accordion allowToggle key={activity.id}>
+                <AccordionItem>
+                  <AccordionButton bg={energyLevelColors[activity.energyLevel]}>
+                    <Box as="span" w="100%" h="30px" textAlign="left">
+                      <Text ml="10px" fontSize="sm" as="i">
+                        {activity.name}
+                      </Text>
+                    </Box>
+                    <AccordionIcon color="orange.800" />
+                  </AccordionButton>
+                  <AccordionPanel>
+                    <Box>
+                      <Text>{activity.feeling}</Text>
+                      <Text mt="5px">{activity.description}</Text>
+                    </Box>
+                  </AccordionPanel>
+                </AccordionItem>
+              </Accordion>
             );
           })
         ) : (
