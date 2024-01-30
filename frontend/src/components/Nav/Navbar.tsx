@@ -25,7 +25,7 @@ export const NavBar = () => {
     >
       <IconButton
         mt="10px"
-        ml={{ base: '10px', sm: "10px" }}
+        ml={{ base: "10px", sm: "10px" }}
         mr="10px"
         onClick={onOpen}
         aria-label="theme"
