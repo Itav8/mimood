@@ -10,6 +10,7 @@ import {
   Box,
   Heading,
   Text,
+  Tooltip,
 } from "@chakra-ui/react";
 
 interface Mood {
@@ -136,12 +137,14 @@ export const Dashboard = () => {
             return (
               <Accordion allowToggle key={id}>
                 <AccordionItem>
-                  <AccordionButton
-                    bgColor={energyLevelColors[mood.energyLevel]}
-                  >
-                    <Box as="span" w="100%" h="30px" />
-                    <AccordionIcon color="orange.800" />
-                  </AccordionButton>
+                  <Tooltip label={mood.energyLevel}>
+                    <AccordionButton
+                      bgColor={energyLevelColors[mood.energyLevel]}
+                    >
+                      <Box as="span" w="100%" h="30px" />
+                      <AccordionIcon color="orange.800" />
+                    </AccordionButton>
+                  </Tooltip>
                   <AccordionPanel>
                     <Box>
                       <Text align="right">
@@ -167,14 +170,18 @@ export const Dashboard = () => {
             return (
               <Accordion allowToggle key={activity.id}>
                 <AccordionItem>
-                  <AccordionButton bg={energyLevelColors[activity.energyLevel]}>
-                    <Box as="span" w="100%" h="30px" textAlign="left">
-                      <Text ml="10px" fontSize="sm" as="i">
-                        {activity.name}
-                      </Text>
-                    </Box>
-                    <AccordionIcon color="orange.800" />
-                  </AccordionButton>
+                  <Tooltip label={activity.energyLevel}>
+                    <AccordionButton
+                      bg={energyLevelColors[activity.energyLevel]}
+                    >
+                      <Box as="span" w="100%" h="30px" textAlign="left">
+                        <Text ml="10px" fontSize="sm" as="i">
+                          {activity.name}
+                        </Text>
+                      </Box>
+                      <AccordionIcon color="orange.800" />
+                    </AccordionButton>
+                  </Tooltip>
                   <AccordionPanel>
                     <Box>
                       <Text align="right">
