@@ -17,6 +17,7 @@ interface Mood {
   feeling: string;
   description: string;
   energyLevel: EnergyLevels;
+  createdDatetime: string;
 }
 
 interface Activity {
@@ -25,6 +26,7 @@ interface Activity {
   feeling: string;
   description: string;
   energyLevel: EnergyLevels;
+  createdDatetime: string;
 }
 
 type UserEnergyLevel = {
@@ -120,7 +122,6 @@ export const Dashboard = () => {
     fetchUserEnergyLevel();
   }, [cookies]);
 
-  console.log("HERE", activities);
   return (
     <>
       <div>
@@ -143,6 +144,9 @@ export const Dashboard = () => {
                   </AccordionButton>
                   <AccordionPanel>
                     <Box>
+                      <Text align="right">
+                        {new Date(mood.createdDatetime).toLocaleString()}
+                      </Text>
                       <Text>{mood.feeling}</Text>
                       <Text mt="5px">{mood.description}</Text>
                     </Box>
@@ -173,6 +177,9 @@ export const Dashboard = () => {
                   </AccordionButton>
                   <AccordionPanel>
                     <Box>
+                      <Text align="right">
+                        {new Date(activity.createdDatetime).toLocaleString()}
+                      </Text>
                       <Text>{activity.feeling}</Text>
                       <Text mt="5px">{activity.description}</Text>
                     </Box>
