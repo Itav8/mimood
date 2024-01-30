@@ -111,10 +111,7 @@ export const EnergyLevel = ({ onClick }: EnergyLevelProps) => {
               alignItems="center"
               textAlign="center"
             >
-              <Text
-                fontSize="sm"
-                wordBreak="break-word"
-              >
+              <Text fontSize="sm" wordBreak="break-word">
                 {energyLevel.level}
               </Text>
             </Box>

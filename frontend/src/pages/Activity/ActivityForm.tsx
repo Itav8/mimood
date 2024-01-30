@@ -6,6 +6,8 @@ import { EnergyLevel } from "../../components/EnergyLevel/EnergyLevel";
 import {
   Box,
   Button,
+  Center,
+  Collapse,
   Container,
   FormControl,
   FormLabel,
@@ -13,6 +15,7 @@ import {
   Input,
   Select,
   Textarea,
+  useDisclosure,
 } from "@chakra-ui/react";
 
 interface ActivityForm {
@@ -46,6 +49,7 @@ export const ActivityForm = () => {
     energyLevel: selectedEnergyLevel,
     description: "",
   });
+  const { isOpen, onToggle } = useDisclosure();
 
   const onEnergyLevelClick = (energyLevel: EnergyLevels) => {
     setSelectedEnergyLevel(energyLevel);
@@ -161,6 +165,7 @@ export const ActivityForm = () => {
   return (
     <Container>
       <Heading mb="30px">New Activity</Heading>
+
       {!selectedEnergyLevel ? (
         <EnergyLevel onClick={onEnergyLevelClick} />
       ) : null}
@@ -168,6 +173,19 @@ export const ActivityForm = () => {
       <Box as="form" onSubmit={handleSubmit}>
         {selectedEnergyLevel ? (
           <div>
+            <Button mb={30} onClick={onToggle}>
+              Change Energy Level
+            </Button>
+            <Collapse
+              in={isOpen}
+              transition={{ exit: { delay: 1 }, enter: { duration: 0.5 } }}
+            >
+              <Center onClick={onToggle}>
+                <Box mb={30}>
+                  <EnergyLevel onClick={onEnergyLevelClick} />
+                </Box>
+              </Center>
+            </Collapse>
             <Box
               p="10px"
               borderRadius="10px"
@@ -175,7 +193,7 @@ export const ActivityForm = () => {
             >
               {selectedEnergyLevel}
             </Box>
-            <FormControl>
+            <FormControl my={5}>
               <FormLabel htmlFor="name">Name:</FormLabel>
               <Input
                 type="text"
@@ -187,7 +205,7 @@ export const ActivityForm = () => {
               />
             </FormControl>
 
-            <FormControl>
+            <FormControl my={5}>
               <FormLabel htmlFor="feeling">Feeling:</FormLabel>
               <Select
                 placeholder="Select a feeling"
@@ -199,7 +217,7 @@ export const ActivityForm = () => {
               </Select>
             </FormControl>
 
-            <FormControl>
+            <FormControl my={5}>
               <FormLabel htmlFor="description">Description:</FormLabel>
               <Textarea
                 id="description"
