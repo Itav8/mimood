@@ -126,6 +126,9 @@ export const Dashboard = () => {
     fetchUserEnergyLevel();
   }, [cookies]);
 
+  console.log("ACTIVITY", activities);
+  console.log("MOOD", moods);
+
   return (
     <>
       <div>
@@ -141,16 +144,15 @@ export const Dashboard = () => {
               <Accordion allowToggle key={id}>
                 <AccordionItem>
                   <Tooltip label={mood.energyLevel}>
-                    <AccordionButton
-                      bgColor={energyLevelColors[mood.energyLevel]}
-                    >
+                    <AccordionButton bg={energyLevelColors[mood.energyLevel]}>
                       <Box as="span" w="100%" h="30px" />
                       <AccordionIcon color="orange.800" />
                     </AccordionButton>
                   </Tooltip>
-                  <AccordionPanel>
+
+                  <AccordionPanel bg={energyLevelColors[mood.energyLevel]}>
                     <Box>
-                      <Text align="right">
+                      <Text align="right" color="orange.800">
                         {new Date(mood.createdDatetime).toLocaleString()}
                       </Text>
                       <Text>{mood.feeling}</Text>
@@ -178,7 +180,6 @@ export const Dashboard = () => {
         </Heading>
         {activities.length > 0 ? (
           activities.map((activity) => {
-            console.log("activity", activity.feeling);
             return (
               <Accordion allowToggle key={activity.id}>
                 <AccordionItem>
@@ -194,13 +195,16 @@ export const Dashboard = () => {
                       <AccordionIcon color="orange.800" />
                     </AccordionButton>
                   </Tooltip>
-                  <AccordionPanel>
+
+                  <AccordionPanel bg={energyLevelColors[activity.energyLevel]}>
                     <Box>
                       <Text align="right">
                         {new Date(activity.createdDatetime).toLocaleString()}
                       </Text>
-                      <Text>{activity.feeling}</Text>
-                      <Text mt="5px">{activity.description}</Text>
+                      <Text color="orange.800">{activity.feeling}</Text>
+                      <Text mt="5px" color="orange.800">
+                        {activity.description}
+                      </Text>
                     </Box>
                   </AccordionPanel>
                 </AccordionItem>

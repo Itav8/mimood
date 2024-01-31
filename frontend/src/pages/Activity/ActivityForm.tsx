@@ -212,6 +212,8 @@ export const ActivityForm = () => {
                 Feeling:
               </FormLabel>
               <Select
+                id="feeling"
+                name="feeling"
                 placeholder="Select a feeling"
                 onChange={handleFormChange}
               >

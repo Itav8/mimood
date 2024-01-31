@@ -195,6 +195,7 @@ export const MoodForm = () => {
               <Select
                 mt={3}
                 id="feeling"
+                name="feeling"
                 placeholder="Select a feeling"
                 onChange={handleFormChange}
               >
