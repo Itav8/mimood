@@ -9,8 +9,11 @@ import {
   AccordionPanel,
   Box,
   Heading,
+  Stack,
   Text,
   Tooltip,
+  Image,
+  Center,
 } from "@chakra-ui/react";
 
 interface Mood {
@@ -159,7 +162,15 @@ export const Dashboard = () => {
             );
           })
         ) : (
-          <h3>No Data</h3>
+          <Stack boxSize="sm">
+            <Center>
+              <Image
+                boxSize="150px"
+                src="https://hortovanyi.files.wordpress.com/2021/12/no-data-icon-10.jpeg?w=250"
+                alt="No Data"
+              />
+            </Center>
+          </Stack>
         )}
 
         <Heading as="h2" my="20px" ml="10px">
@@ -167,6 +178,7 @@ export const Dashboard = () => {
         </Heading>
         {activities.length > 0 ? (
           activities.map((activity) => {
+            console.log("activity", activity.feeling);
             return (
               <Accordion allowToggle key={activity.id}>
                 <AccordionItem>
@@ -196,7 +208,15 @@ export const Dashboard = () => {
             );
           })
         ) : (
-          <h3>No Data</h3>
+          <Stack boxSize="sm">
+            <Center>
+              <Image
+                boxSize="150px"
+                src="https://hortovanyi.files.wordpress.com/2021/12/no-data-icon-10.jpeg?w=250"
+                alt="No Data"
+              />
+            </Center>
+          </Stack>
         )}
       </div>
     </>
