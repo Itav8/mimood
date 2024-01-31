@@ -126,9 +126,6 @@ export const Dashboard = () => {
     fetchUserEnergyLevel();
   }, [cookies]);
 
-  console.log("ACTIVITY", activities);
-  console.log("MOOD", moods);
-
   return (
     <>
       <div>
@@ -146,13 +143,13 @@ export const Dashboard = () => {
                   <Tooltip label={mood.energyLevel}>
                     <AccordionButton bg={energyLevelColors[mood.energyLevel]}>
                       <Box as="span" w="100%" h="30px" />
-                      <AccordionIcon color="orange.800" />
+                      <AccordionIcon />
                     </AccordionButton>
                   </Tooltip>
 
                   <AccordionPanel bg={energyLevelColors[mood.energyLevel]}>
                     <Box>
-                      <Text align="right" color="orange.800">
+                      <Text align="right">
                         {new Date(mood.createdDatetime).toLocaleString()}
                       </Text>
                       <Text>{mood.feeling}</Text>
@@ -192,7 +189,7 @@ export const Dashboard = () => {
                           {activity.name}
                         </Text>
                       </Box>
-                      <AccordionIcon color="orange.800" />
+                      <AccordionIcon />
                     </AccordionButton>
                   </Tooltip>
 
@@ -201,8 +198,8 @@ export const Dashboard = () => {
                       <Text align="right">
                         {new Date(activity.createdDatetime).toLocaleString()}
                       </Text>
-                      <Text color="orange.800">{activity.feeling}</Text>
-                      <Text mt="5px" color="orange.800">
+                      <Text>{activity.feeling}</Text>
+                      <Text mt="5px">
                         {activity.description}
                       </Text>
                     </Box>
