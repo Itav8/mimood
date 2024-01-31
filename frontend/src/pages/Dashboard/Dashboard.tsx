@@ -199,9 +199,7 @@ export const Dashboard = () => {
                         {new Date(activity.createdDatetime).toLocaleString()}
                       </Text>
                       <Text>{activity.feeling}</Text>
-                      <Text mt="5px">
-                        {activity.description}
-                      </Text>
+                      <Text mt="5px">{activity.description}</Text>
                     </Box>
                   </AccordionPanel>
                 </AccordionItem>

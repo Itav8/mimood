@@ -21,7 +21,11 @@ export const NavBar = () => {
       mb="30px"
       direction={{ base: "row", md: "row", sm: "row" }}
       alignItems="center"
-      justifyContent={{ base: "initial", md: "space-between" }}
+      justifyContent={{
+        base: "space-between",
+        md: "space-between",
+        sm: "space-between",
+      }}
     >
       <IconButton
         mt="10px"

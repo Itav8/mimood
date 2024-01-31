@@ -13,61 +13,63 @@ export const Landing = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   return (
-    <div className="landing-container">
-      <ScaleFade in transition={{ enter: { duration: 1 } }}>
-        <Heading as="h1" size="4xl" color="red.800" letterSpacing={10}>
-          Mi Mood
-        </Heading>
-      </ScaleFade>
-      <Stack direction="column" mt={10}>
-        <Button
-          size="lg"
-          onClick={() => {
-            setIsSignUpOpen(true);
-          }}
-        >
-          Sign Up
-        </Button>
-
-        {isSignUpOpen ? (
-          <Modal
-            open={isSignUpOpen}
-            onClose={() => {
-              setIsSignUpOpen(false);
+    <>
+      <div className="landing-container">
+        <ScaleFade in transition={{ enter: { duration: 1 } }}>
+          <Heading as="h1" size="4xl" color="red.800" letterSpacing={10}>
+            Mi Mood
+          </Heading>
+        </ScaleFade>
+        <Stack direction="column" mt={10}>
+          <Button
+            size="lg"
+            onClick={() => {
+              setIsSignUpOpen(true);
             }}
           >
-            <Signup
-              onSubmit={() => {
+            Sign Up
+          </Button>
+
+          {isSignUpOpen ? (
+            <Modal
+              open={isSignUpOpen}
+              onClose={() => {
                 setIsSignUpOpen(false);
               }}
-            />
-          </Modal>
-        ) : null}
+            >
+              <Signup
+                onSubmit={() => {
+                  setIsSignUpOpen(false);
+                }}
+              />
+            </Modal>
+          ) : null}
 
-        <Button
-          size="lg"
-          onClick={() => {
-            setIsLoginOpen(true);
-          }}
-        >
-          Login
-        </Button>
-
-        {isLoginOpen ? (
-          <Modal
-            open={isLoginOpen}
-            onClose={() => {
-              setIsLoginOpen(false);
+          <Button
+            size="lg"
+            onClick={() => {
+              setIsLoginOpen(true);
             }}
           >
-            <Login
-              onSubmit={() => {
+            Login
+          </Button>
+
+          {isLoginOpen ? (
+            <Modal
+              open={isLoginOpen}
+              onClose={() => {
                 setIsLoginOpen(false);
               }}
-            />
-          </Modal>
-        ) : null}
-      </Stack>
-    </div>
+            >
+              <Login
+                onSubmit={() => {
+                  setIsLoginOpen(false);
+                }}
+              />
+            </Modal>
+          ) : null}
+        </Stack>
+      </div>
+    </>
   );
 };
