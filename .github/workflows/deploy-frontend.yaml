@@ -1,0 +1,26 @@
+name: mimood-frontend
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy-ui:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+
+      - name: setup node
+        uses: actions/checkout@v4
+        with:
+          node-version: '18'
+
+      - name: install dependencies
+        working-directory: ./frontend
+        run: npm install
+
+      - name: build
+        working-directory: ./frontend
+        run: |
+          npm run build
+          ls build
