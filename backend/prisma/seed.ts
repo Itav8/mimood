@@ -16,6 +16,7 @@ const prisma = new PrismaClient();
 
 const main = async () => {
   try {
+    
     await prisma.energyLevel.createMany({
       data: [
         {
