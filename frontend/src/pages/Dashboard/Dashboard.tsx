@@ -14,7 +14,10 @@ import {
   Tooltip,
   Image,
   Center,
+  Button,
+  Flex,
 } from "@chakra-ui/react";
+import { EditIcon } from "@chakra-ui/icons";
 
 interface Mood {
   id: string;
@@ -154,6 +157,9 @@ export const Dashboard = () => {
                       </Text>
                       <Text>{mood.feeling}</Text>
                       <Text mt="5px">{mood.description}</Text>
+                      <Flex justifyContent="flex-end">
+                        <Button rightIcon={<EditIcon />}>Edit</Button>
+                      </Flex>
                     </Box>
                   </AccordionPanel>
                 </AccordionItem>
@@ -200,6 +206,9 @@ export const Dashboard = () => {
                       </Text>
                       <Text>{activity.feeling}</Text>
                       <Text mt="5px">{activity.description}</Text>
+                      <Flex justifyContent="flex-end">
+                        <Button rightIcon={<EditIcon />}>Edit</Button>
+                      </Flex>
                     </Box>
                   </AccordionPanel>
                 </AccordionItem>
