@@ -16,8 +16,15 @@ import {
   Center,
   Button,
   Flex,
+  Drawer,
+  // useDisclosure,
+  // DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  // DrawerHeader,
 } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
+import { EditMoodForm } from "../Mood/EditMoodForm";
 
 interface Mood {
   id: string;
@@ -50,6 +57,9 @@ export const Dashboard = () => {
     LOW_ENERGY_UNPLEASANT: "#000000",
     LOW_ENERGY_PLEASANT: "#000000",
   });
+  const [moodId, setMoodId] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  // const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     const fetchMood = async () => {
@@ -158,7 +168,15 @@ export const Dashboard = () => {
                       <Text>{mood.feeling}</Text>
                       <Text mt="5px">{mood.description}</Text>
                       <Flex justifyContent="flex-end">
-                        <Button rightIcon={<EditIcon />}>Edit</Button>
+                        <Button
+                          rightIcon={<EditIcon />}
+                          onClick={() => {
+                            setIsOpen(true);
+                            setMoodId(mood.id);
+                          }}
+                        >
+                          Edit
+                        </Button>
                       </Flex>
                     </Box>
                   </AccordionPanel>
@@ -227,6 +245,22 @@ export const Dashboard = () => {
           </Stack>
         )}
       </div>
+      <Drawer
+        isOpen={isOpen}
+        placement="right"
+        onClose={() => {
+          setIsOpen(false);
+        }}
+        size={"lg"}
+      >
+        {/* <DrawerOverlay /> */}
+        <DrawerContent>
+          <DrawerCloseButton />
+          {/* <DrawerHeader>Create your account</DrawerHeader> */}
+
+          <EditMoodForm id={moodId} />
+        </DrawerContent>
+      </Drawer>
     </>
   );
 };
