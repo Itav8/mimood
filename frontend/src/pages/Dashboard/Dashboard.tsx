@@ -17,16 +17,13 @@ import {
   Button,
   Flex,
   Drawer,
-  // useDisclosure,
-  // DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
-  // DrawerHeader,
 } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
 import { EditMoodForm } from "../Mood/EditMoodForm";
 
-interface Mood {
+export interface Mood {
   id: string;
   feeling: string;
   description: string;
@@ -57,9 +54,13 @@ export const Dashboard = () => {
     LOW_ENERGY_UNPLEASANT: "#000000",
     LOW_ENERGY_PLEASANT: "#000000",
   });
-  const [moodId, setMoodId] = useState("");
+  const [selectedMood, setselectedMood] = useState({
+    id: "",
+    feeling: "",
+    description: "",
+    energyLevel: "",
+  });
   const [isOpen, setIsOpen] = useState(false);
-  // const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     const fetchMood = async () => {
@@ -148,6 +149,7 @@ export const Dashboard = () => {
         <Heading as="h2" my="20px" ml="10px">
           My Moods
         </Heading>
+
         {moods.length > 0 ? (
           moods.map((mood, id) => {
             return (
@@ -172,7 +174,7 @@ export const Dashboard = () => {
                           rightIcon={<EditIcon />}
                           onClick={() => {
                             setIsOpen(true);
-                            setMoodId(mood.id);
+                            setselectedMood(mood);
                           }}
                         >
                           Edit
@@ -225,7 +227,14 @@ export const Dashboard = () => {
                       <Text>{activity.feeling}</Text>
                       <Text mt="5px">{activity.description}</Text>
                       <Flex justifyContent="flex-end">
-                        <Button rightIcon={<EditIcon />}>Edit</Button>
+                        <Button
+                          rightIcon={<EditIcon />}
+                          onClick={() => {
+                            setIsOpen(true);
+                          }}
+                        >
+                          Edit
+                        </Button>
                       </Flex>
                     </Box>
                   </AccordionPanel>
@@ -245,6 +254,7 @@ export const Dashboard = () => {
           </Stack>
         )}
       </div>
+
       <Drawer
         isOpen={isOpen}
         placement="right"
@@ -253,12 +263,12 @@ export const Dashboard = () => {
         }}
         size={"lg"}
       >
-        {/* <DrawerOverlay /> */}
         <DrawerContent>
           <DrawerCloseButton />
-          {/* <DrawerHeader>Create your account</DrawerHeader> */}
-
-          <EditMoodForm id={moodId} />
+          <EditMoodForm
+            initalValues={selectedMood}
+          />
+          {/* <EditActivityForm id={activityId} /> */}
         </DrawerContent>
       </Drawer>
     </>
