@@ -23,12 +23,19 @@ import {
 import { EditIcon } from "@chakra-ui/icons";
 import { EditMoodForm } from "../Mood/EditMoodForm";
 
-export interface Mood {
+interface Mood {
   id: string;
   feeling: string;
   description: string;
   energyLevel: EnergyLevels;
   createdDatetime: string;
+}
+
+export interface SelectedMood {
+  id?: string;
+  feeling: string;
+  description: string;
+  energyLevel: string;
 }
 
 interface Activity {
@@ -54,7 +61,7 @@ export const Dashboard = () => {
     LOW_ENERGY_UNPLEASANT: "#000000",
     LOW_ENERGY_PLEASANT: "#000000",
   });
-  const [selectedMood, setselectedMood] = useState({
+  const [selectedMood, setselectedMood] = useState<SelectedMood>({
     id: "",
     feeling: "",
     description: "",
@@ -265,9 +272,7 @@ export const Dashboard = () => {
       >
         <DrawerContent>
           <DrawerCloseButton />
-          <EditMoodForm
-            initalValues={selectedMood}
-          />
+          <EditMoodForm initalValues={selectedMood} />
           {/* <EditActivityForm id={activityId} /> */}
         </DrawerContent>
       </Drawer>

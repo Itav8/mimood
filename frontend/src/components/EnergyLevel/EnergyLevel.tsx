@@ -5,7 +5,7 @@ import { Box, Heading, SimpleGrid, Text } from "@chakra-ui/react";
 
 import "./EnergyLevel.css";
 
-interface EnergyLevel {
+export interface EnergyLevel {
   level: EnergyLevels;
   color: string;
 }
