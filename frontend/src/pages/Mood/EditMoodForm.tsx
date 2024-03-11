@@ -10,11 +10,11 @@ import {
   Select,
   Textarea,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { SelectedMood } from "../Dashboard/Dashboard";
 import { EnergyLevel } from "../../components/EnergyLevel/EnergyLevel";
-import { EnergyLevels } from "../../constants/constants";
+import { EnergyLevels, EnergyLevelsMap } from "../../constants/constants";
 
 interface MoodEditForm {
   initalValues: SelectedMood;
@@ -28,6 +28,11 @@ type UserEnergyLevel = {
 export const EditMoodForm = (props: MoodEditForm) => {
   const [cookies] = useCookies(["jwtToken"]);
   const [editForm, setEditForm] = useState<SelectedMood>(props.initalValues);
+  const [selectedFeelings, setSelectedFeelings] = useState<
+    Array<Record<string, string>>
+  >([]);
+  const [selectedEnergyLevel, setSelectedEnergyLevel] =
+    useState<EnergyLevels>();
   const [energyLevels, setEnergylevels] = useState<EnergyLevel[]>([]);
   const [energyLevelColors, setEnergyLevelColors] = useState<UserEnergyLevel>({
     HIGH_ENERGY_UNPLEASANT: "#000000",
@@ -91,6 +96,42 @@ export const EditMoodForm = (props: MoodEditForm) => {
     fetchEnergyLevel();
   }, [cookies]);
 
+  const onEnergyLevelClick = async (
+    energyLevel:
+      | EnergyLevel
+      | React.MouseEventHandler<HTMLButtonElement>
+      | undefined
+      | SetStateAction<EnergyLevels | undefined>
+  ) => {
+    setSelectedEnergyLevel(energyLevel);
+
+    const fetchEnergyLevelFeelings = async (energyLevel: EnergyLevels) => {
+      const url = `${
+        import.meta.env.VITE_API_URL
+      }/api/energyLevel/${energyLevel}`;
+
+      const fetchConfig: RequestInit = {
+        headers: {
+          Authorization: `Bearer ${cookies.jwtToken}`,
+          "Content-Type": "application/json",
+        },
+      };
+
+      try {
+        const response = await fetch(url, fetchConfig);
+
+        if (response.ok) {
+          const data = await response.json();
+          setSelectedFeelings(data.feelings[EnergyLevelsMap[energyLevel]]);
+        }
+      } catch (e) {
+        console.log("Error fetching feelings", e);
+      }
+    };
+
+    fetchEnergyLevelFeelings(energyLevel);
+  };
+
   const handleFormChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -116,6 +157,7 @@ export const EditMoodForm = (props: MoodEditForm) => {
     const data: SelectedMood = {
       feeling: editForm?.feeling,
       description: editForm?.description,
+      // energyLevel: selectedEnergyLevel,
       energyLevel: editForm?.energyLevel,
     };
 
@@ -168,21 +210,24 @@ export const EditMoodForm = (props: MoodEditForm) => {
             {energyLevels.map((energyLevel, i) => {
               return (
                 <Button
+                  onChange={() => {
+                    handleFormChange;
+                  }}
+                  onClick={() => {
+                    onEnergyLevelClick(energyLevel.level);
+                  }}
                   key={i}
                   m={2}
                   variant="ghost"
-                  // backgroundColor={energyLevelColors[energyLevel.level]}
-                  color={energyLevelColors[energyLevel.level]}
+                  backgroundColor={energyLevelColors[energyLevel.level]}
                   _checked={{
                     borderColor: energyLevelColors[energyLevel.level],
                   }}
+                  _focus={{
+                    boxShadow: "outline",
+                  }}
                 >
-                  <Radio
-                    value={energyLevel.level}
-                    // color={energyLevelColors[energyLevel.level]}
-                  >
-                    {energyLevel.level}
-                  </Radio>
+                  <Radio value={energyLevel.level}>{energyLevel.level}</Radio>
                 </Button>
               );
             })}
@@ -194,8 +239,15 @@ export const EditMoodForm = (props: MoodEditForm) => {
             Feeling:
           </FormLabel>
           <Select
-          // onChange={handleFormChange}
-          ></Select>
+            id="feeling"
+            name="feeling"
+            value={editForm.feeling}
+            onChange={handleFormChange}
+          >
+            {selectedFeelings.map((selectedFeeling, i) => {
+              return <option key={i}>{selectedFeeling.feelings}</option>;
+            })}
+          </Select>
         </FormControl>
 
         <FormControl>

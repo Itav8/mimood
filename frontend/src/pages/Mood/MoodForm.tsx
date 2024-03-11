@@ -161,6 +161,7 @@ export const MoodForm = () => {
   return (
     <Container>
       <Heading mb="30px">New Mood</Heading>
+
       {!selectedEnergyLevel ? (
         <EnergyLevel onClick={onEnergyLevelClick} />
       ) : null}

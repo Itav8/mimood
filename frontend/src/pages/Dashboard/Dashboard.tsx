@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { EnergyLevels } from "../../constants/constants";
 import {
@@ -69,29 +69,29 @@ export const Dashboard = () => {
   });
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    const fetchMood = async () => {
-      const url = `${import.meta.env.VITE_API_URL}/api/moods`;
+  const fetchMood = useCallback(async () => {
+    const url = `${import.meta.env.VITE_API_URL}/api/moods`;
 
-      const fetchConfig: RequestInit = {
-        headers: {
-          Authorization: `Bearer ${cookies.jwtToken}`,
-          "Content-Type": "application/json",
-        },
-      };
-
-      try {
-        const response = await fetch(url, fetchConfig);
-
-        if (response.ok) {
-          const data = await response.json();
-          setMoods(data.mood);
-        }
-      } catch (e) {
-        console.log("Error fetching mood list", e);
-      }
+    const fetchConfig: RequestInit = {
+      headers: {
+        Authorization: `Bearer ${cookies.jwtToken}`,
+        "Content-Type": "application/json",
+      },
     };
 
+    try {
+      const response = await fetch(url, fetchConfig);
+
+      if (response.ok) {
+        const data = await response.json();
+        setMoods(data.mood);
+      }
+    } catch (e) {
+      console.log("Error fetching mood list", e);
+    }
+  }, [cookies]);
+
+  useEffect(() => {
     const fetchActivity = async () => {
       const url = `${import.meta.env.VITE_API_URL}/api/activities`;
 
@@ -142,10 +142,12 @@ export const Dashboard = () => {
       }
     };
 
-    fetchMood();
-    fetchActivity();
-    fetchUserEnergyLevel();
-  }, [cookies]);
+    if (cookies) {
+      fetchMood();
+      fetchActivity();
+      fetchUserEnergyLevel();
+    }
+  }, [cookies, fetchMood]);
 
   return (
     <>
