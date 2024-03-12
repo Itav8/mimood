@@ -37,7 +37,6 @@ export const getMoods = async (req, res, next) => {
 };
 
 export const updateMood = async (req, res, next) => {
-  console.log("BEFORE", req.body)
   try {
     const updatedMood = await prisma.mood.update({
       where: {
@@ -50,7 +49,7 @@ export const updateMood = async (req, res, next) => {
         description: req.body.description,
       },
     });
-    console.log("AFTER", updatedMood)
+    
     res.json({ updatedMood });
   } catch (e) {
     console.log(e);

@@ -35,7 +35,14 @@ export interface SelectedMood {
   id?: string;
   feeling: string;
   description: string;
-  energyLevel: string;
+  energyLevel: EnergyLevels | string;
+}
+
+interface SelectedActivity {
+  id: string;
+  feeling: string;
+  description: string;
+  energyLevel: EnergyLevels | string;
 }
 
 interface Activity {
@@ -62,6 +69,12 @@ export const Dashboard = () => {
     LOW_ENERGY_PLEASANT: "#000000",
   });
   const [selectedMood, setselectedMood] = useState<SelectedMood>({
+    id: "",
+    feeling: "",
+    description: "",
+    energyLevel: "",
+  });
+  const [selectedActivity, setSelectedActivity] = useState<SelectedActivity>({
     id: "",
     feeling: "",
     description: "",
@@ -142,11 +155,9 @@ export const Dashboard = () => {
       }
     };
 
-    if (cookies) {
-      fetchMood();
-      fetchActivity();
-      fetchUserEnergyLevel();
-    }
+    fetchMood();
+    fetchActivity();
+    fetchUserEnergyLevel();
   }, [cookies, fetchMood]);
 
   return (
@@ -240,6 +251,7 @@ export const Dashboard = () => {
                           rightIcon={<EditIcon />}
                           onClick={() => {
                             setIsOpen(true);
+                            setSelectedActivity(activity);
                           }}
                         >
                           Edit
@@ -274,7 +286,13 @@ export const Dashboard = () => {
       >
         <DrawerContent>
           <DrawerCloseButton />
-          <EditMoodForm initalValues={selectedMood} />
+          <EditMoodForm
+            initalValues={selectedMood}
+            onSubmit={async () => {
+              await fetchMood();
+              setIsOpen(false);
+            }}
+          />
           {/* <EditActivityForm id={activityId} /> */}
         </DrawerContent>
       </Drawer>

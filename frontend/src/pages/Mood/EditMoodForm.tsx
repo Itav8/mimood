@@ -10,7 +10,7 @@ import {
   Select,
   Textarea,
 } from "@chakra-ui/react";
-import { SetStateAction, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { SelectedMood } from "../Dashboard/Dashboard";
 import { EnergyLevel } from "../../components/EnergyLevel/EnergyLevel";
@@ -18,7 +18,7 @@ import { EnergyLevels, EnergyLevelsMap } from "../../constants/constants";
 
 interface MoodEditForm {
   initalValues: SelectedMood;
-  // onClose: () => void;
+  onSubmit: () => void;
 }
 
 type UserEnergyLevel = {
@@ -31,8 +31,7 @@ export const EditMoodForm = (props: MoodEditForm) => {
   const [selectedFeelings, setSelectedFeelings] = useState<
     Array<Record<string, string>>
   >([]);
-  const [selectedEnergyLevel, setSelectedEnergyLevel] =
-    useState<EnergyLevels>();
+  const [, setSelectedEnergyLevel] = useState<EnergyLevels>();
   const [energyLevels, setEnergylevels] = useState<EnergyLevel[]>([]);
   const [energyLevelColors, setEnergyLevelColors] = useState<UserEnergyLevel>({
     HIGH_ENERGY_UNPLEASANT: "#000000",
@@ -40,6 +39,35 @@ export const EditMoodForm = (props: MoodEditForm) => {
     LOW_ENERGY_UNPLEASANT: "#000000",
     LOW_ENERGY_PLEASANT: "#000000",
   });
+
+  console.log("EDIT FORM", editForm);
+
+  const fetchEnergyLevelFeelings = useCallback(
+    async (energyLevel: EnergyLevels | string) => {
+      const url = `${
+        import.meta.env.VITE_API_URL
+      }/api/energyLevel/${energyLevel}`;
+
+      const fetchConfig: RequestInit = {
+        headers: {
+          Authorization: `Bearer ${cookies.jwtToken}`,
+          "Content-Type": "application/json",
+        },
+      };
+
+      try {
+        const response = await fetch(url, fetchConfig);
+
+        if (response.ok) {
+          const data = await response.json();
+          setSelectedFeelings(data.feelings[EnergyLevelsMap[energyLevel]]);
+        }
+      } catch (e) {
+        console.log("Error fetching feelings", e);
+      }
+    },
+    [cookies.jwtToken]
+  );
 
   useEffect(() => {
     const fetchEnergyLevel = async () => {
@@ -92,43 +120,13 @@ export const EditMoodForm = (props: MoodEditForm) => {
       }
     };
 
+    fetchEnergyLevelFeelings(props.initalValues.energyLevel);
     fetchUserEnergyLevel();
     fetchEnergyLevel();
-  }, [cookies]);
+  }, [cookies, fetchEnergyLevelFeelings, props.initalValues.energyLevel]);
 
-  const onEnergyLevelClick = async (
-    energyLevel:
-      | EnergyLevel
-      | React.MouseEventHandler<HTMLButtonElement>
-      | undefined
-      | SetStateAction<EnergyLevels | undefined>
-  ) => {
+  const onEnergyLevelClick = async (energyLevel: EnergyLevels) => {
     setSelectedEnergyLevel(energyLevel);
-
-    const fetchEnergyLevelFeelings = async (energyLevel: EnergyLevels) => {
-      const url = `${
-        import.meta.env.VITE_API_URL
-      }/api/energyLevel/${energyLevel}`;
-
-      const fetchConfig: RequestInit = {
-        headers: {
-          Authorization: `Bearer ${cookies.jwtToken}`,
-          "Content-Type": "application/json",
-        },
-      };
-
-      try {
-        const response = await fetch(url, fetchConfig);
-
-        if (response.ok) {
-          const data = await response.json();
-          setSelectedFeelings(data.feelings[EnergyLevelsMap[energyLevel]]);
-        }
-      } catch (e) {
-        console.log("Error fetching feelings", e);
-      }
-    };
-
     fetchEnergyLevelFeelings(energyLevel);
   };
 
@@ -157,7 +155,6 @@ export const EditMoodForm = (props: MoodEditForm) => {
     const data: SelectedMood = {
       feeling: editForm?.feeling,
       description: editForm?.description,
-      // energyLevel: selectedEnergyLevel,
       energyLevel: editForm?.energyLevel,
     };
 
@@ -179,13 +176,15 @@ export const EditMoodForm = (props: MoodEditForm) => {
           description: "",
           energyLevel: "",
         });
+        props.onSubmit();
+        console.log("SUCCESSS");
       }
-
-      console.log("SUCCESSS");
     } catch (e) {
       console.log("Error editing mood", e);
     }
   };
+
+  console.log("Selected feelings", selectedFeelings);
 
   return (
     <>
