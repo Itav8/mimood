@@ -22,6 +22,7 @@ import {
 } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
 import { EditMoodForm } from "../Mood/EditMoodForm";
+import { EditActivityForm } from "../Activity/EditActivityForm";
 
 interface Mood {
   id: string;
@@ -38,8 +39,9 @@ export interface SelectedMood {
   energyLevel: EnergyLevels | string;
 }
 
-interface SelectedActivity {
-  id: string;
+export interface SelectedActivity {
+  id?: string;
+  name: string;
   feeling: string;
   description: string;
   energyLevel: EnergyLevels | string;
@@ -104,29 +106,29 @@ export const Dashboard = () => {
     }
   }, [cookies]);
 
-  useEffect(() => {
-    const fetchActivity = async () => {
-      const url = `${import.meta.env.VITE_API_URL}/api/activities`;
+  const fetchActivity = useCallback(async () => {
+    const url = `${import.meta.env.VITE_API_URL}/api/activities`;
 
-      const fetchConfig: RequestInit = {
-        headers: {
-          Authorization: `Bearer ${cookies.jwtToken}`,
-          "Content-Type": "application/json",
-        },
-      };
-
-      try {
-        const response = await fetch(url, fetchConfig);
-
-        if (response.ok) {
-          const data = await response.json();
-          setActivities(data.activity);
-        }
-      } catch (e) {
-        console.log("Error fetching activity list", e);
-      }
+    const fetchConfig: RequestInit = {
+      headers: {
+        Authorization: `Bearer ${cookies.jwtToken}`,
+        "Content-Type": "application/json",
+      },
     };
 
+    try {
+      const response = await fetch(url, fetchConfig);
+
+      if (response.ok) {
+        const data = await response.json();
+        setActivities(data.activity);
+      }
+    } catch (e) {
+      console.log("Error fetching activity list", e);
+    }
+  }, [cookies]);
+
+  useEffect(() => {
     const fetchUserEnergyLevel = async () => {
       const url = `${import.meta.env.VITE_API_URL}/api/userEnergyLevel`;
       const fetchConfig: RequestInit = {
@@ -158,7 +160,7 @@ export const Dashboard = () => {
     fetchMood();
     fetchActivity();
     fetchUserEnergyLevel();
-  }, [cookies, fetchMood]);
+  }, [cookies, fetchMood, fetchActivity]);
 
   return (
     <>
@@ -281,19 +283,41 @@ export const Dashboard = () => {
         placement="right"
         onClose={() => {
           setIsOpen(false);
+          setselectedMood({
+            id: "",
+            feeling: "",
+            description: "",
+            energyLevel: "",
+          });
+          setSelectedActivity({
+            id: "",
+            name: "",
+            feeling: "",
+            description: "",
+            energyLevel: "",
+          });
         }}
         size={"lg"}
       >
         <DrawerContent>
           <DrawerCloseButton />
-          <EditMoodForm
-            initalValues={selectedMood}
-            onSubmit={async () => {
-              await fetchMood();
-              setIsOpen(false);
-            }}
-          />
-          {/* <EditActivityForm id={activityId} /> */}
+          {selectedMood.id && !selectedActivity.id ? (
+            <EditMoodForm
+              initialValues={selectedMood}
+              onSubmit={async () => {
+                await fetchMood();
+                setIsOpen(false);
+              }}
+            />
+          ) : (
+            <EditActivityForm
+              initialValues={selectedActivity}
+              onSubmit={async () => {
+                await fetchActivity();
+                setIsOpen(false);
+              }}
+            />
+          )}
         </DrawerContent>
       </Drawer>
     </>

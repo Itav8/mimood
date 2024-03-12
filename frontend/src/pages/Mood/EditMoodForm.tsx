@@ -17,7 +17,7 @@ import { EnergyLevel } from "../../components/EnergyLevel/EnergyLevel";
 import { EnergyLevels, EnergyLevelsMap } from "../../constants/constants";
 
 interface MoodEditForm {
-  initalValues: SelectedMood;
+  initialValues: SelectedMood;
   onSubmit: () => void;
 }
 
@@ -27,11 +27,11 @@ type UserEnergyLevel = {
 
 export const EditMoodForm = (props: MoodEditForm) => {
   const [cookies] = useCookies(["jwtToken"]);
-  const [editForm, setEditForm] = useState<SelectedMood>(props.initalValues);
+  const [editForm, setEditForm] = useState<SelectedMood>(props.initialValues);
   const [selectedFeelings, setSelectedFeelings] = useState<
     Array<Record<string, string>>
   >([]);
-  const [, setSelectedEnergyLevel] = useState<EnergyLevels>();
+  const [selectedEnergyLevel, setSelectedEnergyLevel] = useState<EnergyLevels>();
   const [energyLevels, setEnergylevels] = useState<EnergyLevel[]>([]);
   const [energyLevelColors, setEnergyLevelColors] = useState<UserEnergyLevel>({
     HIGH_ENERGY_UNPLEASANT: "#000000",
@@ -39,8 +39,6 @@ export const EditMoodForm = (props: MoodEditForm) => {
     LOW_ENERGY_UNPLEASANT: "#000000",
     LOW_ENERGY_PLEASANT: "#000000",
   });
-
-  console.log("EDIT FORM", editForm);
 
   const fetchEnergyLevelFeelings = useCallback(
     async (energyLevel: EnergyLevels | string) => {
@@ -66,7 +64,7 @@ export const EditMoodForm = (props: MoodEditForm) => {
         console.log("Error fetching feelings", e);
       }
     },
-    [cookies.jwtToken]
+    [cookies]
   );
 
   useEffect(() => {
@@ -120,10 +118,10 @@ export const EditMoodForm = (props: MoodEditForm) => {
       }
     };
 
-    fetchEnergyLevelFeelings(props.initalValues.energyLevel);
+    fetchEnergyLevelFeelings(props.initialValues.energyLevel);
     fetchUserEnergyLevel();
     fetchEnergyLevel();
-  }, [cookies, fetchEnergyLevelFeelings, props.initalValues.energyLevel]);
+  }, [cookies, fetchEnergyLevelFeelings, props.initialValues.energyLevel]);
 
   const onEnergyLevelClick = async (energyLevel: EnergyLevels) => {
     setSelectedEnergyLevel(energyLevel);
@@ -155,7 +153,7 @@ export const EditMoodForm = (props: MoodEditForm) => {
     const data: SelectedMood = {
       feeling: editForm?.feeling,
       description: editForm?.description,
-      energyLevel: editForm?.energyLevel,
+      energyLevel: selectedEnergyLevel,
     };
 
     const fetchConfig: RequestInit = {
@@ -183,8 +181,6 @@ export const EditMoodForm = (props: MoodEditForm) => {
       console.log("Error editing mood", e);
     }
   };
-
-  console.log("Selected feelings", selectedFeelings);
 
   return (
     <>
