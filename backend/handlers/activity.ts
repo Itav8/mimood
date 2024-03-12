@@ -38,7 +38,6 @@ export const getActivities = async (req, res, next) => {
 };
 
 export const updateActivity = async (req, res, next) => {
-  console.log("BEFORE", req.body);
   try {
     const updatedActivity = await prisma.activity.update({
       where: {
@@ -53,7 +52,6 @@ export const updateActivity = async (req, res, next) => {
       },
     });
 
-    console.log("AFTER", updatedActivity);
     res.json({ updatedActivity });
   } catch (e) {
     console.log(e);

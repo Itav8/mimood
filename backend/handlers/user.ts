@@ -54,7 +54,6 @@ export const createNewUser = async (req, res) => {
       data: userEnergyLevelData,
     });
 
-    console.log("USER ENERGY LEVEL", userEnergyLevel);
     const token = createJWT(user);
     res.cookie("jwtToken", token, { httpOnly: false });
     res.status(200).json({
