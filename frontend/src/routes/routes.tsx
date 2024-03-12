@@ -35,6 +35,7 @@ const routes = [
   {
     element: <Layout />,
     children: mainRoutes,
+    errorElement: <p>Error</p>,
   },
   {
     element: <Layout />,

@@ -44,11 +44,12 @@ export const updateMood = async (req, res, next) => {
         userId: req.user.id,
       },
       data: {
+        energyLevel: req.body.energyLevel,
         feeling: req.body.feeling,
         description: req.body.description,
       },
     });
-
+    
     res.json({ updatedMood });
   } catch (e) {
     console.log(e);

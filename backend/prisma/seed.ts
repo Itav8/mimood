@@ -16,6 +16,7 @@ const prisma = new PrismaClient();
 
 const main = async () => {
   try {
+
     await prisma.energyLevel.createMany({
       data: [
         {
@@ -161,6 +162,7 @@ const main = async () => {
     await prisma.highEnergyUnpleasant.createMany({
       data: highEnergyLevelUnpleasantItems,
     });
+
     // HIGH ENERGY PLEASANT
     const highEnergyLevePleasantItems = energyLevel.highEnergyPleasant.map(
       (feeling: High_Energy_Pleasant_Feelings) => {
@@ -174,6 +176,7 @@ const main = async () => {
     await prisma.highEnergyPleasant.createMany({
       data: highEnergyLevePleasantItems,
     });
+    
     // LOW ENERGY UNPLEASANT
     const lowEnergyUnpleasantItems = energyLevel.lowEnergyUnpleasant.map(
       (feeling: Low_Energy_Unpleasant_Feelings) => {
