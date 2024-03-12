@@ -276,7 +276,7 @@ export const EditActivityForm = (props: ActivityEditForm) => {
         </FormControl>
 
         <Button type="submit" mt={3}>
-          Log Activity
+          Update Activity
         </Button>
       </Box>
     </>

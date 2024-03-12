@@ -258,7 +258,7 @@ export const EditMoodForm = (props: MoodEditForm) => {
         </FormControl>
 
         <Button type="submit" mt={3}>
-          Log Mood
+          Update Mood
         </Button>
       </Box>
     </>
