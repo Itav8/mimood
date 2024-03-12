@@ -78,6 +78,7 @@ export const Dashboard = () => {
   });
   const [selectedActivity, setSelectedActivity] = useState<SelectedActivity>({
     id: "",
+    name: "",
     feeling: "",
     description: "",
     energyLevel: "",
