@@ -23,6 +23,7 @@ import {
 import { EditIcon } from "@chakra-ui/icons";
 import { EditMoodForm } from "../Mood/EditMoodForm";
 import { EditActivityForm } from "../Activity/EditActivityForm";
+import { getApiUrl } from "../../utils/getUrl";
 
 interface Mood {
   id: string;
