@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getApiUrl } from "../../../utils/getUrl";
 
 interface LoginProp {
   onSubmit: () => void;
@@ -75,7 +76,7 @@ export const Login = (props: LoginProp) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const url = `${import.meta.env.VITE_API_URL}/signin`;
+    const url = `${getApiUrl()}/signin`;
 
     const data: LoginForm = {
       email: login.email,

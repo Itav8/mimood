@@ -86,7 +86,7 @@ export const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const fetchMood = useCallback(async () => {
-    const url = `${import.meta.env.VITE_API_URL}/api/moods`;
+    const url = `${getApiUrl()}/api/moods`;
 
     const fetchConfig: RequestInit = {
       headers: {
@@ -108,7 +108,7 @@ export const Dashboard = () => {
   }, [cookies]);
 
   const fetchActivity = useCallback(async () => {
-    const url = `${import.meta.env.VITE_API_URL}/api/activities`;
+    const url = `${getApiUrl()}/api/activities`;
 
     const fetchConfig: RequestInit = {
       headers: {
@@ -131,7 +131,7 @@ export const Dashboard = () => {
 
   useEffect(() => {
     const fetchUserEnergyLevel = async () => {
-      const url = `${import.meta.env.VITE_API_URL}/api/userEnergyLevel`;
+      const url = `${getApiUrl()}/api/userEnergyLevel`;
       const fetchConfig: RequestInit = {
         headers: {
           Authorization: `Bearer ${cookies.jwtToken}`,

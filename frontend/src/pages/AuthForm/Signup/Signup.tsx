@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getApiUrl } from "../../../utils/getUrl";
 
 interface SignupProps {
   onSubmit: () => void;
@@ -100,7 +101,7 @@ export const Signup = (props: SignupProps) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const url = `${import.meta.env.VITE_API_URL}/user`;
+    const url = `${getApiUrl()}/user`;
 
     const data: SignupForm = {
       firstName: signupForm.firstName,

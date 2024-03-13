@@ -16,6 +16,7 @@ import { useCookies } from "react-cookie";
 import { useCallback, useEffect, useState } from "react";
 import { EnergyLevels, EnergyLevelsMap } from "../../constants/constants";
 import { EnergyLevel } from "../../components/EnergyLevel/EnergyLevel";
+import { getApiUrl } from "../../utils/getUrl";
 
 interface ActivityEditForm {
   initialValues: SelectedActivity;
@@ -46,9 +47,7 @@ export const EditActivityForm = (props: ActivityEditForm) => {
 
   const fetchEnergyLevelFeelings = useCallback(
     async (energyLevel: EnergyLevels | string) => {
-      const url = `${
-        import.meta.env.VITE_API_URL
-      }/api/energyLevel/${energyLevel}`;
+      const url = `${getApiUrl()}/api/energyLevel/${energyLevel}`;
 
       const fetchConfig: RequestInit = {
         headers: {
@@ -62,7 +61,9 @@ export const EditActivityForm = (props: ActivityEditForm) => {
 
         if (response.ok) {
           const data = await response.json();
-          setSelectedFeelings(data.feelings[EnergyLevelsMap[energyLevel]]);
+          setSelectedFeelings(
+            data.feelings[EnergyLevelsMap[energyLevel as EnergyLevels]]
+          );
         }
       } catch (e) {
         console.log("Error fetching feelings", e);
@@ -73,7 +74,7 @@ export const EditActivityForm = (props: ActivityEditForm) => {
 
   useEffect(() => {
     const fetchEnergyLevel = async () => {
-      const url = `${import.meta.env.VITE_API_URL}/api/energyLevel`;
+      const url = `${getApiUrl()}/api/energyLevel`;
 
       const fetchConfig: RequestInit = {
         headers: {
@@ -95,7 +96,7 @@ export const EditActivityForm = (props: ActivityEditForm) => {
     };
 
     const fetchUserEnergyLevel = async () => {
-      const url = `${import.meta.env.VITE_API_URL}/api/userEnergyLevel`;
+      const url = `${getApiUrl()}/api/userEnergyLevel`;
       const fetchConfig: RequestInit = {
         headers: {
           Authorization: `Bearer ${cookies.jwtToken}`,
@@ -152,13 +153,13 @@ export const EditActivityForm = (props: ActivityEditForm) => {
   ) => {
     e.preventDefault();
 
-    const url = `${import.meta.env.VITE_API_URL}/api/activities/${activityId}`;
+    const url = `${getApiUrl()}/api/activities/${activityId}`;
 
     const data: SelectedActivity = {
       name: editForm?.name,
       feeling: editForm?.feeling,
       description: editForm?.description,
-      energyLevel: selectedEnergyLevel,
+      energyLevel: selectedEnergyLevel as EnergyLevels,
     };
 
     const fetchConfig: RequestInit = {

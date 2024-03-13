@@ -15,6 +15,7 @@ import { useCookies } from "react-cookie";
 import { SelectedMood } from "../Dashboard/Dashboard";
 import { EnergyLevel } from "../../components/EnergyLevel/EnergyLevel";
 import { EnergyLevels, EnergyLevelsMap } from "../../constants/constants";
+import { getApiUrl } from "../../utils/getUrl";
 
 interface MoodEditForm {
   initialValues: SelectedMood;
@@ -31,7 +32,8 @@ export const EditMoodForm = (props: MoodEditForm) => {
   const [selectedFeelings, setSelectedFeelings] = useState<
     Array<Record<string, string>>
   >([]);
-  const [selectedEnergyLevel, setSelectedEnergyLevel] = useState<EnergyLevels>();
+  const [selectedEnergyLevel, setSelectedEnergyLevel] =
+    useState<EnergyLevels>();
   const [energyLevels, setEnergylevels] = useState<EnergyLevel[]>([]);
   const [energyLevelColors, setEnergyLevelColors] = useState<UserEnergyLevel>({
     HIGH_ENERGY_UNPLEASANT: "#000000",
@@ -42,9 +44,7 @@ export const EditMoodForm = (props: MoodEditForm) => {
 
   const fetchEnergyLevelFeelings = useCallback(
     async (energyLevel: EnergyLevels | string) => {
-      const url = `${
-        import.meta.env.VITE_API_URL
-      }/api/energyLevel/${energyLevel}`;
+      const url = `${getApiUrl()}/api/energyLevel/${energyLevel}`;
 
       const fetchConfig: RequestInit = {
         headers: {
@@ -58,7 +58,9 @@ export const EditMoodForm = (props: MoodEditForm) => {
 
         if (response.ok) {
           const data = await response.json();
-          setSelectedFeelings(data.feelings[EnergyLevelsMap[energyLevel]]);
+          setSelectedFeelings(
+            data.feelings[EnergyLevelsMap[energyLevel as EnergyLevels]]
+          );
         }
       } catch (e) {
         console.log("Error fetching feelings", e);
@@ -69,7 +71,7 @@ export const EditMoodForm = (props: MoodEditForm) => {
 
   useEffect(() => {
     const fetchEnergyLevel = async () => {
-      const url = `${import.meta.env.VITE_API_URL}/api/energyLevel`;
+      const url = `${getApiUrl()}/api/energyLevel`;
 
       const fetchConfig: RequestInit = {
         headers: {
@@ -91,7 +93,7 @@ export const EditMoodForm = (props: MoodEditForm) => {
     };
 
     const fetchUserEnergyLevel = async () => {
-      const url = `${import.meta.env.VITE_API_URL}/api/userEnergyLevel`;
+      const url = `${getApiUrl()}/api/userEnergyLevel`;
       const fetchConfig: RequestInit = {
         headers: {
           Authorization: `Bearer ${cookies.jwtToken}`,
@@ -148,12 +150,12 @@ export const EditMoodForm = (props: MoodEditForm) => {
   ) => {
     e.preventDefault();
 
-    const url = `${import.meta.env.VITE_API_URL}/api/moods/${moodId}`;
+    const url = `${getApiUrl()}/api/moods/${moodId}`;
 
     const data: SelectedMood = {
       feeling: editForm?.feeling,
       description: editForm?.description,
-      energyLevel: selectedEnergyLevel,
+      energyLevel: selectedEnergyLevel as EnergyLevels,
     };
 
     const fetchConfig: RequestInit = {

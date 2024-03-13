@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { EnergyLevels } from "../../constants/constants";
 import { Box, Heading, SimpleGrid, Text } from "@chakra-ui/react";
+import { getApiUrl } from "../../utils/getUrl";
 
 import "./EnergyLevel.css";
 
@@ -30,7 +31,7 @@ export const EnergyLevel = ({ onClick }: EnergyLevelProps) => {
 
   useEffect(() => {
     const fetchEnergyLevel = async () => {
-      const url = `${import.meta.env.VITE_API_URL}/api/energyLevel`;
+      const url = `${getApiUrl()}/api/energyLevel`;
 
       const fetchConfig: RequestInit = {
         headers: {
@@ -52,7 +53,7 @@ export const EnergyLevel = ({ onClick }: EnergyLevelProps) => {
     };
 
     const fetchUserEnergyLevel = async () => {
-      const url = `${import.meta.env.VITE_API_URL}/api/userEnergyLevel`;
+      const url = `${getApiUrl()}/api/userEnergyLevel`;
       const fetchConfig: RequestInit = {
         headers: {
           Authorization: `Bearer ${cookies.jwtToken}`,

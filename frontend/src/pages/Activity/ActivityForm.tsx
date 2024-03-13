@@ -17,6 +17,7 @@ import {
   Textarea,
   useDisclosure,
 } from "@chakra-ui/react";
+import { getApiUrl } from "../../utils/getUrl";
 
 interface ActivityForm {
   name: string;
@@ -55,9 +56,7 @@ export const ActivityForm = () => {
     setSelectedEnergyLevel(energyLevel);
 
     const fetchEnergyLevelFeelings = async (energyLevel: EnergyLevels) => {
-      const url = `${
-        import.meta.env.VITE_API_URL
-      }/api/energyLevel/${energyLevel}`;
+      const url = `${getApiUrl()}/api/energyLevel/${energyLevel}`;
 
       const fetchConfig: RequestInit = {
         headers: {
@@ -80,7 +79,7 @@ export const ActivityForm = () => {
     };
 
     const fetchUserEnergyLevel = async () => {
-      const url = `${import.meta.env.VITE_API_URL}/api/userEnergyLevel`;
+      const url = `${getApiUrl()}/api/userEnergyLevel`;
       const fetchConfig: RequestInit = {
         headers: {
           Authorization: `Bearer ${cookies.jwtToken}`,
@@ -127,7 +126,7 @@ export const ActivityForm = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const url = `${import.meta.env.VITE_API_URL}/api/activity`;
+    const url = `${getApiUrl()}/api/activity`;
 
     const data: ActivityForm = {
       name: form.name,
