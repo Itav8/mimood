@@ -9,12 +9,23 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerBody,
+  Button,
 } from "@chakra-ui/react";
 import { HamburgerIcon, MoonIcon } from "@chakra-ui/icons";
+import { useCookies } from "react-cookie";
 
 export const NavBar = () => {
+  const [cookies] = useCookies(["jwtToken"]);
   const { toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleLogout = (
+    token: React.MouseEventHandler<HTMLButtonElement> | string
+  ) => {
+    if (token) {
+      /* empty */
+    }
+  };
 
   return (
     <Stack
@@ -64,7 +75,18 @@ export const NavBar = () => {
         alignItems="center"
         gap={5}
       >
-        <Link href="/">Home</Link>
+        {cookies ? (
+          <Button
+            ml={2}
+            size={"xs"}
+            onClick={() => handleLogout(cookies.jwtToken)}
+          >
+            Logout
+          </Button>
+        ) : (
+          <Link href="/">Home</Link>
+        )}
+
         {authRoutes.map((route) => {
           return (
             <Link className="navbar__link" key={route.path} href={route.path}>
