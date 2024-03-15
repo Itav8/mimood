@@ -8,20 +8,22 @@ export const Layout = () => {
   const [cookies] = useCookies(["jwtToken"]);
   const { toggleColorMode } = useColorMode();
 
-  const askNotificationPermission = () => {
-    Notification.requestPermission((permission) => {
-      if (permission === "granted") {
-        new Notification("Reminder");
-      }
-    });
-  };
+  // const notification = new Notifation(title, {})
+
+  // const askNotificationPermission = () => {
+  //   Notification.requestPermission((permission) => {
+  //     if (permission === "granted") {
+  //       new Notification("Reminder");
+  //     }
+  //   });
+  // };
 
   return (
     <>
       {cookies.jwtToken ? (
         <>
           <NavBar />
-          {askNotificationPermission()}
+          {/* {askNotificationPermission()} */}
         </>
       ) : (
         <Flex justifyContent="flex-end">

@@ -13,17 +13,42 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, MoonIcon } from "@chakra-ui/icons";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
+import { getApiUrl } from "../../utils/getUrl";
 
 export const NavBar = () => {
   const [cookies] = useCookies(["jwtToken"]);
   const { toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
 
-  const handleLogout = (
-    token: React.MouseEventHandler<HTMLButtonElement> | string
+  const handleLogout = async (
+    token: React.MouseEventHandler<HTMLButtonElement> | object
   ) => {
     if (token) {
-      /* empty */
+      const url = `${getApiUrl()}/logout`;
+
+      const fetchConfig: RequestInit = {
+        method: "delete",
+        body: JSON.stringify(token),
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      try {
+        const response = await fetch(url, fetchConfig);
+        console.log("response", response);
+        if (response.ok) {
+          console.log("SUCCESS");
+          navigate("/");
+        }
+      } catch (e) {
+        console.log("LOGOUT ERROR", e);
+      }
+    } else {
+      console.log("NO TOKEN");
     }
   };
 
@@ -52,7 +77,12 @@ export const NavBar = () => {
         <DrawerContent>
           <DrawerBody>
             <Stack direction="column" alignItems="center" gap={5}>
-              <Link href="/">Home</Link>
+              {cookies ? (
+                <Button size={"xs"} onClick={() => handleLogout(cookies)}>
+                  Logout
+                </Button>
+              ) : null}
+              {/* <Link href="/">Home</Link> */}
               {authRoutes.map((route) => {
                 return (
                   <Link
@@ -76,16 +106,12 @@ export const NavBar = () => {
         gap={5}
       >
         {cookies ? (
-          <Button
-            ml={2}
-            size={"xs"}
-            onClick={() => handleLogout(cookies.jwtToken)}
-          >
+          <Button ml={2} size={"xs"} onClick={() => handleLogout(cookies)}>
             Logout
           </Button>
-        ) : (
-          <Link href="/">Home</Link>
-        )}
+        ) : null}
+
+        {/* <Link href="/">Home</Link> */}
 
         {authRoutes.map((route) => {
           return (
