@@ -8,8 +8,8 @@ jest.mock("../user");
 const mockedCreateNewUser = userHandlers.createNewUser as unknown as jest.Mock<
   typeof userHandlers.createNewUser
 >;
-const mockedSignin = userHandlers.signin as unknown as jest.Mock<
-  typeof userHandlers.signin
+const mockedlogin = userHandlers.login as unknown as jest.Mock<
+  typeof userHandlers.login
 >;
 
 // Intergration Test
@@ -112,9 +112,9 @@ describe("POST /user", () => {
   });
 });
 
-describe("POST /signin", () => {
-  it("should signin user", async () => {
-    mockedSignin.mockImplementation((req, res): any => {
+describe("POST /login", () => {
+  it("should login user", async () => {
+    mockedlogin.mockImplementation((req, res): any => {
       res.json({ token: "mockToken" });
     });
 
@@ -124,7 +124,7 @@ describe("POST /signin", () => {
     };
 
     const res = await request(app)
-      .post("/signin")
+      .post("/login")
       .send(mockPayload)
       .set("Accept", "application/json");
 
@@ -132,7 +132,7 @@ describe("POST /signin", () => {
   });
 
   it("should throw an error for invalid email or password", async () => {
-    mockedSignin.mockImplementation((req, res): any => {
+    mockedlogin.mockImplementation((req, res): any => {
       res.status(401).json({ message: "Invalid username or password" });
     });
 
@@ -142,7 +142,7 @@ describe("POST /signin", () => {
     };
 
     const res = await request(app)
-      .post("/signin")
+      .post("/login")
       .send(mockPayload)
       .set("Accept", "application/json");
 
@@ -151,14 +151,13 @@ describe("POST /signin", () => {
   });
 
   it("should throw an error for user does not exist", async () => {
-
     const mockPayload = {
       email: "bobman@test.com",
       password: "password",
     };
 
     const res = await request(app)
-      .post("/signin")
+      .post("/login")
       .send(mockPayload)
       .set("Accept", "application/json");
 

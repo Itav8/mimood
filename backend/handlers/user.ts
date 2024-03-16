@@ -11,7 +11,9 @@ export const createNewUser = async (req, res) => {
       !req.body.lastName ||
       !req.body.password
     ) {
-      res.status(400).json({ status: 400, message: "Missing required field(s)" });
+      res
+        .status(400)
+        .json({ status: 400, message: "Missing required field(s)" });
       throw new Error("Missing required field(s)");
     }
 
@@ -69,7 +71,7 @@ export const createNewUser = async (req, res) => {
   }
 };
 
-export const signin = async (req, res) => {
+export const login = async (req, res) => {
   const user = await prisma.user.findUnique({
     where: { email: req.body.email },
   });
@@ -89,4 +91,9 @@ export const signin = async (req, res) => {
   const token = createJWT(user);
   res.cookie("jwtToken", token, { httpOnly: false });
   res.json({ token });
+};
+
+export const logout = async (req, res) => {
+  res.clearCookie("jwtToken");
+  res.status(200).json({ status: 200, message: "Successfully logged out" });
 };

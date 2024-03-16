@@ -8,11 +8,23 @@ export const Layout = () => {
   const [cookies] = useCookies(["jwtToken"]);
   const { toggleColorMode } = useColorMode();
 
+  const askNotificationPermission = () => {
+    Notification.requestPermission().then((permission) => {
+      if (permission === "granted") {
+        new Notification("Reminder", {
+          body: "Don't forget to log!",
+          // tag: "Welcome Reminder"
+        });
+      }
+    });
+  };
+
   return (
     <>
       {cookies.jwtToken ? (
         <>
           <NavBar />
+          {askNotificationPermission()}
         </>
       ) : (
         <Flex justifyContent="flex-end">
