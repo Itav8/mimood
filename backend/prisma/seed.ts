@@ -176,7 +176,7 @@ const main = async () => {
     await prisma.highEnergyPleasant.createMany({
       data: highEnergyLevePleasantItems,
     });
-    
+
     // LOW ENERGY UNPLEASANT
     const lowEnergyUnpleasantItems = energyLevel.lowEnergyUnpleasant.map(
       (feeling: Low_Energy_Unpleasant_Feelings) => {
@@ -233,12 +233,13 @@ const main = async () => {
       data: userEnergyLevelData,
     });
 
+    // SET UP MOODS
     const lowEnergyPleasantMoodData = Array.from(Array(3).keys()).map(
       (_, i) => {
         return {
           description: faker.lorem.text(),
           energyLevel: LEVELS.LOW_ENERGY_PLEASANT,
-          feeling: energyLevel.highEnergyPleasant[i],
+          feeling: energyLevel.lowEnergyPleasant[i],
           userId: user.id,
         };
       }
@@ -293,13 +294,14 @@ const main = async () => {
       data: highEnergyUnpleasantMoodData,
     });
 
+    // SETTING UP ACTIVITIES
     const lowEnergyPleasantActivityData = Array.from(Array(3).keys()).map(
       (_, i) => {
         return {
           name: faker.word.words(3),
           description: faker.lorem.text(),
           energyLevel: LEVELS.LOW_ENERGY_PLEASANT,
-          feeling: energyLevel.highEnergyPleasant[i],
+          feeling: energyLevel.lowEnergyPleasant[i],
           userId: user.id,
         };
       }

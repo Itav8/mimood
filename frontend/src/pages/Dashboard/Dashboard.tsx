@@ -19,6 +19,9 @@ import {
   Drawer,
   DrawerContent,
   DrawerCloseButton,
+  TabList,
+  Tabs,
+  Tab,
 } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
 import { EditMoodForm } from "../Mood/EditMoodForm";
@@ -170,6 +173,14 @@ export const Dashboard = () => {
         <Heading as="h1" size="2xl" textAlign="center">
           Dashboard
         </Heading>
+
+        <Tabs>
+          <TabList>
+            <Tab>Previous Date</Tab>
+            <Tab>Today</Tab>
+          </TabList>
+        </Tabs>
+
         <Heading as="h2" my="20px" ml="10px">
           My Moods
         </Heading>

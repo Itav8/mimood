@@ -56,8 +56,8 @@ model Mood {
   id              String   @id @default(uuid())
   feeling         String
   description     String
-  createdDatetime DateTime @default(now())
-  updatedDatetime DateTime @updatedAt
+  createdDatetime DateTime @default(now()) @db.Timestamptz
+  updatedDatetime DateTime @updatedAt @db.Timestamptz
 
   userId               String
   belongsToUser        User        @relation(fields: [userId], references: [id])
@@ -70,8 +70,8 @@ model Activity {
   feeling         String
   name            String
   description     String
-  createdDatetime DateTime @default(now())
-  updatedDatetime DateTime @updatedAt
+  createdDatetime DateTime @default(now()) @db.Timestamptz
+  updatedDatetime DateTime @updatedAt @db.Timestamptz
 
   userId               String
   belongsToUser        User        @relation(fields: [userId], references: [id])
