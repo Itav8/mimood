@@ -241,6 +241,7 @@ export const Dashboard = () => {
           <Stack boxSize="sm">
             <Center>
               <Image
+                borderRadius={30}
                 boxSize="150px"
                 src="https://hortovanyi.files.wordpress.com/2021/12/no-data-icon-10.jpeg?w=250"
                 alt="No Data"
@@ -298,6 +299,7 @@ export const Dashboard = () => {
           <Stack boxSize="sm">
             <Center>
               <Image
+                borderRadius={30}
                 boxSize="150px"
                 src="https://hortovanyi.files.wordpress.com/2021/12/no-data-icon-10.jpeg?w=250"
                 alt="No Data"
