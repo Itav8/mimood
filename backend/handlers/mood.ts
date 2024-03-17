@@ -49,8 +49,6 @@ export const getMoods = async (req, res, next) => {
 export const getYesterdayMoods = async (req, res, next) => {
   try {
     const yesterday = dayjs(req.query.clientDate).subtract(1, "day");
-    console.log("HERE", yesterday);
-    console.log("TEST", yesterday['$d'])
 
     const user = await prisma.user.findUnique({
       where: {
@@ -67,7 +65,6 @@ export const getYesterdayMoods = async (req, res, next) => {
       },
     });
 
-    console.log("MOOODS", user.moods);
     res.json({ mood: user.moods });
   } catch (e) {
     console.log("Failure to get yesterday's moods", e);
