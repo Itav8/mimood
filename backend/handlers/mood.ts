@@ -23,7 +23,6 @@ export const getMoods = async (req, res, next) => {
     const startToday = new Date(req.query.clientDate);
     const endToday = new Date(new Date(startToday).setHours(23, 59, 59, 999));
 
-    console.log("Check", startToday, endToday);
     const user = await prisma.user.findUnique({
       where: {
         id: req.user.id,
