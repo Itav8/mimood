@@ -21,12 +21,22 @@ export const createActivity = async (req, res, next) => {
 
 export const getActivities = async (req, res, next) => {
   try {
+    const startToday = new Date(req.query.clientDate);
+    const endToday = new Date(new Date(startToday).setHours(23, 59, 59, 999));
+    console.log("Check", startToday, endToday);
+
     const user = await prisma.user.findUnique({
       where: {
         id: req.user.id,
       },
       include: {
-        activities: true,
+        activities: {
+          where: {
+            createdDatetime: {
+              gte: new Date(req.query.clientDate),
+            },
+          },
+        },
       },
     });
 

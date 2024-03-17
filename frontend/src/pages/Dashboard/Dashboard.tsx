@@ -112,7 +112,7 @@ export const Dashboard = () => {
   }, [cookies]);
 
   const fetchActivity = useCallback(async () => {
-    const url = `${getApiUrl()}/api/activities`;
+    const url = `${getApiUrl()}/api/activities?clientDate=${new Date().toLocaleDateString()}`;
 
     const fetchConfig: RequestInit = {
       headers: {
