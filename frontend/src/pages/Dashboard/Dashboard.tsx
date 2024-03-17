@@ -90,7 +90,7 @@ export const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const fetchMood = useCallback(async () => {
-    const url = `${getApiUrl()}/api/moods`;
+    const url = `${getApiUrl()}/api/moods?clientDate=${new Date().toLocaleDateString()}`;
 
     const fetchConfig: RequestInit = {
       headers: {

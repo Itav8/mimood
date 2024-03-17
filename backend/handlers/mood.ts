@@ -20,8 +20,10 @@ export const createMood = async (req, res, next) => {
 
 export const getMoods = async (req, res, next) => {
   try {
-    const today = new Date();
+    const startToday = new Date(req.query.clientDate);
+    const endToday = new Date(new Date(startToday).setHours(23, 59, 59, 999));
 
+    console.log("Check", startToday, endToday);
     const user = await prisma.user.findUnique({
       where: {
         id: req.user.id,
@@ -30,17 +32,14 @@ export const getMoods = async (req, res, next) => {
         moods: {
           where: {
             createdDatetime: {
-              gte: today,
-              lte: today,
+              gte: new Date(req.query.clientDate),
             },
           },
         },
       },
     });
 
-    console.log("USERS MOODS", user.moods);
-
-    // res.json({ mood: user.moods });
+    res.json({ mood: user.moods });
   } catch (e) {
     console.log(e);
     next(e);
