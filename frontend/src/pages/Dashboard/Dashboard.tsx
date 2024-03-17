@@ -167,6 +167,22 @@ export const Dashboard = () => {
     fetchUserEnergyLevel();
   }, [cookies, fetchMood, fetchActivity]);
 
+  const formatDatetime = (datetime: Date) => {
+    const date = new Date(datetime);
+    const formattedDate = date.toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+    const formattedTime = date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+
+    return `${formattedDate} ${formattedTime}`;
+  };
+
   return (
     <>
       <div>
@@ -176,8 +192,8 @@ export const Dashboard = () => {
 
         <Tabs>
           <TabList>
-            <Tab>Previous Date</Tab>
             <Tab>Today</Tab>
+            <Tab>Previous Day</Tab>
           </TabList>
         </Tabs>
 
@@ -200,7 +216,7 @@ export const Dashboard = () => {
                   <AccordionPanel bg={energyLevelColors[mood.energyLevel]}>
                     <Box>
                       <Text align="right">
-                        {new Date(mood.createdDatetime).toLocaleString()}
+                        {formatDatetime(new Date(mood.createdDatetime))}
                       </Text>
                       <Text>{mood.feeling}</Text>
                       <Text mt="5px">{mood.description}</Text>
@@ -257,7 +273,7 @@ export const Dashboard = () => {
                   <AccordionPanel bg={energyLevelColors[activity.energyLevel]}>
                     <Box>
                       <Text align="right">
-                        {new Date(activity.createdDatetime).toLocaleString()}
+                        {formatDatetime(new Date(activity.createdDatetime))}
                       </Text>
                       <Text>{activity.feeling}</Text>
                       <Text mt="5px">{activity.description}</Text>
