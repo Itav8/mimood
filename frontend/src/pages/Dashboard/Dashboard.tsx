@@ -437,7 +437,7 @@ export const Dashboard = () => {
             </TabPanel>
           </TabPanels>
         </Tabs>
-      </div>
+      </div> 
 
       <Drawer
         isOpen={isOpen}
