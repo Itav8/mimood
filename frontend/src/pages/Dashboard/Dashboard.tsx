@@ -19,6 +19,11 @@ import {
   Drawer,
   DrawerContent,
   DrawerCloseButton,
+  TabList,
+  Tabs,
+  Tab,
+  TabPanel,
+  TabPanels,
 } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
 import { EditMoodForm } from "../Mood/EditMoodForm";
@@ -64,7 +69,11 @@ type UserEnergyLevel = {
 export const Dashboard = () => {
   const [cookies] = useCookies(["jwtToken"]);
   const [moods, setMoods] = useState<Mood[]>([]);
+  const [yesterdayMoods, setYesterdayMoods] = useState<Mood[]>([]);
   const [activities, setActivities] = useState<Activity[]>([]);
+  const [yesterdayActivities, setYesterdayActivities] = useState<Activity[]>(
+    []
+  );
   const [energyLevelColors, setEnergyLevelColors] = useState<UserEnergyLevel>({
     HIGH_ENERGY_UNPLEASANT: "#000000",
     HIGH_ENERGY_PLEASANT: "#000000",
@@ -85,9 +94,11 @@ export const Dashboard = () => {
     energyLevel: "",
   });
   const [isOpen, setIsOpen] = useState(false);
+  const [isPreviousDay, setIsPreviousDay] = useState(false);
 
   const fetchMood = useCallback(async () => {
-    const url = `${getApiUrl()}/api/moods`;
+    const url = `${getApiUrl()}/api/moods?clientDate=${new Date().toLocaleDateString()}`;
+    const yesterdayUrl = `${getApiUrl()}/api/moods/yesterday?clientDate=${new Date().toLocaleDateString()}`;
 
     const fetchConfig: RequestInit = {
       headers: {
@@ -97,19 +108,28 @@ export const Dashboard = () => {
     };
 
     try {
-      const response = await fetch(url, fetchConfig);
+      if (isPreviousDay) {
+        const response = await fetch(yesterdayUrl, fetchConfig);
+        if (response.ok) {
+          const data = await response.json();
+          setYesterdayMoods(data.mood);
+        }
+      } else {
+        const response = await fetch(url, fetchConfig);
 
-      if (response.ok) {
-        const data = await response.json();
-        setMoods(data.mood);
+        if (response.ok) {
+          const data = await response.json();
+          setMoods(data.mood);
+        }
       }
     } catch (e) {
       console.log("Error fetching mood list", e);
     }
-  }, [cookies]);
+  }, [cookies, isPreviousDay]);
 
   const fetchActivity = useCallback(async () => {
-    const url = `${getApiUrl()}/api/activities`;
+    const url = `${getApiUrl()}/api/activities?clientDate=${new Date().toLocaleDateString()}`;
+    const yesterdayUrl = `${getApiUrl()}/api/activities/yesterday?clientDate=${new Date().toLocaleDateString()}`;
 
     const fetchConfig: RequestInit = {
       headers: {
@@ -119,16 +139,25 @@ export const Dashboard = () => {
     };
 
     try {
-      const response = await fetch(url, fetchConfig);
+      if (isPreviousDay) {
+        const response = await fetch(yesterdayUrl, fetchConfig);
 
-      if (response.ok) {
-        const data = await response.json();
-        setActivities(data.activity);
+        if (response.ok) {
+          const data = await response.json();
+          setYesterdayActivities(data.activity);
+        }
+      } else {
+        const response = await fetch(url, fetchConfig);
+
+        if (response.ok) {
+          const data = await response.json();
+          setActivities(data.activity);
+        }
       }
     } catch (e) {
       console.log("Error fetching activity list", e);
     }
-  }, [cookies]);
+  }, [cookies, isPreviousDay]);
 
   useEffect(() => {
     const fetchUserEnergyLevel = async () => {
@@ -164,121 +193,251 @@ export const Dashboard = () => {
     fetchUserEnergyLevel();
   }, [cookies, fetchMood, fetchActivity]);
 
+  const formatDatetime = (datetime: Date) => {
+    const date = new Date(datetime);
+    const formattedDate = date.toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+    const formattedTime = date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+
+    return `${formattedDate} ${formattedTime}`;
+  };
+
   return (
     <>
       <div>
-        <Heading as="h1" size="2xl" textAlign="center">
+        <Heading as="h1" size="2xl" textAlign="center" mb={10}>
           Dashboard
         </Heading>
-        <Heading as="h2" my="20px" ml="10px">
-          My Moods
-        </Heading>
 
-        {moods.length > 0 ? (
-          moods.map((mood, id) => {
-            return (
-              <Accordion allowToggle key={id}>
-                <AccordionItem>
-                  <Tooltip label={mood.energyLevel}>
-                    <AccordionButton bg={energyLevelColors[mood.energyLevel]}>
-                      <Box as="span" w="100%" h="30px" />
-                      <AccordionIcon />
-                    </AccordionButton>
-                  </Tooltip>
+        <Tabs isLazy isFitted size={"md"} variant="enclosed-colored">
+          <TabList>
+            <Tab onClick={() => setIsPreviousDay(false)}>Today</Tab>
+            <Tab onClick={() => setIsPreviousDay(true)}>Previous Day</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              {/* fetch current moods and activities */}
+              <Heading as="h2" my="20px" ml="10px">
+                My Moods
+              </Heading>
 
-                  <AccordionPanel bg={energyLevelColors[mood.energyLevel]}>
-                    <Box>
-                      <Text align="right">
-                        {new Date(mood.createdDatetime).toLocaleString()}
-                      </Text>
-                      <Text>{mood.feeling}</Text>
-                      <Text mt="5px">{mood.description}</Text>
-                      <Flex justifyContent="flex-end">
-                        <Button
-                          rightIcon={<EditIcon />}
-                          onClick={() => {
-                            setIsOpen(true);
-                            setselectedMood(mood);
-                          }}
+              {moods.length > 0 ? (
+                moods.map((mood, id) => {
+                  return (
+                    <Accordion allowToggle key={id}>
+                      <AccordionItem>
+                        <Tooltip label={mood.energyLevel}>
+                          <AccordionButton
+                            bg={energyLevelColors[mood.energyLevel]}
+                          >
+                            <Box as="span" w="100%" h="30px" />
+                            <AccordionIcon />
+                          </AccordionButton>
+                        </Tooltip>
+
+                        <AccordionPanel
+                          bg={energyLevelColors[mood.energyLevel]}
                         >
-                          Edit
-                        </Button>
-                      </Flex>
-                    </Box>
-                  </AccordionPanel>
-                </AccordionItem>
-              </Accordion>
-            );
-          })
-        ) : (
-          <Stack boxSize="sm">
-            <Center>
-              <Image
-                boxSize="150px"
-                src="https://hortovanyi.files.wordpress.com/2021/12/no-data-icon-10.jpeg?w=250"
-                alt="No Data"
-              />
-            </Center>
-          </Stack>
-        )}
+                          <Box>
+                            <Text align="right">
+                              {formatDatetime(new Date(mood.createdDatetime))}
+                            </Text>
+                            <Text>{mood.feeling}</Text>
+                            <Text mt="5px">{mood.description}</Text>
+                            <Flex justifyContent="flex-end">
+                              <Button
+                                rightIcon={<EditIcon />}
+                                onClick={() => {
+                                  setIsOpen(true);
+                                  setselectedMood(mood);
+                                }}
+                              >
+                                Edit
+                              </Button>
+                            </Flex>
+                          </Box>
+                        </AccordionPanel>
+                      </AccordionItem>
+                    </Accordion>
+                  );
+                })
+              ) : (
+                <Stack boxSize="sm">
+                  <Center>
+                    <Image
+                      borderRadius={30}
+                      boxSize="150px"
+                      src="https://hortovanyi.files.wordpress.com/2021/12/no-data-icon-10.jpeg?w=250"
+                      alt="No Data"
+                    />
+                  </Center>
+                </Stack>
+              )}
 
-        <Heading as="h2" my="20px" ml="10px">
-          My Activities
-        </Heading>
-        {activities.length > 0 ? (
-          activities.map((activity) => {
-            return (
-              <Accordion allowToggle key={activity.id}>
-                <AccordionItem>
-                  <Tooltip label={activity.energyLevel}>
-                    <AccordionButton
-                      bg={energyLevelColors[activity.energyLevel]}
-                    >
-                      <Box as="span" w="100%" h="30px" textAlign="left">
-                        <Text ml="10px" fontSize="sm" as="i">
-                          {activity.name}
-                        </Text>
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                  </Tooltip>
+              <Heading as="h2" my="20px" ml="10px">
+                My Activities
+              </Heading>
+              {activities.length > 0 ? (
+                activities.map((activity) => {
+                  return (
+                    <Accordion allowToggle key={activity.id}>
+                      <AccordionItem>
+                        <Tooltip label={activity.energyLevel}>
+                          <AccordionButton
+                            bg={energyLevelColors[activity.energyLevel]}
+                          >
+                            <Box as="span" w="100%" h="30px" textAlign="left">
+                              <Text ml="10px" fontSize="sm" as="i">
+                                {activity.name}
+                              </Text>
+                            </Box>
+                            <AccordionIcon />
+                          </AccordionButton>
+                        </Tooltip>
 
-                  <AccordionPanel bg={energyLevelColors[activity.energyLevel]}>
-                    <Box>
-                      <Text align="right">
-                        {new Date(activity.createdDatetime).toLocaleString()}
-                      </Text>
-                      <Text>{activity.feeling}</Text>
-                      <Text mt="5px">{activity.description}</Text>
-                      <Flex justifyContent="flex-end">
-                        <Button
-                          rightIcon={<EditIcon />}
-                          onClick={() => {
-                            setIsOpen(true);
-                            setSelectedActivity(activity);
-                          }}
+                        <AccordionPanel
+                          bg={energyLevelColors[activity.energyLevel]}
                         >
-                          Edit
-                        </Button>
-                      </Flex>
-                    </Box>
-                  </AccordionPanel>
-                </AccordionItem>
-              </Accordion>
-            );
-          })
-        ) : (
-          <Stack boxSize="sm">
-            <Center>
-              <Image
-                boxSize="150px"
-                src="https://hortovanyi.files.wordpress.com/2021/12/no-data-icon-10.jpeg?w=250"
-                alt="No Data"
-              />
-            </Center>
-          </Stack>
-        )}
-      </div>
+                          <Box>
+                            <Text align="right">
+                              {formatDatetime(
+                                new Date(activity.createdDatetime)
+                              )}
+                            </Text>
+                            <Text>{activity.feeling}</Text>
+                            <Text mt="5px">{activity.description}</Text>
+                            <Flex justifyContent="flex-end">
+                              <Button
+                                rightIcon={<EditIcon />}
+                                onClick={() => {
+                                  setIsOpen(true);
+                                  setSelectedActivity(activity);
+                                }}
+                              >
+                                Edit
+                              </Button>
+                            </Flex>
+                          </Box>
+                        </AccordionPanel>
+                      </AccordionItem>
+                    </Accordion>
+                  );
+                })
+              ) : (
+                <Stack boxSize="sm">
+                  <Center>
+                    <Image
+                      borderRadius={30}
+                      boxSize="150px"
+                      src="https://hortovanyi.files.wordpress.com/2021/12/no-data-icon-10.jpeg?w=250"
+                      alt="No Data"
+                    />
+                  </Center>
+                </Stack>
+              )}
+            </TabPanel>
+            <TabPanel>
+              {/* fetch yesterday moods and activities */}
+              <Heading as="h2" my="20px" ml="10px">
+                My Moods
+              </Heading>
+
+              {yesterdayMoods.map((mood, id) => {
+                return (
+                  <Accordion allowToggle key={id}>
+                    <AccordionItem>
+                      <Tooltip label={mood.energyLevel}>
+                        <AccordionButton
+                          bg={energyLevelColors[mood.energyLevel]}
+                        >
+                          <Box as="span" w="100%" h="30px" />
+                          <AccordionIcon />
+                        </AccordionButton>
+                      </Tooltip>
+
+                      <AccordionPanel bg={energyLevelColors[mood.energyLevel]}>
+                        <Box>
+                          <Text align="right">
+                            {formatDatetime(new Date(mood.createdDatetime))}
+                          </Text>
+                          <Text>{mood.feeling}</Text>
+                          <Text mt="5px">{mood.description}</Text>
+                          <Flex justifyContent="flex-end">
+                            <Button
+                              rightIcon={<EditIcon />}
+                              onClick={() => {
+                                setIsOpen(true);
+                                setselectedMood(mood);
+                              }}
+                            >
+                              Edit
+                            </Button>
+                          </Flex>
+                        </Box>
+                      </AccordionPanel>
+                    </AccordionItem>
+                  </Accordion>
+                );
+              })}
+
+              <Heading as="h2" my="20px" ml="10px">
+                My Activities
+              </Heading>
+
+              {yesterdayActivities.map((activity) => {
+                return (
+                  <Accordion allowToggle key={activity.id}>
+                    <AccordionItem>
+                      <Tooltip label={activity.energyLevel}>
+                        <AccordionButton
+                          bg={energyLevelColors[activity.energyLevel]}
+                        >
+                          <Box as="span" w="100%" h="30px" textAlign="left">
+                            <Text ml="10px" fontSize="sm" as="i">
+                              {activity.name}
+                            </Text>
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionButton>
+                      </Tooltip>
+
+                      <AccordionPanel
+                        bg={energyLevelColors[activity.energyLevel]}
+                      >
+                        <Box>
+                          <Text align="right">
+                            {formatDatetime(new Date(activity.createdDatetime))}
+                          </Text>
+                          <Text>{activity.feeling}</Text>
+                          <Text mt="5px">{activity.description}</Text>
+                          <Flex justifyContent="flex-end">
+                            <Button
+                              rightIcon={<EditIcon />}
+                              onClick={() => {
+                                setIsOpen(true);
+                                setSelectedActivity(activity);
+                              }}
+                            >
+                              Edit
+                            </Button>
+                          </Flex>
+                        </Box>
+                      </AccordionPanel>
+                    </AccordionItem>
+                  </Accordion>
+                );
+              })}
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      </div> 
 
       <Drawer
         isOpen={isOpen}

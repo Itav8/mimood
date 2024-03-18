@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import prisma from "../db";
 
 export const createActivity = async (req, res, next) => {
@@ -26,13 +27,45 @@ export const getActivities = async (req, res, next) => {
         id: req.user.id,
       },
       include: {
-        activities: true,
+        activities: {
+          where: {
+            createdDatetime: {
+              gte: new Date(req.query.clientDate),
+            },
+          },
+        },
       },
     });
 
     res.json({ activity: user.activities });
   } catch (e) {
     console.log(e);
+    next(e);
+  }
+};
+
+export const getYesterdayActivities = async (req, res, next) => {
+  try {
+    const yesterday = dayjs(req.query.clientDate).subtract(1, "day");
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: req.user.id,
+      },
+      include: {
+        activities: {
+          where: {
+            createdDatetime: {
+              gte: yesterday["$d"],
+            },
+          },
+        },
+      },
+    });
+
+    res.json({ activity: user.activities });
+  } catch (e) {
+    console.log("Failure to get yesterday's activities", e);
     next(e);
   }
 };
