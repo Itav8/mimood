@@ -15,6 +15,7 @@ import {
   Input,
   Select,
   Textarea,
+  Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
 import { getApiUrl } from "../../utils/getUrl";
@@ -163,7 +164,9 @@ export const ActivityForm = () => {
 
   return (
     <Container>
-      <Heading mb="30px">New Activity</Heading>
+      <Heading mb="30px" as="h1" size="4xl" textAlign="center">
+        New Activity
+      </Heading>
 
       {!selectedEnergyLevel ? (
         <EnergyLevel onClick={onEnergyLevelClick} />
@@ -185,13 +188,15 @@ export const ActivityForm = () => {
                 </Box>
               </Center>
             </Collapse>
-            <Box
-              p="10px"
-              borderRadius="10px"
-              backgroundColor={energyLevelColors[selectedEnergyLevel]}
-            >
-              {selectedEnergyLevel}
-            </Box>
+            <Tooltip label={selectedEnergyLevel}>
+              <Box
+                mb={5}
+                p="50px"
+                borderRadius="10px"
+                backgroundColor={energyLevelColors[selectedEnergyLevel]}
+              ></Box>
+            </Tooltip>
+
             <FormControl my={5}>
               <FormLabel htmlFor="name" color="orange.800">
                 Name:
@@ -233,9 +238,11 @@ export const ActivityForm = () => {
                 onChange={handleFormChange}
               />
             </FormControl>
-            <Button type="submit" mt={30}>
-              Log Activity
-            </Button>
+            <Center>
+              <Button type="submit" mt={30}>
+                Log Activity
+              </Button>
+            </Center>
           </div>
         ) : null}
       </Box>

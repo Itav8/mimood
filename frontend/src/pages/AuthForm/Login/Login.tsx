@@ -115,9 +115,10 @@ export const Login = (props: LoginProp) => {
 
   return (
     <div>
-      <Heading size="md" textAlign="center">
+      <Heading as="h1" size="4xl" textAlign="center">
         Login
       </Heading>
+
       <Box as="form" my={3} onSubmit={handleSubmit}>
         <FormControl isInvalid={formError.email}>
           <FormLabel htmlFor="email" color="orange.800">

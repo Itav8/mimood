@@ -146,7 +146,7 @@ export const Signup = (props: SignupProps) => {
 
   return (
     <div>
-      <Heading size="md" textAlign="center">
+      <Heading textAlign="center" as="h1" size="4xl">
         Sign Up
       </Heading>
       <Box as="form" my={3} onSubmit={handleSubmit}>

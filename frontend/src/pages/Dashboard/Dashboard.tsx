@@ -212,7 +212,7 @@ export const Dashboard = () => {
   return (
     <>
       <div>
-        <Heading as="h1" size="2xl" textAlign="center" mb={10}>
+        <Heading as="h1" size="4xl" textAlign="center" mb={10}>
           Dashboard
         </Heading>
 
@@ -437,7 +437,7 @@ export const Dashboard = () => {
             </TabPanel>
           </TabPanels>
         </Tabs>
-      </div> 
+      </div>
 
       <Drawer
         isOpen={isOpen}
