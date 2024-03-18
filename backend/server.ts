@@ -8,7 +8,7 @@ import { createNewUser, login, logout } from "./handlers/user";
 const app = express();
 
 const corOptions = {
-  origin: "http://localhost:5174",
+  origin: ["http://localhost:5174", "https://dawkc68fgwyft.cloudfront.net"],
   credentials: true,
 };
 
