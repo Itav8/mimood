@@ -89,7 +89,11 @@ export const login = async (req, res) => {
   }
 
   const token = createJWT(user);
-  res.cookie("jwtToken", token, { httpOnly: false });
+  res.cookie("jwtToken", token, {
+    httpOnly: false,
+    sameSite: "none",
+    secure: true,
+  });
   res.json({ token });
 };
 

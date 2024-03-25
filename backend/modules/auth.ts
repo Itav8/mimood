@@ -10,6 +10,8 @@ export const hashPassword = (password) => {
 };
 
 export const createJWT = (user) => {
+  console.log("USER", user);
+  console.log("SHHHH", process.env.JWT_SECRET);
   const token = jwt.sign(
     { id: user.id, email: user.email },
     process.env.JWT_SECRET
