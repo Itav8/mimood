@@ -1,11 +1,13 @@
 import { Outlet } from "react-router-dom";
 import { NavBar } from "../components/Nav/Navbar";
 import { useCookies } from "react-cookie";
-import { Flex, IconButton, useColorMode } from "@chakra-ui/react";
+import { Avatar, Flex, IconButton, useColorMode } from "@chakra-ui/react";
 import { MoonIcon } from "@chakra-ui/icons";
 
 export const Layout = () => {
   const [cookies] = useCookies(["jwtToken"]);
+  console.log(cookies.jwtToken);
+  console.log("Cookies", cookies);
   const { toggleColorMode } = useColorMode();
 
   const askNotificationPermission = () => {
@@ -13,7 +15,7 @@ export const Layout = () => {
       if (permission === "granted") {
         new Notification("Reminder", {
           body: "Don't forget to log!",
-          // tag: "Welcome Reminder"
+          tag: "Welcome Reminder",
         });
       }
     });
@@ -23,8 +25,12 @@ export const Layout = () => {
     <>
       {cookies.jwtToken ? (
         <>
-          <NavBar />
           {askNotificationPermission()}
+
+          <NavBar />
+          <Flex justifyContent="flex-end" mr={20}>
+            <Avatar src="https://bit.ly/broken-link" />
+          </Flex>
         </>
       ) : (
         <Flex justifyContent="flex-end">
