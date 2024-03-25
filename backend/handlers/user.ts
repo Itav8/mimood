@@ -90,7 +90,8 @@ export const login = async (req, res) => {
 
   const token = createJWT(user);
   res.cookie("jwtToken", token, {
-    httpOnly: false,
+    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30), // 30 days
+    httpOnly: true,
     sameSite: "none",
     secure: true,
   });
