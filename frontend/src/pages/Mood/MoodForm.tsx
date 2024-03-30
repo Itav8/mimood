@@ -15,6 +15,7 @@ import {
   Select,
   Text,
   Textarea,
+  Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
 import { getApiUrl } from "../../utils/getUrl";
@@ -159,7 +160,9 @@ export const MoodForm = () => {
 
   return (
     <Container>
-      <Heading mb="30px">New Mood</Heading>
+      <Heading mb="30px" as="h1" size="4xl" textAlign="center">
+        New Mood
+      </Heading>
 
       {!selectedEnergyLevel ? (
         <EnergyLevel onClick={onEnergyLevelClick} />
@@ -171,6 +174,7 @@ export const MoodForm = () => {
             <Button mb={30} onClick={onToggle}>
               Change Energy Level
             </Button>
+
             <Collapse
               in={isOpen}
               transition={{ exit: { duration: 0.5 }, enter: { duration: 0.5 } }}
@@ -181,18 +185,21 @@ export const MoodForm = () => {
                 </Box>
               </Center>
             </Collapse>
-            <Box
-              p="10px"
-              borderRadius="10px"
-              backgroundColor={energyLevelColors[selectedEnergyLevel]}
-            >
-              <Text fontSize="sm">{selectedEnergyLevel}</Text>
-            </Box>
+            <Tooltip label={selectedEnergyLevel}>
+              <Box
+                mb={5}
+                p="50px"
+                borderRadius="10px"
+                backgroundColor={energyLevelColors[selectedEnergyLevel]}
+              ></Box>
+            </Tooltip>
+
             <FormControl>
               <FormLabel htmlFor="feeling" color="orange.800">
                 Feeling:
               </FormLabel>
               <Select
+                mb={4}
                 mt={3}
                 id="feeling"
                 name="feeling"
@@ -216,10 +223,11 @@ export const MoodForm = () => {
                 onChange={handleFormChange}
               />
             </FormControl>
-
-            <Button type="submit" mt={3}>
-              Log Mood
-            </Button>
+            <Center>
+              <Button type="submit" mt={5}>
+                Log Mood
+              </Button>
+            </Center>
           </div>
         ) : null}
       </Box>

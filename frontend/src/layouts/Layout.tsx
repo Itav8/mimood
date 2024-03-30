@@ -1,13 +1,11 @@
 import { Outlet } from "react-router-dom";
 import { NavBar } from "../components/Nav/Navbar";
 import { useCookies } from "react-cookie";
-import { Avatar, Flex, IconButton, useColorMode } from "@chakra-ui/react";
+import { Flex, IconButton, useColorMode } from "@chakra-ui/react";
 import { MoonIcon } from "@chakra-ui/icons";
 
 export const Layout = () => {
   const [cookies] = useCookies(["jwtToken"]);
-  console.log(cookies.jwtToken);
-  console.log("Cookies", cookies);
   const { toggleColorMode } = useColorMode();
 
   const askNotificationPermission = () => {

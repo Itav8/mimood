@@ -177,7 +177,6 @@ export const EditMoodForm = (props: MoodEditForm) => {
           energyLevel: "",
         });
         props.onSubmit();
-        console.log("SUCCESSS");
       }
     } catch (e) {
       console.log("Error editing mood", e);
@@ -186,11 +185,9 @@ export const EditMoodForm = (props: MoodEditForm) => {
 
   return (
     <>
-      <Center>
-        <Heading mb="30px" mt={10}>
-          Edit Mood
-        </Heading>
-      </Center>
+      <Heading mb="30px" mt={10} as="h1" size="4xl" textAlign="center">
+        Edit Mood
+      </Heading>
 
       <Box
         as="form"
@@ -236,6 +233,7 @@ export const EditMoodForm = (props: MoodEditForm) => {
             Feeling:
           </FormLabel>
           <Select
+            mb={3}
             id="feeling"
             name="feeling"
             value={editForm.feeling}
@@ -258,10 +256,11 @@ export const EditMoodForm = (props: MoodEditForm) => {
             onChange={handleFormChange}
           />
         </FormControl>
-
-        <Button type="submit" mt={3}>
-          Update Mood
-        </Button>
+        <Center>
+          <Button type="submit" mt={5}>
+            Update Mood
+          </Button>
+        </Center>
       </Box>
     </>
   );
