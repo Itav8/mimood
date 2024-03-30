@@ -24,8 +24,8 @@ app.get("/", (req, res) => {
 
 app.use("/api", protect, router);
 
-app.post("/user", createNewUser);
-app.post("/login", login);
-app.delete("/logout", logout);
+app.post("/api/user", createNewUser);
+app.post("/api/login", login);
+app.delete("/api/logout", logout);
 
 export default app;
