@@ -182,7 +182,6 @@ export const EditActivityForm = (props: ActivityEditForm) => {
           energyLevel: "",
         });
         props.onSubmit();
-        console.log("SUCCESSS");
       }
     } catch (e) {
       console.log("Error editing activity", e);
@@ -191,11 +190,9 @@ export const EditActivityForm = (props: ActivityEditForm) => {
 
   return (
     <>
-      <Center>
-        <Heading mb="30px" mt={10}>
-          Edit Activity
-        </Heading>
-      </Center>
+      <Heading as="h1" size="4xl" textAlign="center" mb="30px" mt={10}>
+        Edit Activity
+      </Heading>
 
       <Box
         as="form"
@@ -276,9 +273,11 @@ export const EditActivityForm = (props: ActivityEditForm) => {
           />
         </FormControl>
 
-        <Button type="submit" mt={3}>
-          Update Activity
-        </Button>
+        <Center>
+          <Button type="submit" mt={3}>
+            Update Activity
+          </Button>
+        </Center>
       </Box>
     </>
   );

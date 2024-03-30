@@ -68,8 +68,6 @@ type UserEnergyLevel = {
 
 export const Dashboard = () => {
   const [cookies] = useCookies(["jwtToken"]);
-  console.log("COOKIES", cookies);
-  console.log("SHHHHH", cookies.jwtToken);
   const [moods, setMoods] = useState<Mood[]>([]);
   const [yesterdayMoods, setYesterdayMoods] = useState<Mood[]>([]);
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -214,7 +212,7 @@ export const Dashboard = () => {
   return (
     <>
       <div>
-        <Heading as="h1" size="2xl" textAlign="center" mb={10}>
+        <Heading as="h1" size="4xl" textAlign="center" mb={10}>
           Dashboard
         </Heading>
 

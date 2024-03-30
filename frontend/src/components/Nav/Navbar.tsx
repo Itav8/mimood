@@ -40,9 +40,7 @@ export const NavBar = () => {
 
       try {
         const response = await fetch(url, fetchConfig);
-        console.log("response", response);
         if (response.ok) {
-          console.log("SUCCESS");
           navigate("/");
         }
       } catch (e) {

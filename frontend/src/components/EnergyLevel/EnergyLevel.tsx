@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { EnergyLevels } from "../../constants/constants";
-import { Box, Heading, SimpleGrid, Text } from "@chakra-ui/react";
+import { Box, Center, Heading, SimpleGrid, Tooltip } from "@chakra-ui/react";
 import { getApiUrl } from "../../utils/getUrl";
 
 import "./EnergyLevel.css";
@@ -85,40 +85,46 @@ export const EnergyLevel = ({ onClick }: EnergyLevelProps) => {
   }, [cookies]);
 
   return (
-    <Box>
-      <Heading as="h3" size="lg">
-        How do you feel?
-      </Heading>
-      <Heading as="h4" size="sm" mb="20px">
-        (Tap the color best describes you)
-      </Heading>
-      <SimpleGrid columns={2} spacing={10} width="fit-content">
-        {energyLevels.map((energyLevel, i) => {
-          return (
-            <Box
-              width={{ base: "100px", md: "200px", sm: "150px" }}
-              height={{ base: "100px", md: "200px", sm: "150px" }}
-              borderRadius="50%"
-              bg={energyLevelColors[energyLevel.level]}
-              key={i}
-              _hover={{
-                transform: "scale(1.05, 1.05)",
-              }}
-              className="energyLevel-container"
-              onClick={() => {
-                onClick(energyLevel.level);
-              }}
-              display="flex"
-              alignItems="center"
-              textAlign="center"
-            >
-              <Text fontSize="sm" wordBreak="break-word">
-                {energyLevel.level}
-              </Text>
-            </Box>
-          );
-        })}
-      </SimpleGrid>
-    </Box>
+    <>
+      <Center>
+        <Box>
+          <Heading as="h3" size="lg">
+            How do you feel?
+          </Heading>
+          <Heading as="h4" size="sm" mb="20px">
+            (Tap the color best describes you)
+          </Heading>
+
+          <SimpleGrid columns={2} spacing={15} width="fit-content">
+            {energyLevels.map((energyLevel, i) => {
+              return (
+                <Tooltip
+                  label={energyLevel.level}
+                  fontSize={"md"}
+                >
+                  <Box
+                    width={{ base: "115px", md: "215px", sm: "165px" }}
+                    height={{ base: "115px", md: "215px", sm: "165px" }}
+                    borderRadius="50%"
+                    bg={energyLevelColors[energyLevel.level]}
+                    key={i}
+                    _hover={{
+                      transform: "scale(1.05, 1.05)",
+                    }}
+                    className="energyLevel-container"
+                    onClick={() => {
+                      onClick(energyLevel.level);
+                    }}
+                    display="flex"
+                    alignItems="center"
+                    textAlign="center"
+                  ></Box>
+                </Tooltip>
+              );
+            })}
+          </SimpleGrid>
+        </Box>
+      </Center>
+    </>
   );
 };

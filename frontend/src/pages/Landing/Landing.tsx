@@ -16,7 +16,13 @@ export const Landing = () => {
     <>
       <div className="landing-container">
         <ScaleFade in transition={{ enter: { duration: 1 } }}>
-          <Heading as="h1" size="4xl" color="red.800" letterSpacing={10}>
+          <Heading
+            as="h1"
+            size="4xl"
+            textAlign="center"
+            color="red.800"
+            letterSpacing={10}
+          >
             Mi Mood
           </Heading>
         </ScaleFade>
