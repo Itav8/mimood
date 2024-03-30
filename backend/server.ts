@@ -22,7 +22,7 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.use("/api", protect, router);
+app.use("/api", router);
 
 app.post("/api/user", createNewUser);
 app.post("/api/login", login);
