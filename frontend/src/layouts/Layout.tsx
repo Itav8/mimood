@@ -28,9 +28,6 @@ export const Layout = () => {
           {askNotificationPermission()}
 
           <NavBar />
-          <Flex justifyContent="flex-end" mr={20}>
-            <Avatar src="https://bit.ly/broken-link" />
-          </Flex>
         </>
       ) : (
         <Flex justifyContent="flex-end">
