@@ -10,6 +10,7 @@ import {
   DrawerContent,
   DrawerBody,
   Button,
+  Avatar,
 } from "@chakra-ui/react";
 import { HamburgerIcon, MoonIcon } from "@chakra-ui/icons";
 import { useCookies } from "react-cookie";
@@ -39,9 +40,7 @@ export const NavBar = () => {
 
       try {
         const response = await fetch(url, fetchConfig);
-        console.log("response", response);
         if (response.ok) {
-          console.log("SUCCESS");
           navigate("/");
         }
       } catch (e) {
@@ -121,14 +120,16 @@ export const NavBar = () => {
           );
         })}
       </Stack>
-
-      <IconButton
-        aria-label="theme"
-        icon={<MoonIcon />}
-        onClick={toggleColorMode}
-        mr="10px"
-        mt="10px"
-      />
+      <div>
+        <Avatar mr={3} mt="8px" size="md" src="https://bit.ly/broken-link" />
+        <IconButton
+          aria-label="theme"
+          icon={<MoonIcon />}
+          onClick={toggleColorMode}
+          mr="10px"
+          mt="10px"
+        />
+      </div>
     </Stack>
   );
 };

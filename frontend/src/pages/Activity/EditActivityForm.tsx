@@ -182,7 +182,6 @@ export const EditActivityForm = (props: ActivityEditForm) => {
           energyLevel: "",
         });
         props.onSubmit();
-        console.log("SUCCESSS");
       }
     } catch (e) {
       console.log("Error editing activity", e);

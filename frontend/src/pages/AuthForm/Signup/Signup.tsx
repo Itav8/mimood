@@ -101,7 +101,7 @@ export const Signup = (props: SignupProps) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const url = `${getApiUrl()}/user`;
+    const url = `${getApiUrl()}/api/user`;
 
     const data: SignupForm = {
       firstName: signupForm.firstName,

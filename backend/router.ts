@@ -17,24 +17,25 @@ import {
   getEnergyLevelFeelings,
   getUserEnergyLevel,
 } from "./handlers/energyLevel";
+import { protect } from "./modules/auth";
 
 const router = Router();
 
 // ENERGY LEVEL
-router.get("/energyLevel", getEnergyLevel);
-router.get("/energyLevel/:id", getEnergyLevelFeelings);
-router.get("/userEnergyLevel", getUserEnergyLevel);
+router.get("/energyLevel", protect, getEnergyLevel);
+router.get("/energyLevel/:id", protect, getEnergyLevelFeelings);
+router.get("/userEnergyLevel", protect, getUserEnergyLevel);
 
 // MOOD
-router.post("/mood", handleInputErrors, createMood);
-router.get("/moods", getMoods);
-router.get("/moods/yesterday", getYesterdayMoods);
-router.put("/moods/:id", handleInputErrors, updateMood);
+router.post("/mood", protect, handleInputErrors, createMood);
+router.get("/moods", protect, getMoods);
+router.get("/moods/yesterday", protect, getYesterdayMoods);
+router.put("/moods/:id", protect, handleInputErrors, updateMood);
 
 // ACTIVITY
-router.post("/activity", handleInputErrors, createActivity);
-router.get("/activities", getActivities);
-router.get("/activities/yesterday", getYesterdayActivities);
-router.put("/activities/:id", handleInputErrors, updateActivity);
+router.post("/activity", protect, handleInputErrors, createActivity);
+router.get("/activities", protect, getActivities);
+router.get("/activities/yesterday", protect, getYesterdayActivities);
+router.put("/activities/:id", protect, handleInputErrors, updateActivity);
 
 export default router;

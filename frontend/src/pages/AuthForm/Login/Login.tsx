@@ -76,7 +76,7 @@ export const Login = (props: LoginProp) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const url = `${getApiUrl()}/login`;
+    const url = `${getApiUrl()}/api/login`;
 
     const data: LoginForm = {
       email: login.email,

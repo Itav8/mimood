@@ -22,10 +22,10 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.use("/api", protect, router);
+app.use("/api", router);
 
-app.post("/user", createNewUser);
-app.post("/login", login);
-app.delete("/logout", logout);
+app.post("/api/user", createNewUser);
+app.post("/api/login", login);
+app.delete("/api/logout", logout);
 
 export default app;

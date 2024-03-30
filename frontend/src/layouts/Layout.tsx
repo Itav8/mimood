@@ -13,7 +13,7 @@ export const Layout = () => {
       if (permission === "granted") {
         new Notification("Reminder", {
           body: "Don't forget to log!",
-          tag: "Welcome Reminder"
+          tag: "Welcome Reminder",
         });
       }
     });
@@ -23,8 +23,9 @@ export const Layout = () => {
     <>
       {cookies.jwtToken ? (
         <>
-          <NavBar />
           {askNotificationPermission()}
+
+          <NavBar />
         </>
       ) : (
         <Flex justifyContent="flex-end">
